@@ -18,6 +18,11 @@ a {
     color: #BBBBBB;
 }
 
+.content {
+    position: absolute;
+    top: 40%;
+}
+
 .header {
     position: fixed;
     width: 100%;
@@ -26,7 +31,7 @@ a {
 .home_logo {
     float: left;
     padding: 5%;
-    padding-bottom: 0.75%;
+    padding-bottom: 0.6%;
     clear: none;
     color: red;
     width: 10%;
@@ -53,7 +58,7 @@ a {
 }
 
 .nav {
-    align: center;
+    clear: none;
     font-size: 1em;
     width: 100%;
     display: block;
@@ -77,9 +82,26 @@ a {
 .nav li:hover {
     background-color: #CC0000;
 }
-
-.club_widgets div {
+.club_widgets li {
+    border-style: solid;
     border-radius: 15%;
     border-color: black;
     border-width: 1px;
+    padding: 5%;
+    margin: 15%;
+    display: inline-block;
+    width: 20%;
+    float: left;
+}
+
+.club_widgets li h1 {
+    font-size: 1.2em;
+}
+
+.club_widgets li p:nth-of-type(1) {
+    font-size: 0.5em;
+}
+
+.club_widgets li p:nth-of-type(2) {
+    font-size: 0.4em;
 }
