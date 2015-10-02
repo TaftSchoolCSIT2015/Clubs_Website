@@ -50,21 +50,35 @@ a {
     float: left;
     font-size: 1.75em;
     clear: none;
-    background: linear-gradient(red, blue);
-    margin: 15px 80px;
+    margin: 2px 120px;
     background: white;
     opacity: 100%;
+    border-radius: .5em;
+    padding: 10px;
+    border: solid 5px #c9c9c9;
+    transition: border 0.3s;
+
+}
+
+#dyn_search_bar:focus, #dyn_search_bar.focus {
+    border: solid 5px #969696;
+    outline: none;
 }
 
 #user_menu {
+    color: black;
     font-size: 1.5em;
-    border-bottom: solid 2px black;
-    width: 100px;
+    border: solid 1px black;
+    width: 200px;
     float: right;
     background: white;
-    height: 62px;
-    margin-top: 10px;
+    height: 55px;
     opacity: 1;
+    padding-top: 17px;
+}
+
+#user_menu:hover {
+    background: #CCCCCC;
 }
 
 #nav {
