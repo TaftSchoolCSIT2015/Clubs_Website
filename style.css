@@ -86,24 +86,58 @@ a {
     font-size: 1em;
     width: 100%;
     clear: none;
+    max-height: 20%;
 }
 
-#nav li {
+#nav ul {
+    margin: 0;
+    padding: 0;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: nowrap;
+    -webkit-flex-wrap: nowrap;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    align-items: stretch;
+    -webkit-align-items: stretch;
+    align-content: stretch;
+    -webkit-align-content: stretch;
+    list-style: none;
+    height: 20%;
+    margin: auto;
+    width: 100%;
+}
+
+#nav a {
     border-style: solid;
     border-width: 1px;
     padding: 1% 5%;
-    display: inline-block;
+    align-self: stretch;
     float: left;
-    width: 6.47%;
+    max-width: 20%;
+    min-width: 6.5%;
     margin: auto;
     background-color: #DDDDDD;
+    flex: 2 auto;
+    -webkit-flex: 2 auto;
+}
+
+#nav ul a:last-child {
+    min-width: 4%;
+    max-width: 10%;
+    flex-shrink: 4;
+    flex-grow: 1;
+    align-self: flex-end;
+    -webkit-align-self: flex-end;
+    flex: 1;
+    -webkit-flex: 1;
 }
 
 .active {
     color: #BBBB10;
 }
 
-#nav li:hover {
+#nav a:hover {
     background-color: #CC0000;
 }
 .club_widgets li {
