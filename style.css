@@ -51,7 +51,7 @@ a {
     float: left;
     font-size: 1.75em;
     clear: none;
-    margin: 2px 120px;
+    margin: 1px 60px;
     background: white;
     opacity: 100%;
     border-radius: .5em;
@@ -61,7 +61,7 @@ a {
 
 }
 
-#dyn_search_bar:focus, #dyn_search_bar.focus {
+#dyn_search_bar:focus, #dyn_search_bar.focus, #dyn_search_bar:hover, #dyn_search_bar.hover {
     border: solid 5px #969696;
     outline: none;
 }
@@ -90,7 +90,6 @@ a {
 }
 
 #nav ul {
-    margin: 0;
     padding: 0;
     display: -webkit-flex;
     display: flex;
@@ -140,16 +139,47 @@ a {
 #nav a:hover {
     background-color: #CC0000;
 }
-.club_widgets li {
+
+.club_widgets {
+    width: 100%;
+}
+
+
+.club_widgets a {
     border-style: solid;
-    border-radius: 15%;
+    border-radius: 30%;
     border-color: black;
     border-width: 1px;
     padding: 5%;
-    margin: 15%;
-    display: inline-block;
-    width: 20%;
-    float: left;
+    color: black;
+    border: solid 5px #c9c9c9;
+    transition: border 0.3s;
+    flex: 3 auto;
+    -webkit-flex: 3 auto;
+    marin: auto;
+}
+
+.club_widgets li {
+    width: 100%;
+}
+
+.club_widgets ul {
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: stretch;
+    -webkit-align-items: stretch;
+    align-content: stretch;
+    -webkit-align-content: stretch;
+    list-style: none;
+    width: 100%;
+}
+
+.club_widgets a:hover {
+    border: solid 5px #969696;
 }
 
 .club_widgets li h1 {
