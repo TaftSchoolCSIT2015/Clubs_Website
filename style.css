@@ -34,7 +34,7 @@ a {
 }
 
 .top_bar {
-    background: linear-gradient(to right, rgba(0, 0, 255, .5), rgba(255,0,0,.5));
+    background: linear-gradient(to right, rgba(0, 0, 255, 0.5), rgba(255,0,0,0.5));
     height: 75px;
 }
 
@@ -152,7 +152,9 @@ a {
     border-radius: 30%;
     border-color: black;
     border-width: 1px;
-    padding: 5%;
+    width: 200px;
+    height: 10em;
+    padding-top: 4.5em;
     color: black;
     border: solid 5px #c9c9c9;
     transition: border 0.3s;
@@ -171,12 +173,12 @@ a {
     display: flex;
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
-    justify-content: center;
-    -webkit-justify-content: center;
-    align-items: stretch;
-    -webkit-align-items: stretch;
-    align-content: stretch;
-    -webkit-align-content: stretch;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    align-items: baseline;
+    -webkit-align-items: baseline;
+    align-content: center;
+    -webkit-align-content: center;
     list-style: none;
     width: 100%;
     margin: auto;
