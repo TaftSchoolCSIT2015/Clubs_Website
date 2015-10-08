@@ -9,22 +9,22 @@
         <div class="header">
             <div class="top_bar">
                 <a href="index.html">
-                    <div class="home_logo">
+                    <div id="home_logo">
 
                     </div>
                 </a>
                 <div class="search_bar">
                     <form>
-                        <input id="dyn_search_bar" type="text" placeholder="Search...">
+                        <input id="dyn_search_bar" type="text" placeholder=" Search...">
                     </form>
                 </div>
                 <a href="">
-                <div class="user_menu">
-                    Log In
+                <div id="user_menu">
+                    <span>Log In</span>
                 </div>
                 </a>
             </div>
-            <div class="nav">
+            <div id="nav">
                 <ul>
                     <a href=""><li class="active">Academic</li></a>
                     <a href=""><li>Athletic</li></a>
@@ -37,7 +37,30 @@
         </div>
         <div class="content">
             <div class="club_widgets">
+                <ul>
+                    <?php
+                        require 'loadConfig.php';
+                        loadConfig();
+                        $conn = new mysqli($GLOBALS['db_server_name'], $GLOBALS['db_username'],
+                                           $GLOBALS['db_password'], $GLOBALS['db_dbname']);
 
+                        if($conn->connect_error) {
+                            die("Connection failed: ". $conn->connect_error);
+                        }
+
+                        $result = $conn->query("SELECT name, mission_statement FROM club");
+
+                        if($result->num_rows > 0) {
+                            while($item = $result->fetch_assoc()) {
+                                echo '<a href=""><li><h1>' . $item["name"] . '</h1><p>' .
+                                    $item["mission_statement"] . '</p></li></a>';
+                            }
+                        } else {
+                            echo "SQL ERR: 0 Results";
+                        }
+                        $conn->close();
+                    ?>
+                </ul>
             </div>
         </div>
     </body>
