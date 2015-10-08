@@ -38,16 +38,28 @@
         <div class="content">
             <div class="club_widgets">
                 <ul>
-                <li>
-                    <h1>Chemistry Club</h1>
-                    <p>By: Alex Yan and Becker Ewing</p>
-                    <p>To study chemical things...</p>
-                </li>
-                <li>
-                    <h1>Physics Club</h1>
-                    <p>By: Leon</p>
-                    <p>To meet about random particles and send emails to news...</p>
-                </li>
+                    <?php
+                        require 'loadConfig.php';
+                        loadConfig();
+                        $conn = new mysqli($GLOBALS['db_server_name'], $GLOBALS['db_username'],
+                                           $GLOBALS['db_password'], $GLOBALS['db_dbname']);
+
+                        if($conn->connect_error) {
+                            die("Connection failed: ". $conn->connect_error);
+                        }
+
+                        $result = $conn->query("SELECT name, mission_statement FROM club");
+
+                        if($result->num_rows > 0) {
+                            while($item = $result->fetch_assoc()) {
+                                echo '<a href=""><li><h1>' . $item["name"] . '</h1><p>' .
+                                    $item["mission_statement"] . '</p></li></a>';
+                            }
+                        } else {
+                            echo "SQL ERR: 0 Results";
+                        }
+                        $conn->close();
+                    ?>
                 </ul>
             </div>
         </div>
