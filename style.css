@@ -21,13 +21,15 @@ a {
 
 .content {
     position: absolute;
-    top: 40%;
+    top: 15%;
+    background: linear-gradient(to right, #00c6ff, #0072ff);
 }
 
 .header {
     position: fixed;
     width: 100%;
     height: 100px;
+    z-index: 1;
 
 }
 
@@ -156,7 +158,8 @@ a {
     transition: border 0.3s;
     flex: 3 auto;
     -webkit-flex: 3 auto;
-    marin: auto;
+    margin: 5%;
+    background: linear-gradient(to right, #FBD3E9, #BB377D);
 }
 
 .club_widgets li {
@@ -176,10 +179,12 @@ a {
     -webkit-align-content: stretch;
     list-style: none;
     width: 100%;
+    margin: auto;
 }
 
 .club_widgets a:hover {
     border: solid 5px #969696;
+    background: linear-gradient(to right, #606c88, #3f4c6b);
 }
 
 .club_widgets li h1 {
