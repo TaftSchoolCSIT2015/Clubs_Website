@@ -1,7 +1,7 @@
 <?php
     function loadConfig() {
         $db_array = parse_ini_file("config.ini");
-        $GLOBALS['db_server_name'] = $db_array['ipad'] . ':' . $db_array['port'];
+        $GLOBALS['db_server_name'] = $db_array['ipad'];
         $GLOBALS['db_username'] = $db_array['user'];
         $GLOBALS['db_password'] = $db_array['pass'];
         $GLOBALS['db_dbname'] = $db_array['name'];
@@ -16,6 +16,4 @@
         }
         echo "Connected Successfully";
     }
-    loadConfig();
-    getSQLConnection();
 ?>
