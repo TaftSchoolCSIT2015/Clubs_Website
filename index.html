@@ -9,30 +9,26 @@
     <body>
         <div class="header">
             <div class="top_bar">
-                <a href="index.html">
-                    <div id="home_logo">
-
-                    </div>
-                </a>
                 <div class="search_bar">
                     <form>
                         <input id="dyn_search_bar" type="text" placeholder=" Search...">
                     </form>
                 </div>
-                <a href="">
-                <div id="user_menu">
-                    <span>Log In</span>
+                <div class="logo">
+                    <span>Taft Clubs</span>
                 </div>
-                </a>
             </div>
             <div id="nav">
                 <ul>
-                    <a href=""><li class="active">Academic</li></a>
+                    <a href=""><li class="active">All</li></a>
+                    <a href=""><li>Academic</li></a>
                     <a href=""><li>Athletic</li></a>
                     <a href=""><li>Volunteer</li></a>
                     <a href=""><li>Fan</li></a>
                     <a href=""><li>Recreational</li></a>
                     <a href=""><li>>></li></a>
+                    <a class="search_symbol"><li>&#9906;</li></a>
+                    <a href="" class="login_nav_bar"><li>Log In</li></a>
                 </ul>
             </div>
         </div>
@@ -73,5 +69,14 @@ ON uClub.advisor = advisor.id');
                 </ul>
             </div>
         </div>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(".search_bar").hide();
+                $(".search_symbol").click(function() {
+                    $(".logo").slideToggle("fast", "linear");
+                    $(".search_bar").slideToggle("slow", "linear");
+                });
+            });
+        </script>
     </body>
 </html>

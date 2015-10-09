@@ -22,21 +22,24 @@ a {
 
 .content {
     position: absolute;
-    top: 15%;
+    top: 11%;
     background: linear-gradient(to right, #00c6ff, #0072ff);
+    width: 100%;
+    height: 100%;
+    padding-top: 0.5em;
 }
 
 .header {
     position: fixed;
     width: 100%;
-    height: 100px;
+    height: 70px;
     z-index: 1;
     background: white;
 }
 
 .top_bar {
-    background: linear-gradient(to right, rgba(0, 0, 255, 0.5), rgba(255,0,0,0.5));
-    height: 75px;
+    background-color: rgba(5, 5, 5, 0.84);
+    height: 50px;
 }
 
 #home_logo {
@@ -44,24 +47,21 @@ a {
     color: red;
     width: 100px;
     background: black;
-    height: 75px;
+    height: 50px;
     opacity: 1;
 }
 
 #dyn_search_bar {
-    width: 60%;
-    height: 42px;
-    float: left;
-    font-size: 1.75em;
-    clear: none;
-    margin: 1px 60px;
+    float: right;
+    width: 50%;
+    height: 20px;
+    font-size: 0.5em;
+    margin: 1em 30%;
     background: white;
     opacity: 100%;
     border-radius: .5em;
-    padding: 10px;
     border: solid 5px #c9c9c9;
     transition: border 0.3s;
-
 }
 
 #dyn_search_bar:focus, #dyn_search_bar.focus, #dyn_search_bar:hover, #dyn_search_bar.hover {
@@ -71,14 +71,16 @@ a {
 
 #user_menu {
     color: black;
-    font-size: 1.5em;
+    font-size: 1em;
+    border-radius: 1em;
     border: solid 1px black;
-    width: 200px;
+    width: 150px;
     float: right;
     background: white;
-    height: 55px;
+    height: 25px;
     opacity: 1;
-    padding-top: 17px;
+    padding-top: 10px;
+    margin-top: 6px;
 }
 
 #user_menu:hover {
@@ -86,10 +88,11 @@ a {
 }
 
 #nav {
-    font-size: 1em;
+    font-size: 0.7em;
     width: 100%;
     clear: none;
-    max-height: 20%;
+    max-height: 100%;
+    background-color: rgba(5, 5, 5, 0.84);
 }
 
 #nav ul {
@@ -113,24 +116,23 @@ a {
 #nav a {
     border-style: solid;
     border-width: 1px;
-    padding: 1% 5%;
+    padding: 0.5em 0.5em;
     align-self: stretch;
     float: left;
-    max-width: 20%;
-    min-width: 6.5%;
+    max-width: 15%;
+    min-width: 4%;
     margin: auto;
-    background-color: #DDDDDD;
     flex: 2 auto;
     -webkit-flex: 2 auto;
 }
 
-#nav ul a:last-child {
-    min-width: 4%;
-    max-width: 10%;
+#nav a.search_symbol {
+    min-width: 2%;
+    max-width: 6%;
     flex-shrink: 4;
     flex-grow: 1;
-    align-self: flex-end;
-    -webkit-align-self: flex-end;
+    align-self: stretch;
+    -webkit-align-self: stretch;
     flex: 1;
     -webkit-flex: 1;
 }
@@ -145,20 +147,21 @@ a {
 
 .club_widgets {
     width: 100%;
+    height: 100%;
 }
 
 
 .club_widgets a {
-    border-radius: 30%;
-    width: 15em;
-    height: 10em;
-    padding-top: 4.5em;
+    border-radius: 20%;
+    width: 7em;
+    height: 6em;
+    padding: 0.5em;
     color: black;
     border: solid 5px #c9c9c9;
     transition: border 0.3s;
     flex: 0 1 auto;
     -webkit-flex: 3 1 main-size;
-    margin: 5%;
+    margin: 1%;
     background: linear-gradient(to right, #FBD3E9, #BB377D);
 }
 
@@ -188,13 +191,35 @@ a {
 }
 
 .club_widgets li h1 {
-    font-size: 1.2em;
-}
-
-.club_widgets li p:nth-of-type(1) {
     font-size: 0.5em;
 }
 
-.club_widgets li p:nth-of-type(2) {
-    font-size: 0.4em;
+.club_widgets li p {
+    font-size: 0.1em;
+}
+
+.search_symbol:hover {
+    cursor: pointer;
+}
+
+.search_symbol li {
+    font-size: 0.8em;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.login_nav_bar {
+    font-size: 1em;
+}
+
+.logo {
+    margin: auto;
+    font-size: 2em;
+    padding-top: 0.2em;
+}
+
+.logo span {
+    color: white;
 }
