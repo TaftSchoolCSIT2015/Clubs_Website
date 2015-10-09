@@ -46,12 +46,24 @@
                         if($conn->connect_error) {
                             die("Connection failed: ". $conn->connect_error);
                         }
-                        $result = $conn->query("SELECT name, mission_statement FROM taftclubs.club");
+                        $result = $conn->query('SELECT uClub.name as name, uClub.mission_statement as mission, uClub.preferred_name as leader_first, uClub.last_name as leader_last, advisor.preferred_name as advisor_first, advisor.last_name as advisor_last
+FROM sgstudents.seniors_data as advisor
+INNER JOIN	(SELECT aClub.name, aClub.mission_statement, aClub.advisor, people.preferred_name, people.last_name
+	FROM sgstudents.seniors_data as people
+	INNER JOIN (SELECT theClub.name, theClub.mission_statement, theClub.advisor, joiner.userId
+		FROM taftclubs.club as theClub
+		LEFT JOIN taftclubs.clubjoiners as joiner
+		ON joiner.clubId = theClub.id
+        WHERE joiner.hasLeft = 0 AND joiner.isLeader = 1) as aClub
+	ON aClub.userId = people.id) as uClub
+ON uClub.advisor = advisor.id');
 
                         if($result->num_rows > 0) {
                             while($item = $result->fetch_assoc()) {
-                                echo '<a href=""><li><h1>' . $item["name"] . '</h1><p>' .
-                                    $item["mission_statement"] . '</p></li></a>';
+                                echo '<a href=""><li><h1>' . $item['name'] . '</h1><p><b>Leader(s): </b>' .
+                                    $item['leader_first'] . ' ' . $item['leader_last'] . '</p><p><b>Faculty Advisor: </b>' .
+                                        $item['advisor_first'] . ' ' . $item['advisor_last'] .
+                                        '</p><p><em>' . $item['mission'] . '</em></p></li></a>';
                             }
                         } else {
                             echo "SQL ERR: 0 Results";
