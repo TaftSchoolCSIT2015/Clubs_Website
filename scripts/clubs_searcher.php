@@ -1,15 +1,11 @@
 <?php
 require '../SQLUtils.php';
-
 $action = $value = "";
-
 if(isset($_GET['a'])) {
     $action = sanatizeInput($_GET['a']);
-    $a = explode('?', $action)[0];
-        if($a == 'catsearch') {
-            if(isset($_GET['a'])) {
-                $value = explode('?', $action)[1];
-                $value = substr($value, 2, strlen($value));
+        if($action == 'catsearch') {
+            if(isset($_GET['v'])) {
+                $value = sanatizeInput($_GET['v']);
                 $conn = getSQLConnectionFromConfig();
                 $result = "";
                 if($value == 'All') {
@@ -61,6 +57,8 @@ ON uClub.advisor = advisor.id
                 echo 'FATAL ERROR: VALUE NOT SET';
             }
             break;
+        } else if($action == 'loadclub') {
+            echo "<html><head></head><body>RESPONSE</body></html>";
         }
 }
 

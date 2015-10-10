@@ -65,32 +65,46 @@
                     $(this).children().first().removeClass("active");
                 });
             };
+            var makeWidgetsClickable = function() {
+                $(".club_widgets a").click(function() {
+                    var dat = "a=loadclub&v=" + $(this).children().first().children().first().html();
+                    $.ajax({
+                        url: "/scripts/clubs_searcher.php",
+                        type: "GET",
+                        data: dat,
+                    }).done(function(html) {
+                        $("html").html(html);
+                    });
+                });
+            }
 
             $(document).ready(function() {
                 $(".search_bar").hide();
+                $.ajax({
+                    url: "/scripts/clubs_searcher.php",
+                    type: "GET",
+                    data: 'a=catsearch&v=All',
+                }).done(function(html) {
+                    $(".club_widgets ul").html(html);
+                    makeWidgetsClickable();
+                });
                 $("#nav a").click(function() {
-                    if($(this).hasClass("search_symbol") || $(this).hasClass("login_nav_bar")) {return;}
+                    if($(this).hasClass("search_symbol") || $(this).hasClass("login")) {return;}
                     radioify();
                     $(this).children().first().addClass("active");
                     //Send a Query to the Database demanding new data
                     var value = $(this).children().first().html();
-                    var x = 'a=catsearch' + '?v=' + value; //a stands for action, v stands for value
+                    var x = 'a=catsearch' + '&v=' + value; //a stands for action, v stands for value
                     $.ajax({
                         url: "/scripts/clubs_searcher.php",
                         type: "GET",
                         data: x,
                     }).done(function(html) {
                         $(".club_widgets ul").html(html);
+                        makeWidgetsClickable();
                     });
                 });
                 $(".search_symbol").click(toggleLogo);
-                $.ajax({
-                    url: "/scripts/clubs_searcher.php",
-                    type: "GET",
-                    data: 'a=catsearch?v=All',
-                }).done(function(html) {
-                    $(".club_widgets ul").html(html);
-                });
             });
         </script>
     </body>
