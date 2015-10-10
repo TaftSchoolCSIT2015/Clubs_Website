@@ -59,7 +59,7 @@
             };
             var radioify = function() {
                 $("#nav a").each(function() {
-                    if($(this).hasClass("search_symbol")) {
+                    if($(this).hasClass("search_symbol") || $(this).hasClass("login_nav_bar")) {
                         return;
                     }
                     $(this).children().first().removeClass("active");
@@ -69,7 +69,7 @@
             $(document).ready(function() {
                 $(".search_bar").hide();
                 $("#nav a").click(function() {
-                    if($(this).hasClass("search_symbol")) {return;}
+                    if($(this).hasClass("search_symbol") || $(this).hasClass("login_nav_bar")) {return;}
                     radioify();
                     $(this).children().first().addClass("active");
                     //Send a Query to the Database demanding new data
