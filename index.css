@@ -174,8 +174,8 @@ a {
     display: flex;
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
-    justify-content: space-between;
-    -webkit-justify-content: space-between;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
     align-items: baseline;
     -webkit-align-items: baseline;
     align-content: center;
