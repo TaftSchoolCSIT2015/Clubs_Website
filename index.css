@@ -198,7 +198,7 @@ a {
     font-size: 0.1em;
 }
 
-.search_symbol:hover {
+#nav a {
     cursor: pointer;
 }
 
