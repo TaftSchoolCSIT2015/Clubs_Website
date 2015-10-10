@@ -3,65 +3,95 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="index.css">
+        <script src="js/jquery-2.1.4.min.js"></script>
     </head>
     <body>
         <div class="header">
             <div class="top_bar">
-                <a href="index.html">
-                    <div id="home_logo">
-
-                    </div>
-                </a>
                 <div class="search_bar">
                     <form>
                         <input id="dyn_search_bar" type="text" placeholder=" Search...">
                     </form>
                 </div>
-                <a href="">
-                <div id="user_menu">
-                    <span>Log In</span>
+                <div class="logo">
+                    <span>Taft Clubs</span>
                 </div>
-                </a>
             </div>
             <div id="nav">
                 <ul>
-                    <a href=""><li class="active">Academic</li></a>
-                    <a href=""><li>Athletic</li></a>
-                    <a href=""><li>Volunteer</li></a>
-                    <a href=""><li>Fan</li></a>
-                    <a href=""><li>Recreational</li></a>
-                    <a href=""><li>>></li></a>
+                    <a><li class="active">All</li></a>
+                    <?php
+                        require 'SQLUtils.php';
+                        $amt = 5;
+                        $conn = getSQLConnectionFromConfig();
+                        $result = $conn->query('SELECT data FROM taftclubs.clubcategories ORDER BY id LIMIT ' . $amt);
+                        if($result->num_rows > 0) {
+                            while($item = $result->fetch_assoc()) {
+                                echo '<a><li>' . $item['data'] . '</li></a>';
+                            }
+                        } else {
+                            echo "SQL ERROR: 0 results";
+                        }
+                        $conn->close();
+                    ?>
+                    <a class="more_categories"><li>>></li></a>
+                    <a class="search_symbol"><li>&#9906;</li></a>
+                    <a class="login_nav_bar"><li>Log In</li></a>
                 </ul>
             </div>
         </div>
         <div class="content">
             <div class="club_widgets">
                 <ul>
-                    <?php
-                        require 'loadConfig.php';
-                        loadConfig();
-                        $conn = new mysqli($GLOBALS['db_server_name'], $GLOBALS['db_username'],
-                                           $GLOBALS['db_password'], $GLOBALS['db_dbname']);
-
-                        if($conn->connect_error) {
-                            die("Connection failed: ". $conn->connect_error);
-                        }
-
-                        $result = $conn->query("SELECT name, mission_statement FROM club");
-
-                        if($result->num_rows > 0) {
-                            while($item = $result->fetch_assoc()) {
-                                echo '<a href=""><li><h1>' . $item["name"] . '</h1><p>' .
-                                    $item["mission_statement"] . '</p></li></a>';
-                            }
-                        } else {
-                            echo "SQL ERR: 0 Results";
-                        }
-                        $conn->close();
-                    ?>
                 </ul>
             </div>
         </div>
+        <script type="text/javascript">
+            var toggleLogo = function() {
+                $(".logo").slideToggle("fast", "linear");
+                $(".search_bar").slideToggle("fast", "linear");
+                if(!$(this).children().first().hasClass("active")) {
+                    $(this).children().first().addClass("active");
+                } else {
+                    $(this).children().first().removeClass("active");
+                }
+            };
+            var radioify = function() {
+                $("#nav a").each(function() {
+                    if($(this).hasClass("search_symbol") || $(this).hasClass("login_nav_bar")) {
+                        return;
+                    }
+                    $(this).children().first().removeClass("active");
+                });
+            };
+
+            $(document).ready(function() {
+                $(".search_bar").hide();
+                $("#nav a").click(function() {
+                    if($(this).hasClass("search_symbol") || $(this).hasClass("login_nav_bar")) {return;}
+                    radioify();
+                    $(this).children().first().addClass("active");
+                    //Send a Query to the Database demanding new data
+                    var value = $(this).children().first().html();
+                    var x = 'a=catsearch' + '?v=' + value; //a stands for action, v stands for value
+                    $.ajax({
+                        url: "/scripts/clubs_searcher.php",
+                        type: "GET",
+                        data: x,
+                    }).done(function(html) {
+                        $(".club_widgets ul").html(html);
+                    });
+                });
+                $(".search_symbol").click(toggleLogo);
+                $.ajax({
+                    url: "/scripts/clubs_searcher.php",
+                    type: "GET",
+                    data: 'a=catsearch?v=All',
+                }).done(function(html) {
+                    $(".club_widgets ul").html(html);
+                });
+            });
+        </script>
     </body>
 </html>
