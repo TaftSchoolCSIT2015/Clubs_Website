@@ -58,10 +58,8 @@ ON uClub.advisor = advisor.id');
 
                         if($result->num_rows > 0) {
                             while($item = $result->fetch_assoc()) {
-                                echo '<a href=""><li><h1>' . $item['name'] . '</h1><p><b>Leader(s): </b>' .
-                                    $item['leader_first'] . ' ' . $item['leader_last'] . '</p><p><b>Faculty Advisor: </b>' .
-                                        $item['advisor_first'] . ' ' . $item['advisor_last'] .
-                                        '</p><p><em>' . $item['mission'] . '</em></p></li></a>';
+                                echo constructWidgetString($item['name'], $item['leader_first'], $item['leader_last'],
+                                $item['advisor_first'], $item['advisor_last'], $item['mission']);
                             }
                         } else {
                             echo "SQL ERR: 0 Results";
@@ -97,7 +95,15 @@ ON uClub.advisor = advisor.id');
                     radioify();
                     $(this).children().first().addClass("active");
                     //Send a Query to the Database demanding new data
-                    var value = $(this).children().first().val();
+                    var value = $(this).children().first().html();
+                    var x = 'a=catsearch' + '?v=' + value; //a stands for action, v stands for value
+                    $.ajax({
+                        url: "/scripts/clubs_searcher.php",
+                        type: "GET",
+                        data: x,
+                    }).done(function(html) {
+                        $(".club_widgets ul").html(html);
+                    });
                 });
                 $(".search_symbol").click(toggleLogo);
             });
