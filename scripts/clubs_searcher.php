@@ -56,6 +56,7 @@ ON uClub.advisor = advisor.id
                 } else {
                     echo "SQL ERR: 0 Results";
                 }
+                $conn->close();
             } else {
                 echo 'FATAL ERROR: VALUE NOT SET';
             }
