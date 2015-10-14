@@ -49,7 +49,28 @@
 
         <div class= "text_line">
               <form class = "form" >Faculty Advisor:
-                <input  type="text" >
+                <input  list="faculty" name="facultyadvisors">
+                    <datalist id="faculty">
+                        <?php
+                            require 'SQLUtils.php';
+                            $conn = getSQLConnectionFromConfig();
+                            $result = $conn->query('SELECT preferred_name, last_name
+FROM sgstudents.seniors_data
+WHERE role="Faculty"
+ORDER BY last_name
+');
+                            if($result->num_rows > 0) {
+                                while($item = $result->fetch_assoc()) {
+                                    echo '<option value="' .
+                                    $item['preferred_name'] . ' ' .
+                                    $item['last_name'] . '">';
+                                }
+                            } else {
+                                echo 'SQL ERR: 0 Results';
+                            }
+                            $conn->close();
+                        ?>
+                    </datalist>
               </form>
         </div>
 

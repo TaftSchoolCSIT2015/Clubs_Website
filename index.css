@@ -1,0 +1,226 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    -webkit-font-smoothing: anti-aliased;
+}
+
+body {
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    outline: none;
+    text-decoration: none;
+    color: #BBBBBB;
+}
+
+.content {
+    position: absolute;
+    top: 75px;
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    width: 100%;
+    height: 100%;
+    padding-top: 0.5em;
+}
+
+.header {
+    position: fixed;
+    width: 100%;
+    height: 70px;
+    z-index: 1;
+    background: white;
+}
+
+.top_bar {
+    background-color: rgba(5, 5, 5, 0.84);
+    height: 50px;
+}
+
+#home_logo {
+    float: left;
+    color: red;
+    width: 100px;
+    background: black;
+    height: 50px;
+    opacity: 1;
+}
+
+#dyn_search_bar {
+    float: right;
+    width: 50%;
+    height: 20px;
+    font-size: 0.5em;
+    margin: 1em 30%;
+    background: white;
+    opacity: 100%;
+    border-radius: .5em;
+    border: solid 2px #c9c9c9;
+    transition: border 0.3s;
+}
+
+#dyn_search_bar:focus, #dyn_search_bar.focus, #dyn_search_bar:hover, #dyn_search_bar.hover {
+    border: solid 3px #969696;
+    outline: none;
+}
+
+#user_menu {
+    color: black;
+    font-size: 1em;
+    border-radius: 1em;
+    border: solid 1px black;
+    width: 150px;
+    float: right;
+    background: white;
+    height: 25px;
+    opacity: 1;
+    padding-top: 10px;
+    margin-top: 6px;
+}
+
+#user_menu:hover {
+    background: #CCCCCC;
+}
+
+#nav {
+    font-size: 0.7em;
+    width: 100%;
+    clear: none;
+    max-height: 100%;
+    height: 2.2em;
+    background-color: rgba(5, 5, 5, 0.84);
+}
+
+#nav ul {
+    padding: 0;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: nowrap;
+    -webkit-flex-wrap: nowrap;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    align-items: stretch;
+    -webkit-align-items: stretch;
+    align-content: stretch;
+    -webkit-align-content: stretch;
+    list-style: none;
+    height: 20%;
+    margin: auto;
+    width: 100%;
+}
+
+#nav a {
+    border-top: solid 1px white;
+    padding: 0.5em 0.5em;
+    align-self: stretch;
+    float: left;
+    max-width: 15%;
+    min-width: 4%;
+    margin: auto;
+    flex: 2 auto;
+    -webkit-flex: 2 auto;
+}
+
+#nav a.search_symbol {
+    min-width: 2%;
+    max-width: 6%;
+    flex-shrink: 4;
+    flex-grow: 1;
+    align-self: stretch;
+    -webkit-align-self: stretch;
+    flex: 1;
+    -webkit-flex: 1;
+}
+
+.active {
+    color: #BBBB10;
+}
+
+#nav a:hover li {
+    color: #BBBB10;
+}
+
+.club_widgets {
+    width: 100%;
+    height: 100%;
+}
+
+
+.club_widgets a {
+    border-radius: 20%;
+    width: 7em;
+    height: 6em;
+    padding: 0.5em;
+    color: black;
+    border: solid 5px #c9c9c9;
+    transition: border 0.3s;
+    flex: 0 1 auto;
+    -webkit-flex: 3 1 main-size;
+    margin: 1%;
+    background: linear-gradient(to right, #FBD3E9, #BB377D);
+}
+
+.club_widgets li {
+    width: 100%;
+}
+
+.club_widgets ul {
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    align-items: baseline;
+    -webkit-align-items: baseline;
+    align-content: center;
+    -webkit-align-content: center;
+    list-style: none;
+    width: 100%;
+    margin: auto;
+}
+
+.club_widgets a:hover {
+    border: solid 5px #969696;
+    background: linear-gradient(to right, #606c88, #3f4c6b);
+    cursor: pointer;
+}
+
+.club_widgets li h1 {
+    font-size: 0.5em;
+}
+
+.club_widgets li p {
+    font-size: 0.1em;
+}
+
+#nav a {
+    cursor: pointer;
+}
+
+.search_symbol li {
+    font-size: 0.8em;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.login_nav_bar {
+    font-size: 1em;
+}
+
+.logo {
+    margin: auto;
+    font-size: 2em;
+    padding-top: 0.2em;
+}
+
+.logo span {
+    color: white;
+}

@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    -webkit-font-smoothing: anti-aliased;
+    text-align: center;
+}
+
+.header {
+    position: fixed;
+    width: 100%;
+    height: 70px;
+    z-index: 1;
+    background: white;
+}
+
+.title {
+    background-color: rgba(5, 5, 5, 0.84);
+    height: 50px;
+    margin: auto;
+    font-size: 2em;
+    padding-top: 0.2em;
+}
+
+.title span {
+    color: white;
+}
+
+.nav {
+    font-size: 0.7em;
+    width: 100%;
+    clear: none;
+    max-height: 100%;
+    background-color: rgba(5, 5, 5, 0.84);
+}
