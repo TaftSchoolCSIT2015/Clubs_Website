@@ -31,24 +31,76 @@
                </form>
           </div>
 
-          <div class= "text_line">
-               <form class = "form" >Club Leaders:
+          <div id= "leaders_text_line">
+               <form id = "leaders_form" >Club Leaders:
                  <input  type="text" >
                  <input id = "add_button" type="button" Value = "Add Leader" />
                </form>
+
+               <ul>
+                   <li> Alexander Yan <input id = "X_button" type="button" Value = "X" /> </li>
+                   <li> Becker Ewing <input id = "X_button" type="button" Value = "X" /> </li>
+               </ul>
           </div>
 
           <div class= "text_line">
                <form class = "form" >Faculty Advisor:
                  <input  type="text" >
+
                </form>
+
           </div>
 
           <div id= "mission_text_line">
-               <form>
+               <form > <p id = "mission_text">Mission Statement:</p>
                  <textarea id = "mission_box"> </textarea>
                </form>
           </div>
+
+
+          <div id = "event_text_line">
+             <p id = "mission_text">Planned Events:</p>
+             <table>
+                 <tr>
+                   <td> <form class = "event_form" >Title:
+                     <input class = "event_box" type="text" >
+                   </form>
+                   </td>
+                   <td> <form class = "event_form" >Location:
+                     <input class = "event_box" type="text" >
+                   </form>
+                   </td>
+                   <td> <form class = "event_form" >Date:
+                     <input class = "event_box" type="date" >
+                   </form>
+                   </td>
+                   <td> <form class = "event_form" >Time:
+                     <input class = "event_box" type="text" >
+                   </form>
+                   </td>
+                   <td> <form>
+                     <input id = "add_event_button" type="button" Value = "Add" />
+                   </form>
+                   </td>
+                 </tr>
+             </table>
+
+             <ul>
+                 <li> DR Trip, Dominican Republic, 02/12/16, 8:00 AM
+                   <input id = "X_button" type="button" Value = "X" /> </li>
+             </ul>
+          </div>
+
+
+          <div id = "save_button">
+            Save As Draft
+          </div>
+
+          <div id = "submit_button">
+            Submit
+          </div>
+
+
         </div>
       </div>
 

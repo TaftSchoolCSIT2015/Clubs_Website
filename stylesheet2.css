@@ -12,9 +12,6 @@ html, body {
 }
 
 
-ul {
-    list-style: none;
-}
 
 a {
     outline: none;
@@ -25,8 +22,9 @@ a {
 
 #top_bar {
     background-color: #E3E1E1;
+    background-color: #EDFAED;
     height: 10%;
-    text-align: center;s
+    text-align: center;
 }
 
 #home_logo {
@@ -45,10 +43,12 @@ a {
     clear:none;
     padding: 10px;
     border: solid 1px #D94D1E;
+    border: solid 1px #C7227F;
 }
 
 #title a{
   color: #FF8362;
+  color:#C7227F;
   text-align: center;
   vertical-align: middle;
 
@@ -60,6 +60,7 @@ a {
     height:55px;
     float: right;
     border: solid 1px #D94D1E;
+    border: solid 1px #C7227F;
     padding-top: 17px;
 }
 
@@ -76,6 +77,7 @@ a {
 #main_body{
   background-color: rgb(245,217,208);
   border: solid #D94D1E;
+  border: solid #C7227F;
   border-top: none;
   margin-left: 20%;
   margin-right: 20%;
@@ -83,9 +85,10 @@ a {
 }
 
 .text_line{
+  padding-left: 1%;
   border: 1px solid black;
   width:inherit;
-  height:7%;
+  height:8%;
 }
 .form{
   position: relative;
@@ -94,15 +97,91 @@ a {
   font-size: 1.3em;
 }
 
-#mission_text_line{
-  border: 1px solid black;
-  width:inherit;
-  height:20%;
+#leaders_form{
+  position: relative;
+  /*top: 50%;
+  transform: translateY(-50%);*/
+  font-size: 1.3em;
 }
 
+div ul li{
+  padding-top: 1%;
+  font-size: 1.2em;
+  margin-left: 5%;
+}
 
+#leaders_text_line{
+  padding-top: 1%;
+  padding-left: 1%;
+  width:inherit;
+  height:20%;
+  border: 1px solid black;
+}
+
+#mission_text_line{
+  padding-top: 1%;
+  padding-left: 1%;
+  width:inherit;
+  height:20%;
+  border-top: 1px solid black;
+}
+#mission_text{
+  font-size:1.3em;
+  margin-bottom: 2%;
+
+}
 #mission_box{
-  float:top;
-  width:70%;
-  border: 1px solid green;
+  height: 90px;
+  margin-left: 5%;
+  width:90%;
+  border: 1px solid blue;
+}
+
+.event_box{
+  width:90%;
+}
+
+#add_event_button{
+  margin-top: 45%;
+}
+
+#X_button{
+  margin-top:1%;
+  height:1%;
+  width:3%;
+  text-align: center;
+}
+
+#event_text_line{
+  padding-top: 1%;
+  padding-bottom: 1%;
+  padding-left: 1%;
+  width:inherit;
+  height:18%;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+#save_button{
+  float:left;
+  margin-top: 5%;
+  width:13%;
+  height:7%;
+  border: 1px solid black;
+  text-align: center;
+  padding-top: 1%;
+  background-color: #E3E1E1;
+  margin-left:10%;
+}
+
+#submit_button{
+  float:left;
+  margin-top: 5%;
+  width:13%;
+  height:7%;
+  border: 1px solid black;
+  text-align: center;
+  padding-top: 1%;
+  background-color: #E3E1E1;
+  margin-left:40%;
 }
