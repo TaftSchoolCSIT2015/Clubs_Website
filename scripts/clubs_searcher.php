@@ -56,9 +56,6 @@ ON uClub.advisor = advisor.id
             } else {
                 echo 'FATAL ERROR: VALUE NOT SET';
             }
-            break;
-        } else if($action == 'loadclub') {
-            echo "<html><head></head><body>RESPONSE</body></html>";
         }
 }
 
