@@ -224,3 +224,20 @@ a {
 .logo span {
     color: white;
 }
+
+.nav_bar_active ul {
+    list-style: none;
+    font-size: 1em;
+    display: flex;
+    display: -webkit-flex;
+    align-content: center;
+    -webkit-align-content: center;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+}
+
+.nav_bar_active ul li {
+    border: solid 1px white;
+    padding: 0.2em 0em;
+    background-color: rgba(5, 5, 5, 0.84);
+}

@@ -64,7 +64,14 @@ if(empty($email)) {
                             }
                             $conn->close();
                         ?>
-                    </li></a>
+                    </li>
+                        <ul class="login_menu_hoverable">
+                            <li>My Clubs</li>
+                            <li>Make A New Club</li>
+                            <li>Log Out</li>
+                        </ul>
+                    </a>
+
                 </ul>
             </div>
         </div>
