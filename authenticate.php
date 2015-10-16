@@ -4,8 +4,8 @@ require 'SQLUtils.php';
 $email = $_POST['user'];
 
 $conn = getSQLConnectionFromConfig();
-$loginQuery = $conn->query('SELECT preferred_name FROM sgstudents.seniors_data
-WHERE sgstudents.seniors_data.email = "' . $email . '";');
+$loginQuery = $conn->query("SELECT preferred_name FROM sgstudents.seniors_data
+                                                 WHERE sgstudents.seniors_data.email = '$email'");
 if($loginQuery->num_rows == 1) { /* Does have 1 single match for an email in the database, therefore redirect*/
     header('Location: ' . "index.php?user=" . urlencode($email));
     $conn->close();
