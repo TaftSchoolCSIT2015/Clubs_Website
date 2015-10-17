@@ -30,11 +30,11 @@ $conn = getSQLConnectionFromConfig();
                         <input id="dyn_search_bar" type="text" placeholder=" Search...">
                     </form>
                 </div>
-                <div class="logo">
+                <div class="title">
                     <span>Taft Clubs</span>
                 </div>
             </div>
-            <div id="nav">
+            <div class="nav">
                 <ul>
                     <a><li class="active">All</li></a>
                     <?php
