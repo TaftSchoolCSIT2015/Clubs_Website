@@ -1,9 +1,6 @@
+<?php session_start(); ?>
 <?php
 require 'SQLUtils.php';
-$email = urldecode($_GET['user']);
-if(empty($email)) {
-    $email = "no";
-}
 ?>
 <!DOCTYPE>
 <html>
@@ -17,12 +14,11 @@ if(empty($email)) {
     </head>
     <body>
         <div class="popOut">
-            Log In
-            <form action="authenticate.php" method="post">
+            Log In<br>
                 Username: <input type="text" name="user"><br>
                 Password: <input type="text" name="pass"><br>
-                <input type="submit" value="Log In">
-            </form>
+                <input name="loginButton" type="submit" value="Log In">
+                <div id="loginStatus"></div>
         </div>
         <div class="header">
             <div class="top_bar">
