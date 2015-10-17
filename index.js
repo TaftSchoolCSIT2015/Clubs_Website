@@ -15,7 +15,7 @@ var toggleLogo = function() {
     }
 };
 var radioify = function() {
-    $("#nav a").each(function() {
+    $(".nav a").each(function() {
         if($(this).hasClass("search_symbol") || $(this).hasClass("login_nav_bar")) {
             return;
         }
@@ -86,7 +86,7 @@ $(document).ready(function() {
         $(".club_widgets ul").html(html);
         makeWidgetsClickable();
     });
-    $("#nav a").click(function() {
+    $(".nav a").click(function() {
         if($(this).hasClass("search_symbol") || $(this).hasClass("login_nav_bar")) {return;}
         radioify();
         $(this).children().first().addClass("active");

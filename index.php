@@ -11,8 +11,8 @@ $conn = getSQLConnectionFromConfig();
         <title>Taft Clubs</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="style/common.css">
         <link rel="stylesheet" type="text/css" href="index.css">
-        <link rel="stylesheet" type="text/css" href="login.css">
         <script src="js/jquery-2.1.4.min.js"></script>
     </head>
     <body>
@@ -64,6 +64,7 @@ $conn = getSQLConnectionFromConfig();
                 </ul>
             </div>
         </div>
+        <script src="js/common.js"></script>
         <script src="index.js"></script>
     </body>
 </html>
