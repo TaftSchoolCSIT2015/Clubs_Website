@@ -5,7 +5,7 @@ require 'SQLUtils.php';
 $response = array();
 
 if(isset($_SESSION['user'])) { //if already logged in for some reason, respond
-
+    exit();
 }
 
 if(isset($_POST['user'])) {
