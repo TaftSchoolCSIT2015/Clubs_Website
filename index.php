@@ -1,6 +1,9 @@
 <?php session_start(); ?>
 <?php
 require 'SQLUtils.php';
+require 'scripts/index_utils.php';
+
+$conn = getSQLConnectionFromConfig();
 ?>
 <!DOCTYPE>
 <html>
@@ -35,29 +38,13 @@ require 'SQLUtils.php';
                 <ul>
                     <a><li class="active">All</li></a>
                     <?php
-                        $amt = 5;
-                        $conn = getSQLConnectionFromConfig();
-                        $result = $conn->query('SELECT data FROM taftclubs.clubcategories ORDER BY id LIMIT ' . $amt);
-                        if($result->num_rows > 0) {
-                            while($item = $result->fetch_assoc()) {
-                                echo '<a><li>' . $item['data'] . '</li></a>';
-                            }
-                        } else {
-                            echo "SQL ERROR: 0 results";
-                        }
+                        assembleNavMenu($conn);
                     ?>
                     <a class="more_categories"><li>>></li></a>
                     <a class="search_symbol"><li>&#9906;</li></a> <!--&#9906; = Magnifying Glass Character -->
                     <a class="login_nav_bar"><li>
                         <?php
-                            $loginQuery = $conn->query('SELECT preferred_name FROM sgstudents.seniors_data
-                            WHERE sgstudents.seniors_data.email = "' . $email . '";');
-                            if($loginQuery->num_rows == 1) {
-                                $data = $loginQuery->fetch_assoc();
-                                echo "Hello, " . $data['preferred_name'];
-                            } else {
-                                echo "Log In";
-                            }
+                            getInputToLoginMenu($conn);
                             $conn->close();
                         ?>
                     </li>

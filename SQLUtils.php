@@ -13,13 +13,6 @@ function getSQLConnectionFromConfig() {
     return $conn;
 }
 
-function constructWidgetString($clubname, $leader_first, $leader_last, $advisor_first, $advisor_last, $mission) {
-    return '<a><li><h1>' . $clubname . '</h1><p><b>Leader(s): </b>' .
-        $leader_first . ' ' . $leader_last . '</p><p><b>Faculty Advisor: </b>' .
-            $advisor_first . ' ' . $advisor_last .
-            '</p><p><em>' . $mission . '</em></p></li></a>';
-}
-
 function sanatizeInput($input) {
     $input = trim($input);
     $input = stripslashes($input);
