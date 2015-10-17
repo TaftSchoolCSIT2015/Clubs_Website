@@ -31,7 +31,22 @@
             </div>
             <div class="nav">
                 <ul>
-                    <a class="active">About Us</a>
+                    <a><li class="active">About Us</li></a>
+                    <a><li>Events</li></a>
+                    <a><li>Club Feed</li></a>
+                    <a><li>Join Club</li></a>
+                    <a class="login_nav_bar"><li>
+                        <?php
+                            getInputToLoginMenu($conn);
+                            $conn->close();
+                        ?>
+                    </li>
+                        <ul class="login_menu_hoverable">
+                            <li>My Clubs</li>
+                            <li>Make A New Club</li>
+                            <li>Log Out</li>
+                        </ul>
+                    </a>
                 </ul>
             </div>
         </div>
