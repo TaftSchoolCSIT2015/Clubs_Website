@@ -1,6 +1,6 @@
 <?php session_start(); ?>
 <?php
-    require 'SQLUtils.php';
+    require 'scripts/SQLUtils.php';
     require 'scripts/index_utils.php';
 
     $conn = getSQLConnectionFromConfig();

@@ -1,5 +1,5 @@
 <?php
-require '../SQLUtils.php';
+require 'SQLUtils.php';
 $action = $value = "";
 if(isset($_GET['a'])) {
     $action = sanatizeInput($_GET['a']);

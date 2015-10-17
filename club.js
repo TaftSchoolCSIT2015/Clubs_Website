@@ -4,12 +4,4 @@ $(document).ready(function() {
         radioify();
         $(this).children().first().addClass("active");
     });
-    $(".login_menu_hoverable li:last").click(function() { //Log Out Button
-        $.ajax({
-            url: "logout.php",
-            type: "POST",
-        }).done(function(response) {
-            window.location = "index.php";
-        });
-    });
 });

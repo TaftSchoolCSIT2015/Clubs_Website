@@ -41,7 +41,7 @@ var registerNavBar = function(name) {
 
 var checkAuthentication = function(user, pass) {
     $.ajax({
-        url: "isAuthenticated.php",
+        url: "/scripts/authenticate.php",
         type: "POST",
         data: "user=" + user + "&pass=" + pass,
         dataType: "json",
@@ -74,12 +74,12 @@ $(document).ready(function() {
     });
     $(".login_menu_hoverable li:last").click(function() { //Log Out Button
         $.ajax({
-            url: "logout.php",
+            url: "/scripts/logout.php",
             type: "POST",
         }).done(function(response) {
             session.authenticated = false;
             session.username = "";
-            window.location = "index.php";
+            window.location = "../index.php";
         });
     });
     if($(".login_nav_bar").children().first().html().trim().indexOf("Hello,") >= 0) { //if we have a real name in the nav bar
