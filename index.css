@@ -141,7 +141,7 @@ a {
     color: #BBBB10;
 }
 
-#nav a:hover li {
+#nav a:hover > li {
     color: #BBBB10;
 }
 
@@ -238,6 +238,14 @@ a {
 
 .nav_bar_active ul li {
     border: solid 1px white;
-    padding: 0.2em 0em;
+    padding: 0.4em 0em;
     background-color: rgba(5, 5, 5, 0.84);
+}
+
+.login_menu_hoverable {
+    
+}
+
+.login_menu_hoverable li:hover {
+    color: #BBBB10;
 }
