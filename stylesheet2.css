@@ -145,7 +145,7 @@ div ul li{
   margin-top: 45%;
 }
 
-#X_button{
+.X_button{
   margin-top:1%;
   height:1%;
   width:3%;
@@ -184,4 +184,8 @@ div ul li{
   padding-top: 1%;
   background-color: #E3E1E1;
   margin-left:40%;
+}
+
+.failedVerify {
+    background-color: red;
 }
