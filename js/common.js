@@ -5,6 +5,18 @@ var session = {
         username: "",
 };
 
+Array.prototype.contains = function(arg) {
+    if(this.length == 0) {
+        return false;
+    }
+    for(var i = 0; i < this.length; i++) {
+        if(this[i] === arg) {
+            return true;
+        }
+    }
+    return false;
+}
+
 var radioify = function() {
     $(".nav a").each(function() {
         if($(this).hasClass("search_symbol") || $(this).hasClass("login_nav_bar")) {
@@ -14,28 +26,17 @@ var radioify = function() {
     });
 };
 
-var mouseEnterLogInMenu = function() {
-    $(".login_menu_hoverable").show();
-    isHoverMenuMousedOver = true;
-};
-
 var registerNavBar = function(name) {
     $(".nav_bar_active").
-    mouseenter(mouseEnterLogInMenu).
+    mouseenter(function() {
+        $(".login_menu_hoverable").show();
+        isHoverMenuMousedOver = true;
+    }).
     mouseleave(function() {
         if(!hasBeenClickedHoverMenu) {
             $(".login_menu_hoverable").hide();
         }
         isHoverMenuMousedOver = false;
-    });
-    $(".nav_bar_active").click(function() {
-        if(!hasBeenClickedHoverMenu) {
-            $(".login_menu_hoverable").show();
-            hasBeenClickedHoverMenu = true;
-        } else {
-            $(".login_menu_hoverable").hide();
-            hasBeenClickedHoverMenu = false;
-        }
     });
 };
 
@@ -61,8 +62,10 @@ var checkAuthentication = function(user, pass) {
 };
 
 $(document).ready(function() {
+    //Hide the pop out login menu and the dropdown from the login
     $(".popOut").hide();
     $(".login_menu_hoverable").hide();
+    //To toggle the popping up of the login
     $(".login_nav_bar").click(function() {
         if(!$(this).children().first().hasClass("active") && ($(this).children().first().html().indexOf("Log In") >= 0)) {
             $(this).children().first().addClass("active");
@@ -71,6 +74,9 @@ $(document).ready(function() {
             $(this).children().first().removeClass("active");
             $(".popOut").hide();
         }
+    });
+    $(".login_menu_hoverable").children("li:nth-child(2)").click(function() { //Make a new club button
+        window.location = "../registration2.html";
     });
     $(".login_menu_hoverable li:last").click(function() { //Log Out Button
         $.ajax({
@@ -82,12 +88,14 @@ $(document).ready(function() {
             window.location = "../index.php";
         });
     });
-    if($(".login_nav_bar").children().first().html().trim().indexOf("Hello,") >= 0) { //if we have a real name in the nav bar
+    //Detect authentication
+    if($(".login_nav_bar").children().first().html() != null && $(".login_nav_bar").children().first().html().trim().indexOf("Hello,") >= 0) { //if we have a real name in the nav bar
         session.authenticated = true;
         session.username = $(".login_nav_bar").children().first().html().trim().substring(7);
         $(".login_nav_bar").addClass("nav_bar_active");
         registerNavBar();
     }
+    //Check authentication from pop out box
     $("input[name='loginButton']").click(function() {
         var user = $("input[name='user']").val();
         var pass = $("input[name='pass']").val();
