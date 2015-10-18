@@ -1,12 +1,19 @@
 <?php
+/*
+Method: GET
+Parameters:
+    [a] = Action, for control flow: values-> {catsearch=Category Search} | {userclub=Get a users clubs}
+    [v] = input value: For "catsearch" is the category
+*/
+session_start();
 require 'SQLUtils.php';
 $action = $value = "";
 if(isset($_GET['a'])) {
     $action = sanatizeInput($_GET['a']);
+    $conn = getSQLConnectionFromConfig();
         if($action == 'catsearch') {
             if(isset($_GET['v'])) {
                 $value = sanatizeInput($_GET['v']);
-                $conn = getSQLConnectionFromConfig();
                 $query = "SELECT c.name as name, c.mission_statement as mission, leader.preferred_name as leader_first, leader.last_name as leader_last, advisor.preferred_name as advisor_first, advisor.last_name as advisor_last
                           FROM taftclubs.club as c
                           INNER JOIN sgstudents.seniors_data as advisor
@@ -32,11 +39,42 @@ if(isset($_GET['a'])) {
                 } else {
                     echo "SQL ERR: 0 Results";
                 }
-                $conn->close();
             } else {
-                echo 'FATAL ERROR: VALUE NOT SET';
+                echo 'FATAL ERROR: MALFORMED QUERY->VALUE NOT SET';
             }
+        } else if($action == 'userclub' && isset($_SESSION['user'])) {
+            $value = sanatizeInput($_GET['v']);
+            $user = $_SESSION['user'];
+            $query = "SELECT c.name as name, c.mission_statement as mission, student.preferred_name as student_first, student.last_name as student_last, advisor.preferred_name as advisor_first, advisor.last_name as advisor_last
+                                        FROM taftclubs.club as c
+                                        INNER JOIN sgstudents.seniors_data as advisor
+                                        ON c.advisor = advisor.id
+                                        INNER JOIN taftclubs.clubjoiners as j
+                                        ON c.id = j.clubId
+                                        INNER JOIN sgstudents.seniors_data as student
+                                        ON student.id = j.userId
+                                        INNER JOIN taftclubs.clubcategories as category
+                                        ON c.category = category.id
+                                        WHERE j.hasLeft = 0 AND student.username = '$user'";
+            $result = "";
+            if($value == 'All') {
+                $result = $conn->query($query);
+            } else {
+                $result = $conn->query($query . " AND category.data = '$value'");
+            }
+            if($result->num_rows > 0) {
+                while($item = $result->fetch_assoc()) {
+                    echo constructWidgetString($item['name'], $item['student_first'], $item['student_last'],
+                    $item['advisor_first'], $item['advisor_last'], $item['mission']);
+                }
+            } else {
+                echo "SQL ERR: 0 Results";
+            }
+
+        } else {
+            echo "FATAL ERROR: MALFORMED QUERY->VALUE NOT SET";
         }
+        $conn->close();
 }
 
 function constructWidgetString($clubname, $leader_first, $leader_last, $advisor_first, $advisor_last, $mission) {
