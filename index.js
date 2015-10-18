@@ -41,5 +41,16 @@ $(document).ready(function() {
             makeWidgetsClickable();
         });
     });
+    $(".login_menu_hoverable li:first").click(function() { //My Clubs Button
+        $(".login_menu_hoverable").hide();
+        $.ajax({
+            url: "/scripts/clubs_searcher.php",
+            type: "GET",
+            data: 'a=userclub&v=All',
+        }).done(function(html) {
+            $(".club_widgets ul").html(html);
+            makeWidgetsClickable();
+        });
+    });
     $(".search_symbol").click(toggleLogo);
 });
