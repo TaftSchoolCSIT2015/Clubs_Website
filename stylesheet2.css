@@ -172,6 +172,7 @@ div ul li{
   padding-top: 1%;
   background-color: #E3E1E1;
   margin-left:10%;
+  cursor: pointer;
 }
 
 #submit_button{
@@ -184,8 +185,9 @@ div ul li{
   padding-top: 1%;
   background-color: #E3E1E1;
   margin-left:40%;
+  cursor: pointer;
 }
 
 .failedVerify {
-    background-color: red;
+    background-color: #f71111;
 }

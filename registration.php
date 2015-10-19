@@ -1,5 +1,9 @@
 <?php session_start(); ?>
 <?php
+if(!isset($_SESSION['user'])) { //Need to be authenticated to get to this page
+    header("Location: index.php");
+    exit();
+}
 require 'scripts/SQLUtils.php';
 require 'scripts/index_utils.php';
 
@@ -16,7 +20,7 @@ $conn = getSQLConnectionFromConfig();
     <body>
       <div id="top_bar">
 
-        <a href="index.html">
+        <a href="index.php">
             <div id="home_logo">
             </div>
         </a>
@@ -39,7 +43,7 @@ $conn = getSQLConnectionFromConfig();
         <div id="main_body">
           <div class= "text_line">
                <form class="form" >Club Name:
-                 <input type="text">
+                 <input id="club_name_in" type="text">
                </form>
           </div>
 
@@ -50,14 +54,17 @@ $conn = getSQLConnectionFromConfig();
                </form>
 
                <ul>
-                   <li>Alexander Yan<input class="X_button" type="button" Value="X" /> </li>
-                   <li>Becker Ewing<input class="X_button" type="button" Value="X" /> </li>
+                    <?php
+                        if(isset($_SESSION['name'])) {
+                    ?>
+                    <li><?php echo $_SESSION['name']?><input class="X_button" type="button" Value="X" /></li>
+                    <?php } ?>
                </ul>
           </div>
 
           <div class= "text_line">
                <form class = "form" >Faculty Advisor:
-                 <input list="faculty" type="text" >
+                 <input id="faculty_advisor_in" list="faculty" type="text" >
                  <datalist id="faculty">
                      <?php
                          $result = $conn->query('SELECT preferred_name, last_name
@@ -92,19 +99,19 @@ $conn = getSQLConnectionFromConfig();
              <table>
                  <tr>
                    <td> <form class="event_form" >Title:
-                     <input class="event_box" type="text" >
+                     <input id="event_title" class="event_box" type="text" >
                    </form>
                    </td>
                    <td> <form class="event_form" >Location:
-                     <input class="event_box" type="text" >
+                     <input id="event_loc" class="event_box" type="text" >
                    </form>
                    </td>
                    <td> <form class="event_form" >Date:
-                     <input class="event_box" type="date" >
+                     <input id="event_date" class="event_box" type="date" >
                    </form>
                    </td>
                    <td> <form class="event_form" >Time:
-                     <input class="event_box" type="text" >
+                     <input id="event_time" class="event_box" type="text" >
                    </form>
                    </td>
                    <td> <form>
@@ -114,18 +121,15 @@ $conn = getSQLConnectionFromConfig();
                  </tr>
              </table>
 
-             <ul>
-                 <li> DR Trip, Dominican Republic, 02/12/16, 8:00 AM
-                   <input class="X_button" type="button" Value = "X" /> </li>
+             <ul id="event_list">
              </ul>
           </div>
 
-
-          <div id = "save_button">
+          <div id="save_button">
             Save As Draft
           </div>
 
-          <div id = "submit_button">
+          <div id="submit_button">
             Submit
           </div>
 

@@ -76,7 +76,7 @@ $(document).ready(function() {
         }
     });
     $(".login_menu_hoverable").children("li:nth-child(2)").click(function() { //Make a new club button
-        window.location = "../registration2.html";
+        window.location = "../registration.php";
     });
     $(".login_menu_hoverable li:last").click(function() { //Log Out Button
         $.ajax({
