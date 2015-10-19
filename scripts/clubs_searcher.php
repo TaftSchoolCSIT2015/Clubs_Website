@@ -13,8 +13,10 @@ if(isset($_GET['a'])) {
     $conn = getSQLConnectionFromConfig();
         if($action == 'catsearch') {
             if(isset($_GET['v'])) {
+                $endOfQuery =  " GROUP BY c.id
+                          ORDER BY c.id";
                 $value = sanatizeInput($_GET['v']);
-                $query = "SELECT c.name as name, c.mission_statement as mission, leader.preferred_name as leader_first, leader.last_name as leader_last, advisor.preferred_name as advisor_first, advisor.last_name as advisor_last
+                $query = "SELECT c.name as name, c.mission_statement as mission, CONCAT_WS(', ', GROUP_CONCAT(DISTINCT leader.preferred_name, ' ', leader.last_name SEPARATOR ', ')) as leader_name, advisor.preferred_name as advisor_first, advisor.last_name as advisor_last
                           FROM taftclubs.club as c
                           INNER JOIN sgstudents.seniors_data as advisor
                           ON c.advisor = advisor.id
@@ -27,13 +29,13 @@ if(isset($_GET['a'])) {
                           WHERE j.hasLeft = 0 AND j.isLeader = 1";
                 $result = "";
                 if($value == 'All') {
-                    $result = $conn->query($query);
+                    $result = $conn->query($query . $endOfQuery);
                 } else {
-                    $result = $conn->query($query . " AND category.data = '$value'");
+                    $result = $conn->query($query . " AND category.data = '$value'" . $endOfQuery);
                 }
                 if($result->num_rows > 0) {
                     while($item = $result->fetch_assoc()) {
-                        echo constructWidgetString($item['name'], $item['leader_first'], $item['leader_last'],
+                        echo constructWidgetString($item['name'], $item['leader_name'],
                         $item['advisor_first'], $item['advisor_last'], $item['mission']);
                     }
                 } else {
@@ -45,7 +47,7 @@ if(isset($_GET['a'])) {
         } else if($action == 'userclub' && isset($_SESSION['user'])) {
             $value = sanatizeInput($_GET['v']);
             $user = $_SESSION['user'];
-            $query = "SELECT c.name as name, c.mission_statement as mission, student.preferred_name as student_first, student.last_name as student_last, advisor.preferred_name as advisor_first, advisor.last_name as advisor_last
+            $query = "SELECT c.name as name, c.mission_statement as mission, CONCAT_WS(', ', GROUP_CONCAT(DISTINCT leader.preferred_name, ' ', leader.last_name SEPARATOR ', ')) as leader_name, advisor.preferred_name as advisor_first, advisor.last_name as advisor_last
                                         FROM taftclubs.club as c
                                         INNER JOIN sgstudents.seniors_data as advisor
                                         ON c.advisor = advisor.id
@@ -58,13 +60,13 @@ if(isset($_GET['a'])) {
                                         WHERE j.hasLeft = 0 AND student.username = '$user'";
             $result = "";
             if($value == 'All') {
-                $result = $conn->query($query);
+                $result = $conn->query($query . $endOfQuery);
             } else {
-                $result = $conn->query($query . " AND category.data = '$value'");
+                $result = $conn->query($query . " AND category.data = '$value'" . $endOfQuery);
             }
             if($result->num_rows > 0) {
                 while($item = $result->fetch_assoc()) {
-                    echo constructWidgetString($item['name'], $item['student_first'], $item['student_last'],
+                    echo constructWidgetString($item['name'], $item['leader_name'],
                     $item['advisor_first'], $item['advisor_last'], $item['mission']);
                 }
             } else {
@@ -77,9 +79,11 @@ if(isset($_GET['a'])) {
         $conn->close();
 }
 
-function constructWidgetString($clubname, $leader_first, $leader_last, $advisor_first, $advisor_last, $mission) {
+function constructWidgetString($clubname, $leader_name, $advisor_first, $advisor_last, $mission) {
+    $leaders = explode(", ", $leader_name);
+    $leadersString = implode(" and ", $leaders);
     return '<a><li><h1>' . $clubname . '</h1><p><b>Leader(s): </b>' .
-        $leader_first . ' ' . $leader_last . '</p><p><b>Faculty Advisor: </b>' .
+        $leadersString . '</p><p><b>Faculty Advisor: </b>' .
             $advisor_first . ' ' . $advisor_last .
             '</p><p><em>' . $mission . '</em></p></li></a>';
 }
