@@ -4,6 +4,7 @@ if(!isset($_SESSION['user'])) { //Need to be authenticated to get to this page
     header("Location: index.php");
     exit();
 }
+
 require 'scripts/SQLUtils.php';
 require 'scripts/index_utils.php';
 
@@ -57,7 +58,7 @@ $conn = getSQLConnectionFromConfig();
                     <?php
                         if(isset($_SESSION['name'])) {
                     ?>
-                    <li><?php echo $_SESSION['name']?><input class="X_button" type="button" Value="X" /></li>
+                    <li><?php echo $_SESSION['name']?><input class="X_button" type="button" Value="X" disabled /></li>
                     <?php } ?>
                </ul>
           </div>
