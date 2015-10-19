@@ -17,10 +17,11 @@ var makeWidgetsClickable = function() {
 
 $(document).ready(function() {
     $(".search_bar").hide();
+    var queryAction = (loadMyClubs) ? "userclub" : "catsearch";
     $.ajax({
         url: "/scripts/clubs_searcher.php",
         type: "GET",
-        data: 'a=catsearch&v=All',
+        data: 'a=' + queryAction + '&v=All',
     }).done(function(html) {
         $(".club_widgets ul").html(html);
         makeWidgetsClickable();
