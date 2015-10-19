@@ -3,6 +3,12 @@
 require 'scripts/SQLUtils.php';
 require 'scripts/index_utils.php';
 
+$action = "";
+
+if(isset($_REQUEST['action'])) {
+    $action = sanatizeInput($_REQUEST['action']);
+}
+
 $conn = getSQLConnectionFromConfig();
 ?>
 <!DOCTYPE>
@@ -14,6 +20,14 @@ $conn = getSQLConnectionFromConfig();
         <link rel="stylesheet" type="text/css" href="style/common.css">
         <link rel="stylesheet" type="text/css" href="index.css">
         <script src="js/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript">
+          var loadMyClubs = false;
+          <?php
+              if($action == "myclubs") {
+                  echo "loadMyClubs = true;";
+              }
+          ?>
+        </script>
     </head>
     <body>
         <div class="popOut">
