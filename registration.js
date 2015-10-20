@@ -104,5 +104,23 @@ $(document).ready(function() {
             window.location = "index.php";
         });
     });
+    $("#submit_button").click(function() {
+        var fields = getInputtedData();
+        if(fields.events.length < 3) {
+            alert("Must have more than 3 events to submit a club");
+        } else {
+            fields.club_status = 2; //2 = Awaiting faculty approval
+            fields.request_type = "savedraft";
+            $.ajax({
+                url: "/scripts/club_edit.php",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(fields),
+                processData: false,
+            }).done(function(response) {
+                window.location = "index.php";
+            });
+        }
+    });
     registerXButtons();
 });
