@@ -9,4 +9,24 @@ $(document).ready(function() {
         $(".login_menu_hoverable").hide();
         window.location = "index.php?action=myclubs"; //Redirect to index
     });
+    $("#club_join_button").click(function() {
+        var value = $(this).children("li").first().html();
+        if(value.trim() === "Join Club") { //Join the club
+            $.ajax({
+                url: "/scripts/club_query.php",
+                type: "GET",
+                data: "action=joinClub&value=" + clubName,
+            }).done(function() {
+                window.location = "club.php?n=" + clubName;
+            });
+        } else { //Leave the Club
+            $.ajax({
+                url: "/scripts/club_query.php",
+                type: "GET",
+                data: "action=leaveClub&value=" + clubName,
+            }).done(function() {
+                    window.location = "club.php?n=" + clubName;
+            });
+        }
+    });
 });

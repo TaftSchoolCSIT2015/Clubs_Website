@@ -2,6 +2,7 @@
 <?php
     require 'scripts/SQLUtils.php';
     require 'scripts/index_utils.php';
+    require 'scripts/club_utils.php';
 
     $conn = getSQLConnectionFromConfig();
 
@@ -19,6 +20,9 @@
         <link rel="stylesheet" type="text/css" href="style/common.css">
         <link rel="stylesheet" type="text/css" href="club.css">
         <script src="js/jquery-2.1.4.min.js"></script>
+        <script>
+            var clubName = "<?php echo $clubname ?>";
+        </script>
     </head>
     <body>
         <div class="header">
@@ -34,11 +38,23 @@
                     <a><li class="active">About Us</li></a>
                     <a><li>Events</li></a>
                     <a><li>Club Feed</li></a>
-                    <a><li>Join Club</li></a>
+                    <a id="club_join_button">
+                        <li><?php
+                            $isPart = 0;
+                            if(isset($_SESSION['user'])) {
+                                $isPart = isPartOfClub($_SESSION['user'], $clubname, $conn);
+                            }
+                            if($isPart == 0) {
+                                echo "Join Club";
+                            } else {
+                                echo "Leave Club";
+                            }
+                         ?>
+                        </li>
+                    </a>
                     <a class="login_nav_bar"><li>
                         <?php
                             getInputToLoginMenu($conn);
-                            $conn->close();
                         ?>
                     </li>
                         <ul class="login_menu_hoverable">
@@ -56,3 +72,4 @@
         <script src="club.js"></script>
     </body>
 </html>
+<?php $conn->close(); ?>
