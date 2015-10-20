@@ -5,7 +5,9 @@
 }
 
 body {
-    text-align: center;
+  text-align: center;
+
+  width:100%;
 }
 
 a {
@@ -17,11 +19,12 @@ a {
 
 #top_bar {
     height: 75px;
+
 }
 
 #home_logo {
     float: left;
-    width: 10%;
+    width: 9%;
     background: black;
     height: 75px;
 
@@ -65,7 +68,8 @@ a {
   width:100%;
   border: solid 1px black;
   font-size:2em;
-  background-color: gray;
+  background-color: #99CCFF;
+
 }
 
 .form{
@@ -83,4 +87,29 @@ a {
   margin-top: 20px;
   margin-bottom: 10px;
   float:left;
+}
+
+#mission_box{
+  height:80px;
+  width: 90%;
+  font-size:14pt;
+
+}
+
+#box_title{
+  float:left;
+  border: solid 1px blue;
+
+}
+.event_form{
+  border: solid 1px red;
+}
+
+.event_box{
+  width:40%;
+}
+
+#add_event_button{
+  
+
 }
