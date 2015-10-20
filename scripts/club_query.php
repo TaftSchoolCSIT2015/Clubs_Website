@@ -33,6 +33,9 @@
             leaveClub($username, $value, $conn);
             $response['success'] = 1;
             echo json_encode($response);
+        } else if($action == "getAboutClub" && $isset($_GET['value'])) {
+            $value = sanatizeInput($_GET['value']);
+            
         }
         $conn->close();
     } else {

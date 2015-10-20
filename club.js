@@ -19,7 +19,7 @@ $(document).ready(function() {
             }).done(function() {
                 window.location = "club.php?n=" + clubName;
             });
-        } else { //Leave the Club
+        } else if(value.trim() == "Leave Club"){ //Leave the Club
             $.ajax({
                 url: "/scripts/club_query.php",
                 type: "GET",
@@ -27,6 +27,8 @@ $(document).ready(function() {
             }).done(function() {
                     window.location = "club.php?n=" + clubName;
             });
+        } else {
+            /*TODO::*/
         }
     });
 });

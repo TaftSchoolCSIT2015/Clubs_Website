@@ -40,14 +40,17 @@
                     <a><li>Club Feed</li></a>
                     <a id="club_join_button">
                         <li><?php
-                            $isPart = 0;
+                            $isPart = $isLeader = 0;
                             if(isset($_SESSION['user'])) {
                                 $isPart = isPartOfClub($_SESSION['user'], $clubname, $conn);
+                                $isLeader = isHeadOfClub($_SESSION['user'], $clubname, $conn);
                             }
                             if($isPart == 0) {
                                 echo "Join Club";
-                            } else {
+                            } else if($isLeader == 0) {
                                 echo "Leave Club";
+                            } else {
+                                echo "Edit Club";
                             }
                          ?>
                         </li>
