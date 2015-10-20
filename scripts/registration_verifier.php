@@ -17,8 +17,8 @@
                 $value1 = sanatizeInput($_GET['value1']);
                 $value2 = sanatizeInput($_GET['value2']);
                 $result = $conn->query("SELECT EXISTS(SELECT preferred_name, last_name
-			  FROM sgstudents.seniors_data
-              WHERE (preferred_name = '$value1' OR first_name = '$value1') AND last_name = '$value2') as answer");
+			                             FROM sgstudents.seniors_data
+                                         WHERE (preferred_name = '$value1' OR first_name = '$value1') AND last_name = '$value2') as answer");
                 $data = $result->fetch_assoc();
                 $ret['answer'] = $data['answer'];
                 echo json_encode($ret);

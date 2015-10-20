@@ -20,6 +20,10 @@ var registerXButtons = function() {
     });
 };
 
+var getCategory = function() {
+    return $("#club_type_line input:checked").val();
+};
+
 var getInputtedData = function() {
     var ret = {};
     ret.title = $("#club_name_in").val();
@@ -27,6 +31,7 @@ var getInputtedData = function() {
     ret.faculty_advisor = $("#faculty_advisor_in").val();
     ret.mission_statement = $("#mission_box").val();
     ret.events = getAddedEvents();
+    ret.category = getCategory();
     return ret;
 };
 

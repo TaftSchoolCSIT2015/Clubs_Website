@@ -6,6 +6,7 @@
         exit();
     }
     require 'SQLUtils.php';
+    require 'category_utils.php';
 
     $json = file_get_contents("php://input");
     $_POST = json_decode($json, true);
@@ -18,12 +19,13 @@
             $advisor = explode(" ", $_POST['faculty_advisor']);
             $mission_statement = $_POST['mission_statement'];
             $status = $_POST['club_status'];
+            $category = $_POST['category'];
 
             $conn = getSQLConnectionFromConfig();
-
+            $catId = categoryToId($category, $conn);
             $query = "INSERT INTO taftclubs.club (name, advisor, mission_statement, sticky, status, approved, startDate, category, isJoinable, schoolYear)
             VALUES('$name', (SELECT id FROM sgstudents.seniors_data WHERE last_name = '{$advisor[1]}' AND (preferred_name = '{$advisor[0]}' OR first_name = '{$advisor[0]}')), " .
-            "'$mission_statement', 0, {$status}, 0, NOW(), 1, 0, {$SCHOOL_YEAR})";
+            "'$mission_statement', 0, {$status}, 0, NOW(), {$catId}, 0, {$SCHOOL_YEAR})";
             $conn->query($query);
             echo $conn->error;
             $clubid = $conn->insert_id;

@@ -63,6 +63,17 @@ $conn = getSQLConnectionFromConfig();
                </ul>
           </div>
 
+          <div id="club_type_line">
+              <form><h3>Club Category:</h3>
+                <input type="radio" name="category" value="Academic" checked>Academic
+                <input type="radio" name="category" value="Athletic">Athletic
+                <input type="radio" name="category" value="Volunteer">Volunteer
+                <input type="radio" name="category" value="Fan">Fan
+                <input type="radio" name="category" value="Recreational">Recreational
+              </form>
+          </div>
+
+
           <div class= "text_line">
                <form class = "form" >Faculty Advisor:
                  <input id="faculty_advisor_in" list="faculty" type="text" >
