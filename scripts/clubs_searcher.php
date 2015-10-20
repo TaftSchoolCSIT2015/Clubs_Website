@@ -11,10 +11,10 @@ $action = $value = "";
 if(isset($_GET['a'])) {
     $action = sanatizeInput($_GET['a']);
     $conn = getSQLConnectionFromConfig();
+    $endOfQuery =  " GROUP BY c.id
+              ORDER BY c.id";
         if($action == 'catsearch') {
             if(isset($_GET['v'])) {
-                $endOfQuery =  " GROUP BY c.id
-                          ORDER BY c.id";
                 $value = sanatizeInput($_GET['v']);
                 $query = "SELECT c.name as name, c.mission_statement as mission, CONCAT_WS(', ', GROUP_CONCAT(DISTINCT leader.preferred_name, ' ', leader.last_name SEPARATOR ', ')) as leader_name, advisor.preferred_name as advisor_first, advisor.last_name as advisor_last
                           FROM taftclubs.club as c
@@ -47,7 +47,7 @@ if(isset($_GET['a'])) {
         } else if($action == 'userclub' && isset($_SESSION['user'])) {
             $value = sanatizeInput($_GET['v']);
             $user = $_SESSION['user'];
-            $query = "SELECT c.name as name, c.mission_statement as mission, CONCAT_WS(', ', GROUP_CONCAT(DISTINCT leader.preferred_name, ' ', leader.last_name SEPARATOR ', ')) as leader_name, advisor.preferred_name as advisor_first, advisor.last_name as advisor_last
+            $query = "SELECT c.name as name, c.mission_statement as mission, CONCAT_WS(', ', GROUP_CONCAT(DISTINCT student.preferred_name, ' ', student.last_name SEPARATOR ', ')) as leader_name, advisor.preferred_name as advisor_first, advisor.last_name as advisor_last
                                         FROM taftclubs.club as c
                                         INNER JOIN sgstudents.seniors_data as advisor
                                         ON c.advisor = advisor.id
