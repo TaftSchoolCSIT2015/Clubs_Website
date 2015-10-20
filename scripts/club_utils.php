@@ -33,7 +33,7 @@ function leaveClub($username, $club, $conn) {
     $query = "UPDATE taftclubs.clubjoiners as joinee
               SET joinee.hasLeft = 1
               WHERE (joinee.clubId = (SELECT club.id FROM taftclubs.club as club WHERE club.name = '$club')
-              AND joinee.userId = (SELECT user.id FROM sgstudents.seniors_data as user WHERE user.username = '$username')) LIMIT 1";
+              AND joinee.userId = (SELECT user.id FROM sgstudents.seniors_data as user WHERE user.username = '$username'))";
     $conn->query($query);
 }
 ?>
