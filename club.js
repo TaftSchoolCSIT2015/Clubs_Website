@@ -27,8 +27,8 @@ $(document).ready(function() {
             }).done(function() {
                     window.location = "club.php?n=" + clubName;
             });
-        } else {
-            /*TODO::*/
+        } else { //Edit the Club
+            window.location = "club_edit.php?club=" + clubName;
         }
     });
 });

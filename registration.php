@@ -76,8 +76,8 @@ $conn = getSQLConnectionFromConfig();
           </div>
 
 
-          <div class= "text_line">
-               <form class = "form" >Faculty Advisor:
+          <div class="text_line">
+               <form class="form">Faculty Advisor:
                  <input id="faculty_advisor_in" list="faculty" type="text" >
                  <datalist id="faculty">
                      <?php
