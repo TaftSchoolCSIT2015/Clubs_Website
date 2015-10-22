@@ -12,7 +12,7 @@ if(isset($_GET['a'])) {
     $action = sanatizeInput($_GET['a']);
     $conn = getSQLConnectionFromConfig();
     $endOfQuery =  " GROUP BY c.id
-              ORDER BY c.status DESC, j.isLeader DESC, c.id ASC";
+              ORDER BY j.isLeader DESC, c.status ASC, c.name ASC";
         if($action == 'catsearch') {
             if(isset($_GET['v'])) {
                 $value = sanatizeInput($_GET['v']);

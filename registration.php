@@ -27,7 +27,7 @@ $conn = getSQLConnectionFromConfig();
           <div class="nav">
               <ul>
                   <a href="index.php"><li>Home</li></a>
-                  <a href="resources/How_to_write_a_mission_statement.pdf"><li>How to Write a Mission Statement</li></a>
+                  <a href="resources/How_to_write_a_mission_statement.pdf" target="_blank"><li>How to Write a Mission Statement</li></a>
                   <a class="login_nav_bar"><li>
                       <?php
                           getInputToLoginMenu($conn);
