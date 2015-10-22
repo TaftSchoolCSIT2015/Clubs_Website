@@ -25,7 +25,7 @@
             $catId = categoryToId($category, $conn);
             $query = "INSERT INTO taftclubs.club (name, advisor, mission_statement, sticky, status, approved, startDate, category, isJoinable, schoolYear)
             VALUES('$name', (SELECT id FROM sgstudents.seniors_data WHERE last_name = '{$advisor[1]}' AND (preferred_name = '{$advisor[0]}' OR first_name = '{$advisor[0]}')), " .
-            "'$mission_statement', 0, {$status}, 0, NOW(), {$catId}, 0, {$SCHOOL_YEAR})";
+            "'$mission_statement', 0, {$status}, 0, NOW(), {$catId}, 1, {$SCHOOL_YEAR})";
             $conn->query($query);
             echo $conn->error;
             $clubid = $conn->insert_id;
