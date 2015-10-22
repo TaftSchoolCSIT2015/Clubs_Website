@@ -127,5 +127,9 @@ $(document).ready(function() {
             });
         }
     });
+    $(".login_menu_hoverable li:first").click(function() { //My Clubs Button
+        $(".login_menu_hoverable").hide();
+        window.location = "index.php?action=myclubs"; //Redirect to index
+    });
     registerXButtons();
 });
