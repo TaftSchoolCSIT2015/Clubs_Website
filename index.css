@@ -42,6 +42,7 @@
 }
 
 .club_widgets a {
+    font-size: 1.2em;
     border-radius: 20%;
     width: 7em;
     height: 6em;
@@ -82,11 +83,11 @@
 }
 
 .club_widgets li h1 {
-    font-size: 0.5em;
+    font-size: 0.8em;
 }
 
 .club_widgets li p {
-    font-size: 0.1em;
+    font-size: 0.5em;
 }
 
 .search_symbol li {
@@ -95,8 +96,4 @@
     -moz-transform: rotate(45deg);
     -o-transform: rotate(45deg);
     transform: rotate(45deg);
-}
-
-.login_menu_hoverable {
-
 }
