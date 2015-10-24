@@ -61,6 +61,14 @@ a.not_approved_club {
     background: linear-gradient(to right, #20bb2b, #177c11);
 }
 
+a.leader_of_club {
+    background: linear-gradient(to right, #e0db4f, #eaf42c);
+}
+
+a.is_part_of_club {
+    background: linear-gradient(to right, #5bfad4, #e44613);
+}
+
 .club_widgets li {
     width: 100%;
 }

@@ -6,7 +6,10 @@ Parameters:
     [v] = input value: For "catsearch" is the category
 */
 session_start();
+
 require 'SQLUtils.php';
+require 'club_utils.php';
+
 $action = $value = "";
 if(isset($_GET['a'])) {
     $action = sanatizeInput($_GET['a']);
@@ -15,6 +18,10 @@ if(isset($_GET['a'])) {
               ORDER BY j.isLeader DESC, c.status ASC, c.name ASC";
         if($action == 'catsearch') {
             if(isset($_GET['v'])) {
+                $username = "";
+                if(isset($_SESSION['user'])) {
+                    $username = sanatizeInput($_SESSION['user']);
+                }
                 $value = sanatizeInput($_GET['v']);
                 $query = "SELECT c.name as name, c.mission_statement as mission, CONCAT_WS(', ', GROUP_CONCAT(DISTINCT leader.preferred_name, ' ', leader.last_name SEPARATOR ', ')) as leader_name, advisor.preferred_name as advisor_first, advisor.last_name as advisor_last
                           FROM taftclubs.club as c
@@ -35,8 +42,8 @@ if(isset($_GET['a'])) {
                 }
                 if($result->num_rows > 0) {
                     while($item = $result->fetch_assoc()) {
-                        echo constructWidgetString($item['name'], $item['leader_name'],
-                        $item['advisor_first'], $item['advisor_last'], $item['mission'], 5);
+                        echo constructCatSearchWidgetString($item['name'], $item['leader_name'],
+                        $item['advisor_first'], $item['advisor_last'], $item['mission'], isPartOfClub($username, $item['name'], $conn));
                     }
                 } else {
                     echo "SQL ERR: 0 Results";
@@ -70,8 +77,8 @@ if(isset($_GET['a'])) {
             }
             if($result->num_rows > 0) {
                 while($item = $result->fetch_assoc()) {
-                    echo constructWidgetString($item['name'], $item['leader_name'],
-                    $item['advisor_first'], $item['advisor_last'], $item['mission'], $item['status']);
+                    echo constructMyClubsWidgetString($item['name'], $item['leader_name'],
+                    $item['advisor_first'], $item['advisor_last'], $item['mission'], $item['status'], isHeadOfClub($user, $item['name'], $conn));
                 }
             } else {
                 echo "SQL ERR: 0 Results";
@@ -83,13 +90,25 @@ if(isset($_GET['a'])) {
         $conn->close();
 }
 
-function constructWidgetString($clubname, $leader_name, $advisor_first, $advisor_last, $mission, $status) {
-    $leaders = explode(", ", $leader_name);
-    $leadersString = implode(" and ", $leaders);
-    $class = ($status == 5) ? "" : "not_approved_club";
+function constructWidgetString($clubname, $leadersString, $advisor_first, $advisor_last, $mission, $class) {
     return "<a class='$class'><li><h1>" . $clubname . '</h1><p><b>Leader(s): </b>' .
         $leadersString . '</p><p><b>Faculty Advisor: </b>' .
             $advisor_first . ' ' . $advisor_last .
             '</p><p><em>' . $mission . '</em></p></li></a>';
+}
+
+function constructMyClubsWidgetString($clubname, $leader_name, $advisor_first, $advisor_last, $mission, $status, $isLeader) {
+    $leaders = explode(", ", $leader_name);
+    $leadersString = implode(" and ", $leaders);
+    $class = ($status == 5) ? "" : "not_approved_club";
+    $class .= ($isLeader) ? " leader_of_club" : "";
+    return constructWidgetString($clubname, $leadersString, $advisor_first, $advisor_last, $mission, $class);
+}
+
+function constructCatSearchWidgetString($clubname, $leader_name, $advisor_first, $advisor_last, $mission, $isMember) {
+    $leaders = explode(", ", $leader_name);
+    $leadersString = implode(" and ", $leaders);
+    $class = ($isMember) ? "is_part_of_club" : "";
+    return constructWidgetString($clubname, $leadersString, $advisor_first, $advisor_last, $mission, $class);
 }
  ?>
