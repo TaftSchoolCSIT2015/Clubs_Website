@@ -57,6 +57,19 @@ function getAboutClub($club, $conn) {
                 WHERE club.name = '$club'";
     $result = $conn->query($query);
     $data = $result->fetch_assoc();
+    return $data['mission_statement'];
+}
 
+function getLeadersForClub($club, $conn) {
+    $query = "SELECT GROUP_CONCAT(DISTINCT leader.preferred_name, ' ', leader.last_name) as leader_name
+                FROM taftclubs.club as club
+                INNER JOIN taftclubs.clubjoiners as j
+                ON j.clubId = club.id
+                INNER JOIN sgstudents.seniors_data as leader
+                ON j.userId = leader.id
+                WHERE club.name = '$club'";
+    $result = $conn->query($query);
+    $data = $result->fetch_assoc();
+    return $data['leader_name'];
 }
 ?>

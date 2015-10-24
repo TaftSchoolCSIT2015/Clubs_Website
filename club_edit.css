@@ -2,6 +2,11 @@
     background: white;
 }
 
+.dynamic {
+    position: relative;
+    top: 2em;
+}
+
 .nav a {
     max-width: 25%;
 }

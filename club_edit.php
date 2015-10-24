@@ -59,11 +59,22 @@ if(!$isLeader) {
             </div>
         </div>
         <div class="content">
+
             <div class="dynamic">
+                <!--
+                    For About Us editing
+                -->
+                <script type="text/javascript">
+                    $.ajax({
+                        url: "club_edit_aboutus.php",
+                        type: "GET",
+                        data: "club=" + "<?php echo $clubname; ?>",
+                    }).done(function(html) {
+                        $(".dynamic").html(html);
+                    });
+                </script>
             </div>
-        <!--
-            For About Us editing
-        -->
+
             <div class="footer">
                 <div id="save_button">
                     Save As Draft
