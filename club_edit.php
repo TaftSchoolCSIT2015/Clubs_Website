@@ -35,24 +35,24 @@ if(!$isLeader) {
         var clubName = "<?php echo $clubname; ?>";
         var club_info = {
             about_us: {
-                club_name: "",
-                club_leaders: [],
-                club_category: "",
-                club_missionstatement: "",
+                club_name: null,
+                club_leaders: null,
+                club_category: null,
+                club_missionstatement: null,
             },
             events: [],
             clubFeed: [],
             clubMembers: [],
         };
-
         var dirty = {
             about_us: {
-                club_name: false,
-                club_leaders: false,
-                club_category: false,
-                club_missionstatement: false,
+                club_name: null,
+                club_leaders: [],
+                club_category: null,
+                club_missionstatement: null,
             },
-        }
+        };
+
       </script>
     </head>
     <body>
@@ -90,6 +90,7 @@ if(!$isLeader) {
                         data: "club=" + "<?php echo $clubname; ?>",
                     }).done(function(html) {
                         $(".dynamic").html(html);
+                        registerEditAboutUsPage();
                     });
                 </script>
             </div>
