@@ -30,7 +30,24 @@ if(!$isLeader) {
 
 <div id="leaders_text_line">
     <form><b>Club Leaders:</b>
-        <input id="add_leader_text" name="add_leader" type="text">
+        <input id="add_leader_text" list="students" name="add_leader" type="text">
+        <datalist id="students">
+            <?php
+                $result = $conn->query("SELECT preferred_name, last_name
+                                       FROM sgstudents.seniors_data
+                                       WHERE role = 'Student'
+                                       ORDER BY last_name");
+                if($result->num_rows > 0) {
+                    while($item = $result->fetch_assoc()) {
+                        echo '<option value="' .
+                        $item['preferred_name'] . ' ' .
+                        $item['last_name'] . '">';
+                    }
+                } else {
+                    echo 'SQL ERR: 0 Results';
+                }
+            ?>
+        </datalist>
         <input id="add_button" name="add_button" type="button" value="Add Leader">
 
         <ul>
