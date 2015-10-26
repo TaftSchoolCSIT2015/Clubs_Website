@@ -8,7 +8,18 @@ var getAddedLeaders = function() {
 
 var registerEditAboutUsPage = function() {
     $("#club_name_in").change(function() {
-        dirty.about_us.club_name = $(this).val();
+        $.ajax({
+            url: "/scripts/club_query.php",
+            type: "GET",
+            data: "action=doesClubNameExist&value=" + $(this).val(),
+            dataType: "json",
+        }).done(function(json) {
+            if(json.success === "0") {
+                dirty.about_us.club_name = $("#club_name_in").val();
+            } else if(!(clubName === $("#club_name_in").val())){
+                $("#club_name_in").val("Club Name Already Exists...");
+            }
+        });
     });
     $("#club_type_line form > input[type='radio']").change(function() {
         dirty.about_us.club_category = $("#club_type_line input:checked").val();

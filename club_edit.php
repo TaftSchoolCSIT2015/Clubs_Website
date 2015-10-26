@@ -45,6 +45,7 @@ if(!$isLeader) {
             clubMembers: [],
         };
         var dirty = {
+            update_index: <?php echo intval(getClubDatabaseIndex($clubname, $conn)); ?>,
             about_us: {
                 club_name: null,
                 club_leaders: [],

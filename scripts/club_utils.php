@@ -183,4 +183,20 @@ function getMembersForClub($club, $conn) {
     }
     return $ret;
 }
+
+function getClubDatabaseIndex($club, $conn) {
+    $query = "SELECT id FROM taftclubs.club WHERE name = '$club'";
+    $result = $conn->query($query);
+    $data = $result->fetch_assoc();
+    return $data['id'];
+}
+
+function doesClubNameExist($club, $conn) {
+    $query = "SELECT EXISTS(
+	           SELECT * FROM taftclubs.club
+               WHERE name = '$club') as result";
+    $result = $conn->query($query);
+    $data = $result->fetch_assoc();
+    return $data['result'];
+}
 ?>
