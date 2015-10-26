@@ -5,3 +5,7 @@
 .content {
     background: white;
 }
+
+.nav a {
+    max-width: 30%;
+}
