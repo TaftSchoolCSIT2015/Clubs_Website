@@ -164,4 +164,23 @@ function getClubFeedPosts($club, $conn) {
     }
     return $ret;
 }
+
+function getMembersForClub($club, $conn) {
+    $query = "SELECT DISTINCT CONCAT(student.preferred_name, ' ', student.last_name) as name
+                FROM taftclubs.club as club
+                INNER JOIN taftclubs.clubjoiners as member
+                ON club.id = member.clubId
+                INNER JOIN sgstudents.seniors_data as student
+                ON member.userId = student.id
+                WHERE club.name = '$club' AND member.hasLeft = 0";
+    $result = $conn->query($query);
+    $ret = array();
+    if($result->num_rows > 0) {
+        while($data = $result->fetch_assoc()) {
+            $member = $data['name'];
+            $ret[] = $member;
+        }
+    }
+    return $ret;
+}
 ?>
