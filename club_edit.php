@@ -31,6 +31,29 @@ if(!$isLeader) {
       <link rel="stylesheet" type="text/css" href="club_edit.css">
       <link rel="stylesheet" type="text/css" href="stylesheet2.css">
       <script src="js/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript">
+        var clubName = "<?php echo $clubname; ?>";
+        var club_info = {
+            about_us: {
+                club_name: "",
+                club_leaders: [],
+                club_category: "",
+                club_missionstatement: "",
+            },
+            events: [],
+            clubFeed: [],
+            clubMembers: [],
+        };
+
+        var dirty = {
+            about_us: {
+                club_name: false,
+                club_leaders: false,
+                club_category: false,
+                club_missionstatement: false,
+            },
+        }
+      </script>
     </head>
     <body>
         <div class="header">
@@ -59,11 +82,7 @@ if(!$isLeader) {
             </div>
         </div>
         <div class="content">
-
             <div class="dynamic">
-                <!--
-                    For About Us editing
-                -->
                 <script type="text/javascript">
                     $.ajax({
                         url: "club_edit_aboutus.php",
@@ -86,7 +105,6 @@ if(!$isLeader) {
             </div>
         </div>
         <script type="text/javascript" src="js/common.js"></script>
-        <script type="text/javascript" src="registration.js"></script>
         <script type="text/javascript" src="club_edit.js"></script>
     </body>
 </html>

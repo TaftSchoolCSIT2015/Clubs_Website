@@ -67,9 +67,101 @@ function getLeadersForClub($club, $conn) {
                 ON j.clubId = club.id
                 INNER JOIN sgstudents.seniors_data as leader
                 ON j.userId = leader.id
-                WHERE club.name = '$club'";
+                WHERE club.name = '$club' AND j.isLeader = 1 AND j.hasLeft = 0";
     $result = $conn->query($query);
     $data = $result->fetch_assoc();
     return $data['leader_name'];
+}
+
+function getClubCategories($conn) {
+    $query = "SELECT data FROM taftclubs.clubcategories";
+    $result = $conn->query($query);
+    $ret = array();
+    if($result->num_rows > 0) {
+        while($data = $result->fetch_assoc()) {
+            array_push($ret, $data['data']);
+        }
+    }
+    return $ret;
+}
+
+function getClubCategory($club, $conn) {
+    $query = "SELECT cat.data
+                FROM taftclubs.club
+                INNER JOIN taftclubs.clubcategories as cat
+                ON cat.id = club.category
+                WHERE club.name = '$club'";
+    $result = $conn->query($query);
+    $data = $result->fetch_assoc();
+    return $data['data'];
+}
+
+function getCheckedClubCategoryHTML($club, $conn) {
+    $categories = getClubCategories($conn);
+    $thisCat = getClubCategory($club, $conn);
+    $html = "";
+    foreach($categories as $category) {
+        $html .= "<input type='radio' name='category' value='$category'";
+        if($thisCat == $category) {
+            $html .= " checked";
+        }
+        $html .= ">{$category}";
+    }
+    return $html;
+}
+
+function getClubMissionStatement($club, $conn) {
+    $query = "SELECT club.mission_statement
+                FROM taftclubs.club
+                WHERE club.name = '$club'";
+    $result = $conn->query($query);
+    $data = $result->fetch_assoc();
+    return $data['mission_statement'];
+}
+
+function getClubEvents($club, $conn) {
+    $query = "SELECT event.description, event.location, event.date, COUNT(rsvp.id) as rsvpCount, COUNT(members.id) memberCount
+                FROM taftclubs.clubevents as event
+                INNER JOIN taftclubs.club as club
+                ON event.clubId = club.id
+                INNER JOIN taftclubs.clubs_rsvp as rsvp
+                ON rsvp.eventId = event.id
+                INNER JOIN taftclubs.clubjoiners as members
+                ON (members.clubId = club.id AND members.userId = rsvp.userId)
+                WHERE event.isDeleted = 0 AND club.name = '$club' AND members.hasLeft = 0 AND rsvp.reply = 1;";
+    $result = $conn->query($query);
+    $ret = array();
+    if($result->num_rows > 0) {
+        while($data = $result->fetch_assoc()) {
+            $event = array("description" => $data['description'],
+                           "location" => $data['location'],
+                           "date" => $data['date'],
+                           "rsvpCount" => $data['rsvpCount'],
+                           "memberCount" => $data['memberCount']);
+            array_push($ret, $event);
+        }
+    }
+    return $ret;
+}
+
+function getClubFeedPosts($club, $conn) {
+    $query = "SELECT post.content, post.dateCreated, CONCAT(poster.preferred_name, ' ', poster.last_name) as poster_name
+                FROM taftclubs.clubfeed as post
+                INNER JOIN taftclubs.club as club
+                ON post.clubId = club.id
+                INNER JOIN sgstudents.seniors_data as poster
+                ON post.posterId = poster.id
+                WHERE club.name = '$club'";
+    $result = $conn->query($query);
+    $ret = array();
+    if($result->num_rows > 0) {
+        while($data = $result->fetch_assoc()) {
+            $post = array("content" => $data['content'],
+                          "dateCreated" => $data['dateCreated'],
+                          "poster" => $data['poster_name']);
+            array_push($ret, $post);
+        }
+    }
+    return $ret;
 }
 ?>

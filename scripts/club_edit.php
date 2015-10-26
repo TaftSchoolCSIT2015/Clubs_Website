@@ -50,7 +50,7 @@
             foreach($_POST['events'] as $event) {
                 $events = explode(", ", $event);
                 $dateSplits = explode("-", $events[2]);
-                $date = date("Y-m-d H:i:s", mktime(0,0,0, intval($dateSplits[2]), intval($dateSplits[1]), intval($dateSplits[0])));
+                $date = date("Y-m-d H:i:s", mktime(0,0,0, intval($dateSplits[1]), intval($dateSplits[2]), intval($dateSplits[0])));
                 $addEventQuery = "INSERT INTO taftclubs.clubevents (clubId, posterId, isApproved, isDeleted, description, location, dateCreated, date) " .
                 "VALUES({$clubid}, {$last_leader}, 0, 0, '{$events[0]} at {$events[3]}', '{$events[1]}', NOW(), '{$date}')";
                 $conn->query($addEventQuery);

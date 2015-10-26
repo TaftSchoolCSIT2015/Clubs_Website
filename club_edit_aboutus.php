@@ -48,5 +48,11 @@ if(!$isLeader) {
 
 <div id="club_type_line" class="text_line">
     <form><b>Club Category:</b>
+        <?php echo getCheckedClubCategoryHTML($clubname, $conn); ?>
+    </form>
+</div>
+<div id="mission_text_line" class="text_line">
+    <form><b>Mission Statement:</b>
+        <textarea id="mission_box"><?php echo getClubMissionStatement($clubname, $conn); ?></textarea>
     </form>
 </div>
