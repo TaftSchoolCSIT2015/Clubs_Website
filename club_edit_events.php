@@ -35,6 +35,7 @@ $events = getClubEvents($clubname, $conn);
 </tr>
 <?
 foreach($events as $event) {
+    if($event['description'] == '') {break;}
     $splits = explode(" at ", $event['description']);
     $eventName = $splits[0];
     $eventTime = $splits[1];
