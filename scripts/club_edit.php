@@ -3,10 +3,14 @@
     session_start();
     //Must be authenticated to get to this page
     if(!isset($_SESSION['user'])) {
+        echo "NO USER";
         exit();
     }
+    session_write_close();
+
     require 'SQLUtils.php';
     require 'category_utils.php';
+    require 'club_utils.php';
 
     $json = file_get_contents("php://input");
     $_POST = json_decode($json, true);
@@ -14,6 +18,7 @@
     $request_type = "";
     if(isset($_POST['request_type'])) {
         $request_type = sanatizeInput($_POST['request_type']);
+        $conn = getSQLConnectionFromConfig();
         if($request_type == "savedraft") {
             $name = $_POST['title'];
             $advisor = explode(" ", $_POST['faculty_advisor']);
@@ -21,11 +26,11 @@
             $status = $_POST['club_status'];
             $category = $_POST['category'];
 
-            $conn = getSQLConnectionFromConfig();
             $catId = categoryToId($category, $conn);
+
             $query = "INSERT INTO taftclubs.club (name, advisor, mission_statement, sticky, status, approved, startDate, category, isJoinable, schoolYear)
-            VALUES('$name', (SELECT id FROM sgstudents.seniors_data WHERE last_name = '{$advisor[1]}' AND (preferred_name = '{$advisor[0]}' OR first_name = '{$advisor[0]}')), " .
-            "'$mission_statement', 0, {$status}, 0, NOW(), {$catId}, 1, {$SCHOOL_YEAR})";
+                        VALUES('$name', (SELECT id FROM sgstudents.seniors_data WHERE last_name = '{$advisor[1]}' AND (preferred_name = '{$advisor[0]}' OR first_name = '{$advisor[0]}')),
+            '$mission_statement', 0, {$status}, 0, NOW(), {$catId}, 1, {$SCHOOL_YEAR})";
             $conn->query($query);
             echo $conn->error;
             $clubid = $conn->insert_id;
@@ -57,6 +62,33 @@
             }
 
             $conn->close();
+        } else if($request_type = "editdraft") {
+            //If we are editing a draft, we can operate under the assumption
+            //that we can make changes without logging a change in the "Edits" table
+            //But we will check that the club_status is a draft first
+            $update_index = $_POST['update_index'];
+            $about_us = $_POST['about_us'];
+            $queryBuilder = "UPDATE taftclubs.club as club SET ";
+            print_r($about_us);
+            if($about_us['club_name'] != "") {
+                $clubname = $about_us['club_name'];
+                $queryBuilder .= "club.name = '$clubname', ";
+            }
+            if($about_us['club_category'] != "") {
+                $club_category = $about_us['club_category'];
+                $queryBuilder .= "club.category = '$club_category', ";
+            }
+            if($about_us['club_missionstatement'] != "") {
+                $club_mission = $about_us['club_missionstatement'];
+                $queryBuilder .= "club.mission_statement = '$club_mission', ";
+            }
+            //Make Nice!
+            if(substr($queryBuilder, -2) == ", ") {
+                $queryBuilder = substr($queryBuilder, 0, -2);
+            }
+            $queryBuilder .= " WHERE club.id = '$update_index'";
+            echo $queryBuilder;
         }
+        $conn->close();
     }
 ?>

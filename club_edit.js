@@ -152,9 +152,26 @@ var registerEditEventsPage = function() {
     });
 };
 
-var pushDraftChangesToDatabase = function() {
-    
-}
+var constructSkeletonEditQuery = function() {
+
+};
+
+var pushChangesToDatabase = function(action) {
+    if(action == "Draft") {
+        dirty.request_type = "editdraft";
+    } else {
+        dirty.request_type = "editsubmission";
+    }
+    $.ajax({
+        url: "scripts/club_edit.php",
+        type: "POST",
+        data: JSON.stringify(dirty),
+        contentType: "application/json",
+        processData: false,
+    }).done(function(json) {
+
+    });
+};
 
 $(document).ready(function() {
     $(".login_menu_hoverable li:first").click(function() { //My Clubs Button
@@ -203,5 +220,11 @@ $(document).ready(function() {
         }).done(function(html) {
             $(".dynamic").html(html);
         });
+    });
+    $("#save_button").click(function() {
+        pushChangesToDatabase("Draft");
+    });
+    $("#submit_button").click(function() {
+        pushChangesToDatabase("Submit");
     });
 });
