@@ -24,7 +24,7 @@ if(!$isLeader) {
 
 $events = getClubEvents($clubname, $conn);
 ?>
-<table border="1">
+<table border="1" id="events">
 <tr>
 <th>Title</th>
 <th>Location</th>
@@ -45,10 +45,11 @@ foreach($events as $event) {
     $memberCount = $event['memberCount'];
     $percentRSVP = bcdiv(intval($rsvpCount), intval($memberCount), 3) * 100;
 ?>
-    <tr><td><input type="text" value='<?php echo $eventName; ?>'></td>
-        <td><input type="text" value='<?php echo $eventLoc; ?>'></td>
-        <td><input type="date" value='<?php echo $eventDate; ?>'></td>
-        <td><input type="text" value='<?php echo $eventTime; ?>'></td>
+    <tr data-index="<?php echo $event['id']; ?>">
+        <td><input class="eventEdit" type="text" value='<?php echo $eventName; ?>'></td>
+        <td><input class="eventEdit" type="text" value='<?php echo $eventLoc; ?>'></td>
+        <td><input class="eventEdit" type="date" value='<?php echo $eventDate; ?>'></td>
+        <td><input class="eventEdit" type="text" value='<?php echo $eventTime; ?>'></td>
         <td><?php echo $percentRSVP . "%"; ?></td>
         <td><input class='X_button' type='button' Value='X'></td>
     </tr>

@@ -120,7 +120,7 @@ function getClubMissionStatement($club, $conn) {
 }
 
 function getClubEvents($club, $conn) {
-    $query = "SELECT event.description, event.location, event.date, COUNT(rsvp.id) as rsvpCount, COUNT(members.id) memberCount
+    $query = "SELECT event.id, event.description, event.location, event.date, COUNT(rsvp.id) as rsvpCount, COUNT(members.id) memberCount
                 FROM taftclubs.clubevents as event
                 INNER JOIN taftclubs.club as club
                 ON event.clubId = club.id
@@ -137,7 +137,8 @@ function getClubEvents($club, $conn) {
                            "location" => $data['location'],
                            "date" => $data['date'],
                            "rsvpCount" => $data['rsvpCount'],
-                           "memberCount" => $data['memberCount']);
+                           "memberCount" => $data['memberCount'],
+                           "id" => $data['id']);
             array_push($ret, $event);
         }
     }

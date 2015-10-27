@@ -1,3 +1,63 @@
+function EditPageState(isThePageChangedLocally, updateTheDOMWithDirties, registerJQuery) {
+    this.isPageChangedLocally = isThePageChangedLocally;
+    this.updateDOMWithDirties = updateTheDOMWithDirties;
+    this.registerJavascript = registerJQuery;
+    this.doNewRenderCycle = function() {
+        if(this.isPageChangedLocally()) {
+            this.updateDOMWithDirties();
+        }
+        this.registerJavascript();
+    };
+}
+
+var isAboutUsPageChangedLocally = function() {
+    var about_us_obj = dirty.about_us;
+    for(var a in about_us_obj) {
+        if(about_us_obj.hasOwnProperty(a)) {
+            var val = about_us_obj[a];
+            if(!(val === null) && !(Array.isArray(val) && val.length === 0)) {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
+var updateAboutUsDom = function() {
+    var about_us_obj = dirty.about_us;
+    if(!(about_us_obj.clubname === null)) { //Update Club Name
+        $("#club_name_in").val(about_us_obj.club_name);
+    }
+    if(!(about_us_obj.club_leaders === [])) { //Update Club Leaders
+        for(var i = 0; i < about_us_obj.club_leaders.length; i++) {
+            var html = "<li>" + about_us_obj.club_leaders[i] +
+            "<input class='X_button' type='button' value='X'></li>";
+            $("#leaders_text_line ul").append(html);
+        }
+    }
+    if(!(about_us_obj.club_category === null)) { //Update Club Category
+        var elem = $("#club_type_line form").html();
+        elem = elem.replace('checked=""', "");
+        var splits = elem.split("<input");
+        var len = about_us_obj.club_category.length;
+        var newHtml = "";
+        for(var j in splits) {
+            if(splits.hasOwnProperty(j)) {
+                if(splits[j].indexOf(about_us_obj.club_category) >= 0) {
+                    var first = splits[j].slice(0, splits[j].indexOf(about_us_obj.club_category) + len + 1);
+                    newHtml += (first + " checked>" + about_us_obj.club_category + "<input");
+                } else {
+                    newHtml += splits[j] + "<input";
+                }
+            }
+        }
+        $("#club_type_line form").html(newHtml);
+    }
+    if(!(about_us_obj.club_missionstatement === null)) { //Update Club Mission Statement
+        $("#mission_box").html(about_us_obj.club_missionstatement);
+    }
+};
+
 var getAddedLeaders = function() {
     var ret = [];
     $("#leaders_text_line li").each(function() {
@@ -24,8 +84,8 @@ var registerEditAboutUsPage = function() {
     $("#club_type_line form > input[type='radio']").change(function() {
         dirty.about_us.club_category = $("#club_type_line input:checked").val();
     });
-    $("#mission_text_line textarea").change(function() {
-        dirty.about_us.club_missionstatement = $(this).html();
+    $("#mission_box").change(function() {
+        dirty.about_us.club_missionstatement = $(this).val();
     });
     $("#add_button").click(function() {
         var input = $("input[name='add_leader']").val();
@@ -70,6 +130,30 @@ var registerEditAboutUsPage = function() {
             }
         });
     });
+    $(".X_button").click(function() {
+        //remove from any "dirty data lists..."
+        for(var i = 0; i < dirty.about_us.club_leaders.length; i++) {
+            if(dirty.about_us.club_leaders[i] === $(this).parent("li").html().split("<")[0]) {
+                dirty.about_us.club_leaders.splice(i, 1);
+            }
+        }
+        $(this).parent("li").fadeOut(200, function() {$(this).remove();});
+    });
+}
+
+
+var PageStates = {
+    About_Us: new EditPageState(isAboutUsPageChangedLocally, updateAboutUsDom, registerEditAboutUsPage),
+};
+
+var registerEditEventsPage = function() {
+    $(".eventEdit:text").change(function() {
+        alert("IT WORKS");
+    });
+};
+
+var pushDraftChangesToDatabase = function() {
+    
 }
 
 $(document).ready(function() {
@@ -89,6 +173,7 @@ $(document).ready(function() {
             data: "club=" + clubName,
         }).done(function(html) {
             $(".dynamic").html(html);
+            PageStates.About_Us.doNewRenderCycle();
         });
     });
     $(".nav ul a:eq(2)").click(function() { //Club Edits Editing
@@ -98,6 +183,7 @@ $(document).ready(function() {
             data: "club=" + clubName,
         }).done(function(html) {
             $(".dynamic").html(html);
+            registerEditEventsPage();
         });
     });
     $(".nav ul a:eq(3)").click(function() { //Club Feed Editing
