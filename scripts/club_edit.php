@@ -34,22 +34,8 @@
             $conn->query($query);
             echo $conn->error;
             $clubid = $conn->insert_id;
-            foreach($_POST['leaders'] as $person) {
-                $names = explode(" ", $person);
-                $first = $last = "";
-                if(sizeof($names) == 2) {
-                    $first = $names[0];
-                    $last = $names[1];
-                } else if(sizeof($names) == 3) {
-                    $first = $names[0] . " " . $names[1];
-                    $last = $names[2];
-                }
 
-                $subIdQuery = "(SELECT id FROM sgstudents.seniors_data WHERE last_name = '{$last}' AND (preferred_name = '{$first}' OR first_name = '{$first}'))";
-                $joinClubQuery = "INSERT INTO taftclubs.clubjoiners (userId, clubId, dateJoined, hasLeft, isLeader) " .
-                "VALUES({$subIdQuery}, {$clubid}, NOW(), 0, 1)";
-                $conn->query($joinClubQuery);
-            }
+            insertLeaders($_POST['leaders'], $clubid, $conn);
 
             $last_leader = $conn->insert_id;
             foreach($_POST['events'] as $event) {
@@ -67,16 +53,27 @@
             //that we can make changes without logging a change in the "Edits" table
             //But we will check that the club_status is a draft first
             $update_index = $_POST['update_index'];
+            $result = $conn->query("SELECT EXISTS(
+	                                   SELECT *
+                                       FROM taftclubs.club
+                                       WHERE club.id = {$update_index} AND club.status = 1
+                                   ) as exist");
+            $doesExists = $result->fetch_assoc();
+            if($doesExists['exist'] == 0) {
+                die("UNAUTHORIZED ACTION");
+            }
+
+            //Personal Club Data
             $about_us = $_POST['about_us'];
             $queryBuilder = "UPDATE taftclubs.club as club SET ";
-            print_r($about_us);
             if($about_us['club_name'] != "") {
                 $clubname = $about_us['club_name'];
                 $queryBuilder .= "club.name = '$clubname', ";
             }
             if($about_us['club_category'] != "") {
                 $club_category = $about_us['club_category'];
-                $queryBuilder .= "club.category = '$club_category', ";
+                $catInt = categoryToId($club_category, $conn);
+                $queryBuilder .= "club.category = {$catInt}, ";
             }
             if($about_us['club_missionstatement'] != "") {
                 $club_mission = $about_us['club_missionstatement'];
@@ -86,9 +83,52 @@
             if(substr($queryBuilder, -2) == ", ") {
                 $queryBuilder = substr($queryBuilder, 0, -2);
             }
-            $queryBuilder .= " WHERE club.id = '$update_index'";
-            echo $queryBuilder;
+            $queryBuilder .= " WHERE club.id = {$update_index}";
+            $conn->query($queryBuilder);
+
+            //Leader Data
+            $leaders = $about_us['club_leaders'];
+            $deletedLeaders = $about_us['deleted_leaders'];
+            insertLeaders($leaders, $update_index, $conn);
+            deleteLeaders($deletedLeaders, $update_index, $conn);
         }
         $conn->close();
     }
+
+function insertLeaders($leaders, $clubid, $conn) {
+    foreach($leaders as $person) {
+        $names = explode(" ", $person);
+        $first = $last = "";
+        if(sizeof($names) == 2) {
+            $first = $names[0];
+            $last = $names[1];
+        } else if(sizeof($names) == 3) {
+            $first = $names[0] . " " . $names[1];
+            $last = $names[2];
+        }
+        $subIdQuery = "(SELECT id FROM sgstudents.seniors_data WHERE last_name = '{$last}' AND (preferred_name = '{$first}' OR first_name = '{$first}'))";
+        $joinClubQuery = "INSERT INTO taftclubs.clubjoiners (userId, clubId, dateJoined, hasLeft, isLeader) " .
+        "VALUES({$subIdQuery}, {$clubid}, NOW(), 0, 1)";
+        $conn->query($joinClubQuery);
+    }
+}
+
+function deleteLeaders($leaders, $clubid, $conn) {
+    foreach($leaders as $person) {
+        $names = explode(" ", $person);
+        $first = $last = "";
+        if(sizeof($names) == 2) {
+            $first = $names[0];
+            $last = $names[1];
+        } else if(sizeof($names) == 3) {
+            $first = $names[0] . " " . $names[1];
+            $last = $names[2];
+        }
+        $subIdQuery = "(SELECT id FROM sgstudents.seniors_data WHERE last_name = '{$last}' AND (preferred_name = '{$first}' OR first_name = '{$first}'))";
+        $joinClubQuery = "UPDATE taftclubs.clubjoiners
+                            SET isLeader = 0
+                            WHERE userId = {$subIdQuery} AND clubId = {$clubid}";
+        $conn->query($joinClubQuery);
+    }
+}
 ?>

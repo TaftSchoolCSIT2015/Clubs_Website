@@ -66,6 +66,19 @@ var getAddedLeaders = function() {
     return ret;
 };
 
+var registerXButtons = function() {
+    $(".X_button").click(function() {
+        //remove from any "dirty data lists..."
+        dirty.about_us.deleted_leaders.push($(this).parent("li").html().split("<")[0]);
+        for(var i = 0; i < dirty.about_us.club_leaders.length; i++) {
+            if(dirty.about_us.club_leaders[i] === $(this).parent("li").html().split("<")[0]) {
+                dirty.about_us.club_leaders.splice(i, 1);
+            }
+        }
+        $(this).parent("li").fadeOut(200, function() {$(this).remove();});
+    });
+};
+
 var registerEditAboutUsPage = function() {
     $("#club_name_in").change(function() {
         $.ajax({
@@ -114,15 +127,7 @@ var registerEditAboutUsPage = function() {
                 $("#leaders_text_line ul").append("<li>"+ $("input[name='add_leader']").val() +
                 "<input class='X_button' type='button' Value='X' /></li>");
                 //Make Button Clickable, And update dirty if is in dirty
-                $(".X_button").click(function() {
-                    //remove from any "dirty data lists..."
-                    for(var i = 0; i < dirty.about_us.club_leaders.length; i++) {
-                        if(dirty.about_us.club_leaders[i] === $(this).parent("li").html().split("<")[0]) {
-                            dirty.about_us.club_leaders.splice(i, 1);
-                        }
-                    }
-                    $(this).parent("li").fadeOut(200, function() {$(this).remove();});
-                });
+                registerXButtons();
                 //Update Dirty Data
                 dirty.about_us.club_leaders.push($("input[name='add_leader']").val());
             } else {
@@ -130,15 +135,7 @@ var registerEditAboutUsPage = function() {
             }
         });
     });
-    $(".X_button").click(function() {
-        //remove from any "dirty data lists..."
-        for(var i = 0; i < dirty.about_us.club_leaders.length; i++) {
-            if(dirty.about_us.club_leaders[i] === $(this).parent("li").html().split("<")[0]) {
-                dirty.about_us.club_leaders.splice(i, 1);
-            }
-        }
-        $(this).parent("li").fadeOut(200, function() {$(this).remove();});
-    });
+    registerXButtons();
 }
 
 
@@ -169,7 +166,7 @@ var pushChangesToDatabase = function(action) {
         contentType: "application/json",
         processData: false,
     }).done(function(json) {
-
+        window.location = "club_edit.php?club=" + clubName;
     });
 };
 

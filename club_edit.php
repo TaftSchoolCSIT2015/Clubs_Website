@@ -33,12 +33,13 @@ if(!$isLeader) {
       <script src="js/jquery-2.1.4.min.js"></script>
       <script type="text/javascript">
         var clubName = "<?php echo $clubname; ?>";
-        
+
         var dirty = {
             update_index: <?php echo intval(getClubDatabaseIndex($clubname, $conn)); ?>,
             about_us: {
                 club_name: null,
                 club_leaders: [],
+                deleted_leaders: [],
                 club_category: null,
                 club_missionstatement: null,
             },
