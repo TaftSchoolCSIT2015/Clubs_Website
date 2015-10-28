@@ -57,6 +57,11 @@ var checkAuthentication = function(user, pass) {
             $(".login_nav_bar").children().first().removeClass("active");
             $(".login_nav_bar > li").html("Hello, " + json.preferred_name);
             registerNavBar();
+            if(user === "skoshi") {
+                $(".login_menu_hoverable").children(":eq(1)").after("<li>Admin Page</li>").next().first().click(function() {
+                    window.location = "backend_admin.php";
+                });
+            }
         }
     });
 };
@@ -100,5 +105,9 @@ $(document).ready(function() {
         var user = $("input[name='user']").val();
         var pass = $("input[name='pass']").val();
         checkAuthentication(user, pass);
+    });
+
+    $(".backend_admin_link").click(function() {
+        window.location = "backend_admin.php";
     });
 });

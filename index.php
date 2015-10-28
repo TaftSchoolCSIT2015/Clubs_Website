@@ -65,6 +65,11 @@ $conn = getSQLConnectionFromConfig();
                         <ul class="login_menu_hoverable">
                             <li>My Clubs</li>
                             <li>Make A New Club</li>
+                            <?php
+                                if(isset($_SESSION['user']) && $_SESSION['user'] == 'skoshi') {
+                                    echo "<li class='backend_admin_link'>Admin Page</li>";
+                                }
+                            ?>
                             <li>Log Out</li>
                         </ul>
                     </a>
