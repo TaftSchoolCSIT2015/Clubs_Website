@@ -90,7 +90,8 @@
             $leaders = $about_us['club_leaders'];
             $deletedLeaders = $about_us['deleted_leaders'];
             insertLeaders($leaders, $update_index, $conn);
-            deleteLeaders($deletedLeaders, $update_index, $conn);
+            //If we are a draft then dont delete leaders!
+            deleteLeaders($deletedLeaders, $update_index, $conn, true);
         }
         $conn->close();
     }
@@ -113,7 +114,7 @@ function insertLeaders($leaders, $clubid, $conn) {
     }
 }
 
-function deleteLeaders($leaders, $clubid, $conn) {
+function deleteLeaders($leaders, $clubid, $conn, $isDraft) {
     foreach($leaders as $person) {
         $names = explode(" ", $person);
         $first = $last = "";
@@ -126,8 +127,11 @@ function deleteLeaders($leaders, $clubid, $conn) {
         }
         $subIdQuery = "(SELECT id FROM sgstudents.seniors_data WHERE last_name = '{$last}' AND (preferred_name = '{$first}' OR first_name = '{$first}'))";
         $joinClubQuery = "UPDATE taftclubs.clubjoiners
-                            SET isLeader = 0
-                            WHERE userId = {$subIdQuery} AND clubId = {$clubid}";
+                            SET isLeader = 0";
+        if($isDraft) {
+            $joinClubQuery .= ", hasLeft = 1";
+        }
+        $joinClubQuery .= " WHERE userId = {$subIdQuery} AND clubId = {$clubid}";
         $conn->query($joinClubQuery);
     }
 }
