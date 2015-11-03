@@ -6,7 +6,6 @@
         echo "NO USER";
         exit();
     }
-    session_write_close();
 
     require 'SQLUtils.php';
     require 'category_utils.php';
@@ -92,6 +91,26 @@
             insertLeaders($leaders, $update_index, $conn);
             //If we are a draft then dont delete leaders!
             deleteLeaders($deletedLeaders, $update_index, $conn, true);
+
+            //Event Data
+            $events = $_POST['events'];
+            $delEvents = $_POST['deleted_events'];
+            foreach($events as $event) {
+                $updateId = $event['updateId'];
+                if($updateId < 0) { //New Event
+                    insertNewEvent($event['title'], $event['location'], $event['date'],
+                    $event['time'], $update_index, $conn);
+                } else { //Existing Event
+                    updateExistingEvent($updateId, $event['title'], $event['location'],
+                    $event['date'], $event['time'], $conn);
+                }
+            }
+            foreach($delEvents as $deletedEvent) {
+                $updateId = $deletedEvent;
+                $conn->query("UPDATE taftclubs.clubevents
+                                SET isDeleted = 1
+                                WHERE id = {$updateId}");
+            }
         }
         $conn->close();
     }
@@ -134,5 +153,23 @@ function deleteLeaders($leaders, $clubid, $conn, $isDraft) {
         $joinClubQuery .= " WHERE userId = {$subIdQuery} AND clubId = {$clubid}";
         $conn->query($joinClubQuery);
     }
+}
+
+function insertNewEvent($title, $location, $date, $time, $clubid, $conn) {
+    $username = $_SESSION['user'];
+    $dateSplits = explode("-", $date);
+    $newDate = date("Y-m-d H:i:s", mktime(0,0,0, intval($dateSplits[1]), intval($dateSplits[2]), intval($dateSplits[0])));
+    $query = "INSERT INTO taftclubs.clubevents (clubId, posterId, isApproved, isDeleted, description, location, dateCreated, date)
+            VALUES({$clubid}, (SELECT id FROM sgstudents.seniors_data WHERE username = '$username'), 0, 0, '{$title} at {$time}', '$location', NOW(), '$newDate')";
+    $conn->query($query);
+}
+
+function updateExistingEvent($eventId, $title, $location, $date, $time, $conn) {
+    $dateSplits = explode("-", $date);
+    $newDate = date("Y-m-d H:i:s", mktime(0,0,0, intval($dateSplits[1]), intval($dateSplits[2]), intval($dateSplits[0])));
+    $query = "UPDATE taftclubs.clubevents
+                SET description = '{$title} at {$time}', location = '$location', date = '$newDate'
+                WHERE id = {$eventId}";
+    $conn->query($query);
 }
 ?>

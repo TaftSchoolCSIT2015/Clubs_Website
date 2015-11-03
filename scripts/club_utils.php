@@ -123,12 +123,13 @@ function getClubEvents($club, $conn) {
     $query = "SELECT event.id, event.description, event.location, event.date, COUNT(rsvp.id) as rsvpCount, COUNT(members.id) memberCount
                 FROM taftclubs.clubevents as event
                 INNER JOIN taftclubs.club as club
-                ON event.clubId = club.id
-                INNER JOIN taftclubs.clubs_rsvp as rsvp
-                ON rsvp.eventId = event.id
-                INNER JOIN taftclubs.clubjoiners as members
-                ON (members.clubId = club.id AND members.userId = rsvp.userId)
-                WHERE event.isDeleted = 0 AND club.name = '$club' AND members.hasLeft = 0 AND rsvp.reply = 1;";
+                ON (event.clubId = club.id AND club.name = '$club')
+                LEFT OUTER JOIN taftclubs.clubs_rsvp as rsvp
+                ON (rsvp.eventId = event.id AND rsvp.reply = 1)
+                LEFT OUTER JOIN taftclubs.clubjoiners as members
+                ON (members.clubId = club.id AND members.hasLeft = 0)
+                WHERE event.isDeleted = 0
+                GROUP BY event.id";
     $result = $conn->query($query);
     $ret = array();
     if($result->num_rows > 0) {

@@ -10,6 +10,14 @@ function EditPageState(isThePageChangedLocally, updateTheDOMWithDirties, registe
     };
 }
 
+function EventMetadata(title, location, date, time, updateId) {
+    this.title = title;
+    this.location = location;
+    this.date = date;
+    this.time = time;
+    this.updateId = updateId;
+}
+
 var isAboutUsPageChangedLocally = function() {
     var about_us_obj = dirty.about_us;
     for(var a in about_us_obj) {
@@ -138,19 +146,116 @@ var registerEditAboutUsPage = function() {
     registerXButtons();
 }
 
-
-var PageStates = {
-    About_Us: new EditPageState(isAboutUsPageChangedLocally, updateAboutUsDom, registerEditAboutUsPage),
+var isEditEventsPageChangedLocally = function() {
+    if(dirty.events.length > 0 || dirty.deleted_events.length > 0) {
+        return true;
+    }
+    return false;
 };
 
-var registerEditEventsPage = function() {
-    $(".eventEdit:text").change(function() {
-        alert("IT WORKS");
+var getIndexForEventId = function(eventId) {
+    for(var i = 0; i < dirty.events.length; i++) {
+        if(dirty.events[i].updateId === eventId) {
+            return i;
+        }
+    }
+    return -1;
+};
+
+var registerEventXButton = function() {
+    $(".X_button").click(function() {
+        //remove from any "dirty data lists..."
+        var updateIndex = $(this).parents("tr").data("index");
+        dirty.deleted_events.push(updateIndex);
+        var index = getIndexForEventId(updateIndex);
+        if(index > -1) {
+            dirty.events.splice(index, 1);
+        }
+        $(this).parents("tr").fadeOut(200, function() {$(this).remove();});
     });
 };
 
-var constructSkeletonEditQuery = function() {
+var getInputStringForEvent = function(value) {
+    return "<td><input class='eventEdit' type='text' value='" + value + "'></td>";
+};
 
+var getDateStringForEvent = function(value) {
+    return "<td><input class='eventEdit' type='date' value='" + value + "'></td>";
+}
+
+var eventIdCounter = 0;
+
+var registerEditEventsPage = function() {
+    $(".eventEdit:text").change(function() {
+        var eventId = $(this).parents("tr").data("index");
+        var eventTitle = $(this).parents("tr").children(":eq(0)").children("input:text").val();
+        var eventLoc = $(this).parents("tr").children(":eq(1)").children("input:text").val();
+        var eventDate = $(this).parents("tr").children(":eq(2)").children("input").val();
+        var eventTime = $(this).parents("tr").children(":eq(3)").children("input:text").val();
+        var event = new EventMetadata(eventTitle, eventLoc, eventDate, eventTime, eventId);
+        var index = getIndexForEventId(eventId);
+        if(index > -1) { //replace
+            dirty.events[index] = new EventMetadata(event);
+        } else { //add new
+            dirty.events.push(event);
+        }
+    });
+    $("#add_event_button").click(function() {
+        var eventTitle = $("#event_title").val();
+        var eventLoc = $("#event_loc").val();
+        var eventDate = $("#event_date").val();
+        var eventTime = $("#event_time").val();
+        var event = new EventMetadata(eventTitle, eventLoc, eventDate, eventTime, --eventIdCounter);
+        $("#events").append("<tr data-index='" + eventIdCounter + "'>" + getInputStringForEvent(eventTitle) +
+        getInputStringForEvent(eventLoc) + getDateStringForEvent(eventDate) + getInputStringForEvent(eventTime) +
+        "<td>0%</td><td><input class='X_button' type='button' value='X'></td></tr>");
+        dirty.events.push(event);
+        registerEventXButton();
+    });
+    registerEventXButton();
+};
+
+var getEventMetadataForUpdateId = function(eventId) {
+    var i = getIndexForEventId(eventId);
+    if(i > -1) {
+        return dirty.events[i];
+    }
+    return null;
+};
+
+var updateEventsDom = function() {
+    var events = dirty.events;
+    var del_events = dirty.deleted_events;
+    $("#events tr").each(function() {
+        var index = $(this).data("index");
+        if(index === null) {
+            return;
+        }
+        if(dirty.deleted_events.contains(index)) {
+            $(this).remove();
+            return;
+        }
+        var metadata = getEventMetadataForUpdateId(index);
+        if(!(metadata === null)) { //update stuff
+            $(this).html(getInputStringForEvent(metadata.title) + getInputStringForEvent(metadata.location) +
+                getDateStringForEvent(metadata.date) + getInputStringForEvent(metadata.time) +
+                "<td>0%</td><td><input class='X_button' type='button' value='X'></td>");
+                registerEventXButton();
+        }
+    });
+    for(var j = 0; j < events.length; j++) {
+        if(events[j].updateId < 0) { //append
+            $("#events").append("<tr data-index='" + events[j].updateId + "'>" + getInputStringForEvent(events[j].title) +
+            getInputStringForEvent(events[j].location) + getDateStringForEvent(events[j].date) + getInputStringForEvent(events[j].time) +
+            "<td>0%</td><td><input class='X_button' type='button' value='X'></td></tr>")
+        }
+    }
+
+};
+
+var PageStates = {
+    About_Us: new EditPageState(isAboutUsPageChangedLocally, updateAboutUsDom, registerEditAboutUsPage),
+    Events: new EditPageState(isEditEventsPageChangedLocally, updateEventsDom, registerEditEventsPage),
 };
 
 var pushChangesToDatabase = function(action) {
@@ -166,6 +271,7 @@ var pushChangesToDatabase = function(action) {
         contentType: "application/json",
         processData: false,
     }).done(function(json) {
+        alert("DEBUG");
         window.location = "club_edit.php?club=" + clubName;
     });
 };
@@ -197,7 +303,7 @@ $(document).ready(function() {
             data: "club=" + clubName,
         }).done(function(html) {
             $(".dynamic").html(html);
-            registerEditEventsPage();
+            PageStates.Events.doNewRenderCycle();
         });
     });
     $(".nav ul a:eq(3)").click(function() { //Club Feed Editing

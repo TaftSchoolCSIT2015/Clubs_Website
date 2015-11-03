@@ -43,6 +43,8 @@ if(!$isLeader) {
                 club_category: null,
                 club_missionstatement: null,
             },
+            events: [],
+            deleted_events: [],
         };
       </script>
     </head>
