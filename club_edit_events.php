@@ -49,7 +49,7 @@ foreach($events as $event) {
         <td><input class="eventEdit" type="text" value='<?php echo $eventName; ?>'></td>
         <td><input class="eventEdit" type="text" value='<?php echo $eventLoc; ?>'></td>
         <td><input class="eventEdit" type="date" value='<?php echo $eventDate; ?>'></td>
-        <td><input class="eventEdit" type="text" value='<?php echo $eventTime; ?>'></td>
+        <td><input class="eventEdit" type="time" value='<?php echo $eventTime; ?>'></td>
         <td><?php echo $percentRSVP . "%"; ?></td>
         <td><input class='X_button' type='button' Value='X'></td>
     </tr>

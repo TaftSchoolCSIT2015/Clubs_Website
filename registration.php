@@ -70,7 +70,7 @@ $conn = getSQLConnectionFromConfig();
                          }
                      ?>
                  </datalist>
-                 <input id="add_button" name="add_button" type="button" Value="Add Leader">
+                 <input id="add_button" name="add_button" type="button" value="Add Leader">
                </form>
 
                <ul>
@@ -95,7 +95,7 @@ $conn = getSQLConnectionFromConfig();
 
           <div class="text_line">
                <form class="form">Faculty Advisor:
-                 <input id="faculty_advisor_in" list="faculty" type="text" >
+                 <input id="faculty_advisor_in" list="faculty" type="text">
                  <datalist id="faculty">
                      <?php
                          $result = $conn->query('SELECT preferred_name, last_name

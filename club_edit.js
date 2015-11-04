@@ -271,7 +271,6 @@ var pushChangesToDatabase = function(action) {
         contentType: "application/json",
         processData: false,
     }).done(function(json) {
-        alert("DEBUG");
         window.location = "club_edit.php?club=" + clubName;
     });
 };
