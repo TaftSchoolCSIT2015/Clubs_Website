@@ -31,22 +31,16 @@
                         VALUES('$name', (SELECT id FROM sgstudents.seniors_data WHERE last_name = '{$advisor[1]}' AND (preferred_name = '{$advisor[0]}' OR first_name = '{$advisor[0]}')),
             '$mission_statement', 0, {$status}, 0, NOW(), {$catId}, 1, {$SCHOOL_YEAR})";
             $conn->query($query);
-            echo $conn->error;
+
             $clubid = $conn->insert_id;
 
             insertLeaders($_POST['leaders'], $clubid, $conn);
 
-            $last_leader = $conn->insert_id;
             foreach($_POST['events'] as $event) {
-                $events = explode(", ", $event);
-                $dateSplits = explode("-", $events[2]);
-                $date = date("Y-m-d H:i:s", mktime(0,0,0, intval($dateSplits[1]), intval($dateSplits[2]), intval($dateSplits[0])));
-                $addEventQuery = "INSERT INTO taftclubs.clubevents (clubId, posterId, isApproved, isDeleted, description, location, dateCreated, date) " .
-                "VALUES({$clubid}, {$last_leader}, 0, 0, '{$events[0]} at {$events[3]}', '{$events[1]}', NOW(), '{$date}')";
-                $conn->query($addEventQuery);
+                $eventStuff = explode(", ", $event);
+                insertNewEvent($eventStuff[0], $eventStuff[1], $eventStuff[2],
+                $eventStuff[3], $clubid, $conn);
             }
-
-            $conn->close();
         } else if($request_type = "editdraft") {
             //If we are editing a draft, we can operate under the assumption
             //that we can make changes without logging a change in the "Edits" table
@@ -157,18 +151,16 @@ function deleteLeaders($leaders, $clubid, $conn, $isDraft) {
 
 function insertNewEvent($title, $location, $date, $time, $clubid, $conn) {
     $username = $_SESSION['user'];
-    $dateSplits = explode("-", $date);
-    $newDate = date("Y-m-d H:i:s", mktime(0,0,0, intval($dateSplits[1]), intval($dateSplits[2]), intval($dateSplits[0])));
+    $dateConcat = $date . " " . $time . ":00";
     $query = "INSERT INTO taftclubs.clubevents (clubId, posterId, isApproved, isDeleted, description, location, dateCreated, date)
-            VALUES({$clubid}, (SELECT id FROM sgstudents.seniors_data WHERE username = '$username'), 0, 0, '{$title} at {$time}', '$location', NOW(), '$newDate')";
+            VALUES({$clubid}, (SELECT id FROM sgstudents.seniors_data WHERE username = '$username'), 0, 0, '{$title}', '$location', NOW(), '$dateConcat')";
     $conn->query($query);
 }
 
 function updateExistingEvent($eventId, $title, $location, $date, $time, $conn) {
-    $dateSplits = explode("-", $date);
-    $newDate = date("Y-m-d H:i:s", mktime(0,0,0, intval($dateSplits[1]), intval($dateSplits[2]), intval($dateSplits[0])));
+    $dateConcat = $date . " " . $time . ":00";
     $query = "UPDATE taftclubs.clubevents
-                SET description = '{$title} at {$time}', location = '$location', date = '$newDate'
+                SET description = '{$title}', location = '$location', date = '$dateConcat'
                 WHERE id = {$eventId}";
     $conn->query($query);
 }

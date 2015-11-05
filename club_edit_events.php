@@ -36,10 +36,10 @@ $events = getClubEvents($clubname, $conn);
 <?
 foreach($events as $event) {
     if($event['description'] == '') {break;}
-    $splits = explode(" at ", $event['description']);
-    $eventName = $splits[0];
+    $splits = explode(" ", $event['date']);
+    $eventName = $event['description'];
     $eventTime = $splits[1];
-    $eventDate = explode(" ", $event['date'])[0];
+    $eventDate = $splits[0];
     $eventLoc = $event['location'];
     $rsvpCount = $event['rsvpCount'];
     $memberCount = $event['memberCount'];

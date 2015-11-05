@@ -193,27 +193,23 @@ var registerEventXButton = function() {
     });
 };
 
-var getInputStringForEvent = function(value) {
-    return "<td><input class='eventEdit' type='text' value='" + value + "'></td>";
+var getStringForEvent = function(value, type) {
+    return "<td><input class='eventEdit' type='" + type + "' value='" + value + "'></td>";
 };
-
-var getDateStringForEvent = function(value) {
-    return "<td><input class='eventEdit' type='date' value='" + value + "'></td>";
-}
 
 var eventIdCounter = 0;
 
 var registerEditEventsPage = function() {
-    $(".eventEdit:text").change(function() {
+    $(".eventEdit").bind('input', function() {
         var eventId = $(this).parents("tr").data("index");
         var eventTitle = $(this).parents("tr").children(":eq(0)").children("input:text").val();
         var eventLoc = $(this).parents("tr").children(":eq(1)").children("input:text").val();
         var eventDate = $(this).parents("tr").children(":eq(2)").children("input").val();
-        var eventTime = $(this).parents("tr").children(":eq(3)").children("input:text").val();
+        var eventTime = $(this).parents("tr").children(":eq(3)").children("input").val();
         var event = new EventMetadata(eventTitle, eventLoc, eventDate, eventTime, eventId);
         var index = getIndexForEventId(eventId);
         if(index > -1) { //replace
-            dirty.events[index] = new EventMetadata(event);
+            dirty.events[index] = event;
         } else { //add new
             dirty.events.push(event);
         }
@@ -224,8 +220,8 @@ var registerEditEventsPage = function() {
         var eventDate = $("#event_date").val();
         var eventTime = $("#event_time").val();
         var event = new EventMetadata(eventTitle, eventLoc, eventDate, eventTime, --eventIdCounter);
-        $("#events").append("<tr data-index='" + eventIdCounter + "'>" + getInputStringForEvent(eventTitle) +
-        getInputStringForEvent(eventLoc) + getDateStringForEvent(eventDate) + getInputStringForEvent(eventTime) +
+        $("#events").append("<tr data-index='" + eventIdCounter + "'>" + getStringForEvent(eventTitle, "text") +
+        getStringForEvent(eventLoc, "text") + getStringForEvent(eventDate, "date") + getStringForEvent(eventTime, "time") +
         "<td>0%</td><td><input class='X_button' type='button' value='X'></td></tr>");
         dirty.events.push(event);
         registerEventXButton();
@@ -255,16 +251,16 @@ var updateEventsDom = function() {
         }
         var metadata = getEventMetadataForUpdateId(index);
         if(!(metadata === null)) { //update stuff
-            $(this).html(getInputStringForEvent(metadata.title) + getInputStringForEvent(metadata.location) +
-                getDateStringForEvent(metadata.date) + getInputStringForEvent(metadata.time) +
+            $(this).html(getStringForEvent(metadata.title, "text") + getStringForEvent(metadata.location, "text") +
+                getStringForEvent(metadata.date, "date") + getStringForEvent(metadata.time, "time") +
                 "<td>0%</td><td><input class='X_button' type='button' value='X'></td>");
                 registerEventXButton();
         }
     });
     for(var j = 0; j < events.length; j++) {
         if(events[j].updateId < 0) { //append
-            $("#events").append("<tr data-index='" + events[j].updateId + "'>" + getInputStringForEvent(events[j].title) +
-            getInputStringForEvent(events[j].location) + getDateStringForEvent(events[j].date) + getInputStringForEvent(events[j].time) +
+            $("#events").append("<tr data-index='" + events[j].updateId + "'>" + getStringForEvent(events[j].title, "text") +
+            getStringForEvent(events[j].location, "text") + getStringForEvent(events[j].date, "date") + getStringForEvent(events[j].time, "time") +
             "<td>0%</td><td><input class='X_button' type='button' value='X'></td></tr>")
         }
     }
