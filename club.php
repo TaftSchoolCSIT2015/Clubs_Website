@@ -25,6 +25,13 @@
         </script>
     </head>
     <body>
+        <div class="popOut">
+            Log In<br>
+                Username: <input type="text" name="user"><br>
+                Password: <input type="text" name="pass"><br>
+                <input name="loginButton" type="submit" value="Log In">
+                <div id="loginStatus"></div>
+        </div>
         <div class="header">
             <div class="title">
                 <span>
