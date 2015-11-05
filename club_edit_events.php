@@ -24,7 +24,7 @@ if(!$isLeader) {
 
 $events = getClubEvents($clubname, $conn);
 ?>
-<table border="1" id="events">
+<table border="5" id="events">
 <tr>
 <th>Title</th>
 <th>Location</th>

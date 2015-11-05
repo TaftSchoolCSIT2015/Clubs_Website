@@ -183,13 +183,34 @@ var getIndexForEventId = function(eventId) {
 var registerEventXButton = function() {
     $(".X_button").click(function() {
         //remove from any "dirty data lists..."
-        var updateIndex = $(this).parents("tr").data("index");
-        dirty.deleted_events.push(updateIndex);
-        var index = getIndexForEventId(updateIndex);
-        if(index > -1) {
-            dirty.events.splice(index, 1);
+        //alert($(this).parents("tr").css("border-color"));
+        if($(this).parents("tr").css("border-color") != "rgb(255, 0, 0)") { //Clean, not striken through
+            var updateIndex = $(this).parents("tr").data("index");
+            //Add to dirty array
+            dirty.deleted_events.push(updateIndex);
+            //remove from clean array
+            var index = getIndexForEventId(updateIndex);
+            if(index > -1) {
+                dirty.events.splice(index, 1);
+            }
+            //Add Styling
+            $(this).parents("tr").css("border-color", "red");
+        } else {
+            var updateIndex = $(this).parents("tr").data("index");
+            //remove from dirty array
+            dirty.deleted_events = dirty.deleted_events.filter(function(element, index, array) {
+                return (element !== updateIndex);
+            });
+            var eventId = $(this).parents("tr").data("index");
+            var eventTitle = $(this).parents("tr").children(":eq(0)").children("input:text").val();
+            var eventLoc = $(this).parents("tr").children(":eq(1)").children("input:text").val();
+            var eventDate = $(this).parents("tr").children(":eq(2)").children("input").val();
+            var eventTime = $(this).parents("tr").children(":eq(3)").children("input").val();
+            var event = new EventMetadata(eventTitle, eventLoc, eventDate, eventTime, eventId);
+            dirty.events.push(event);
+            $(this).parents("tr").css("border-color", "black");
         }
-        $(this).parents("tr").fadeOut(200, function() {$(this).remove();});
+
     });
 };
 
