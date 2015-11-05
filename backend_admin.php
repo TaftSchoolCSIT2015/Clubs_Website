@@ -1,12 +1,27 @@
 <?php session_start(); ?>
 <?php
-    $BACKEND_ADMIN_USERNAME = "skoshi";
+    require 'scripts/SQLUtils.php';
+
+    $conn = getSQLConnectionFromConfig();
+
+    $backendAdmins = array();
+
+    $result = $conn->query("SELECT username FROM taftclubs.clubadmins");
+    if($result->num_rows > 0) {
+        while($data = $result->fetch_assoc()) {
+            $backendAdmins[] = $data['username'];
+        }
+    }
+
+    /*General Unlogged in Person*/
     if(!isset($_SESSION['user'])) {
         header("Location: index.php");
         exit();
     }
+    /*authenticated person*/
     $username = $_SESSION['user'];
-    if($username != $BACKEND_ADMIN_USERNAME) {
+
+    if(array_search($username, $backendAdmins) === FALSE) {
         header("Location: index.php");
         exit();
     }

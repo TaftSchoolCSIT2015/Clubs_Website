@@ -59,14 +59,21 @@ $conn = getSQLConnectionFromConfig();
                     <a class="login_nav_bar"><li>
                         <?php
                             getInputToLoginMenu($conn);
-                            $conn->close();
                         ?>
                     </li>
                         <ul class="login_menu_hoverable">
                             <li>My Clubs</li>
                             <li>Make A New Club</li>
                             <?php
-                                if(isset($_SESSION['user']) && $_SESSION['user'] == 'skoshi') {
+                                $backendAdmins = array();
+
+                                $result = $conn->query("SELECT username FROM taftclubs.clubadmins");
+                                if($result->num_rows > 0) {
+                                    while($data = $result->fetch_assoc()) {
+                                        $backendAdmins[] = $data['username'];
+                                    }
+                                }
+                                if(isset($_SESSION['user']) && (array_search($_SESSION['user'], $backendAdmins) !== FALSE)) {
                                     echo "<li class='backend_admin_link'>Admin Page</li>";
                                 }
                             ?>
@@ -87,3 +94,4 @@ $conn = getSQLConnectionFromConfig();
         <script src="index.js"></script>
     </body>
 </html>
+<?php $conn->close(); ?>
