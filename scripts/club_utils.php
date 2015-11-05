@@ -201,4 +201,15 @@ function doesClubNameExist($club, $conn) {
     $data = $result->fetch_assoc();
     return $data['result'];
 }
+
+function getClubAdvisor($club, $conn) {
+    $query = "SELECT CONCAT(faculty.preferred_name, ' ', faculty.last_name) as name
+                FROM taftclubs.club as club
+                INNER JOIN sgstudents.seniors_data as faculty
+                ON faculty.id = club.advisor
+                WHERE club.name = '$club'";
+    $result = $conn->query($query);
+    $data = $result->fetch_assoc();
+    return $data['name'];
+}
 ?>

@@ -63,6 +63,10 @@ if(!$isLeader) {
     </form>
 </div>
 
+<div class="text_line">
+    <p><b>Faculty Advisor:</b> <?php echo getClubAdvisor($clubname, $conn); ?></p>
+</div>
+
 <div id="club_type_line" class="text_line">
     <form><b>Club Category:</b>
         <?php echo getCheckedClubCategoryHTML($clubname, $conn); ?>
