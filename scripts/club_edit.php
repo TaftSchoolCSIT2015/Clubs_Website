@@ -127,7 +127,7 @@ function insertLeaders($leaders, $clubid, $conn) {
             $last = $names[2];
         }
         $subIdQuery = "(SELECT id FROM sgstudents.seniors_data WHERE last_name = '{$last}' AND (preferred_name = '{$first}' OR first_name = '{$first}'))";
-        $joinClubQuery = "INSERT INTO taftclubs.clubjoiners (userId, clubId, dateJoined, hasLeft, isLeader) " .
+        $joinClubQuery = "REPLACE INTO taftclubs.clubjoiners (userId, clubId, dateJoined, hasLeft, isLeader) " .
         "VALUES({$subIdQuery}, {$clubid}, NOW(), 0, 1)";
         $conn->query($joinClubQuery);
     }

@@ -76,14 +76,32 @@ var getAddedLeaders = function() {
 
 var registerXButtons = function() {
     $(".X_button").click(function() {
-        //remove from any "dirty data lists..."
-        dirty.about_us.deleted_leaders.push($(this).parent("li").html().split("<")[0]);
-        for(var i = 0; i < dirty.about_us.club_leaders.length; i++) {
-            if(dirty.about_us.club_leaders[i] === $(this).parent("li").html().split("<")[0]) {
-                dirty.about_us.club_leaders.splice(i, 1);
+        var leaderName = $(this).parent("li").html().split("<")[0];
+        if($(this).parent("li").css("text-decoration") === "line-through") { //is already striken through
+            //Add to list of regular leaders to add
+            dirty.about_us.club_leaders.push(leaderName);
+            //iterate through deleted leaders and swap the values via the splice function
+            for(var i = 0; i < dirty.about_us.deleted_leaders.length; i++) {
+                if(dirty.about_us.deleted_leaders[i] === leaderName) {
+                    dirty.about_us.deleted_leaders.splice(i, 1);
+                    break;
+                }
             }
+            //Take away strikethrough
+            $(this).parent("li").css("text-decoration", "none");
+        } else {
+            //Add to the deleted leaders list because we are now "deleted"
+            dirty.about_us.deleted_leaders.push(leaderName);
+            //FIND THE DIRTY DATA AND REMOVE IT
+            for(var i = 0; i < dirty.about_us.club_leaders.length; i++) {
+                if(dirty.about_us.club_leaders[i] === leaderName) {
+                    dirty.about_us.club_leaders.splice(i, 1);
+                    break;
+                }
+            }
+            //Add strikethrough effect
+            $(this).parent("li").css("text-decoration", "line-through");
         }
-        $(this).parent("li").fadeOut(200, function() {$(this).remove();});
     });
 };
 

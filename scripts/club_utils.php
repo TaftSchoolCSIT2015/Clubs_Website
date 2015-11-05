@@ -28,7 +28,7 @@ function isHeadOfClub($username, $club, $conn) {
 }
 
 function joinClub($username, $club, $conn) {
-    $query = "INSERT INTO taftclubs.clubjoiners (userId, clubId, dateJoined, hasLeft, isLeader)
+    $query = "REPLACE INTO taftclubs.clubjoiners (userId, clubId, dateJoined, hasLeft, isLeader)
                 VALUES(
 	               (SELECT user.id
                    FROM sgstudents.seniors_data as user
