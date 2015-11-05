@@ -65,17 +65,7 @@ $conn = getSQLConnectionFromConfig();
                             <li>My Clubs</li>
                             <li>Make A New Club</li>
                             <?php
-                                $backendAdmins = array();
-
-                                $result = $conn->query("SELECT username FROM taftclubs.clubadmins");
-                                if($result->num_rows > 0) {
-                                    while($data = $result->fetch_assoc()) {
-                                        $backendAdmins[] = $data['username'];
-                                    }
-                                }
-                                if(isset($_SESSION['user']) && (array_search($_SESSION['user'], $backendAdmins) !== FALSE)) {
-                                    echo "<li class='backend_admin_link'>Admin Page</li>";
-                                }
+                                addAdminLink($conn);
                             ?>
                             <li>Log Out</li>
                         </ul>

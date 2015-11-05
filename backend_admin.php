@@ -1,6 +1,7 @@
 <?php session_start(); ?>
 <?php
     require 'scripts/SQLUtils.php';
+    require 'scripts/index_utils.php';
 
     $conn = getSQLConnectionFromConfig();
 
@@ -43,10 +44,28 @@
             </div>
             <div class="nav">
                 <ul>
-                    <li>Test</li>
+                    <a href="index.php"><li>Home</li></a>
+                    <a><li class="active">Club Applications</li></a>
+                    <a><li>Club Edits</li></a>
+                    <a><li>List of Approved Clubs</li></a>
+                    <a class="login_nav_bar">
+                        <li>
+                            <?php
+                                getInputToLoginMenu($conn);
+                             ?>
+                       </li>
+                       <ul class="login_menu_hoverable">
+                           <li>My Clubs</li>
+                           <li>Make A New Club</li>
+                           <li class="backend_admin_link">Admin Page</li>
+                           <li>Log Out</li>
+                       </ul>
+                   </a>
                 </ul>
             </div>
         </div>
         <script type="text/javascript" src="js/common.js"></script>
+        <script type="text/javascript" src="backend_admin.js"></script>
     </body>
 </html>
+<?php $conn->close(); ?>

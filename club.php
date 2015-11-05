@@ -70,6 +70,7 @@
                         <ul class="login_menu_hoverable">
                             <li>My Clubs</li>
                             <li>Make A New Club</li>
+                            <?php addAdminLink($conn); ?>
                             <li>Log Out</li>
                         </ul>
                     </a>

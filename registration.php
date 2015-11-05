@@ -36,6 +36,7 @@ $conn = getSQLConnectionFromConfig();
                       <ul class="login_menu_hoverable">
                           <li>My Clubs</li>
                           <li>Make A New Club</li>
+                          <?php addAdminLink($conn); ?>
                           <li>Log Out</li>
                       </ul>
                   </a>
@@ -111,7 +112,6 @@ $conn = getSQLConnectionFromConfig();
                          } else {
                              echo 'SQL ERR: 0 Results';
                          }
-                         $conn->close();
                      ?>
                  </datalist>
                </form>
@@ -170,3 +170,4 @@ $conn = getSQLConnectionFromConfig();
       <script src="registration.js"></script>
     </body>
  </html>
+ <?php $conn->close(); ?>
