@@ -5,3 +5,16 @@
 .nav a {
     max-width: 25%;
 }
+
+#approvedClubsTable {
+    background-color: white;
+    margin: auto;
+}
+
+#approvedClubsTable tr {
+    height: 3em;
+}
+
+#approvedClubsTable th {
+    padding: 0.2em 3em;
+}

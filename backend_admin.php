@@ -64,6 +64,17 @@
                 </ul>
             </div>
         </div>
+        <div class="content">
+            <script type="text/javascript">
+                $.ajax({
+                    url: "backend_admin_approveclubs.php",
+                    type: "GET",
+                }).done(function(html) {
+                    $(".content").html(html);
+                });
+            </script>
+        </div>
+        <input type="file">
         <script type="text/javascript" src="js/common.js"></script>
         <script type="text/javascript" src="backend_admin.js"></script>
     </body>
