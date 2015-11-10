@@ -47,4 +47,8 @@ function addAdminLink($conn) {
         echo "<li class='backend_admin_link'>Admin Page</li>";
     }
 }
+
+function sendMail(array $recievers, $subject, $message) {
+    //TODO:: Implement Function
+}
 ?>
