@@ -46,7 +46,7 @@ if(isset($_GET['a'])) {
                         $item['advisor_first'], $item['advisor_last'], $item['mission'], isPartOfClub($username, $item['name'], $conn));
                     }
                 } else {
-                    echo "SQL ERR: 0 Results";
+                    echo "Oops, There doesn't seem to be anything here yet! Try creating a club for this category!";
                 }
             } else {
                 echo 'FATAL ERROR: MALFORMED QUERY->VALUE NOT SET';
@@ -81,7 +81,7 @@ if(isset($_GET['a'])) {
                     $item['advisor_first'], $item['advisor_last'], $item['mission'], $item['status'], isHeadOfClub($user, $item['name'], $conn));
                 }
             } else {
-                echo "SQL ERR: 0 Results";
+                echo "Oops, There doesn't seem to be anything here yet! Join a club to have it displayed here!";
             }
 
         } else if($action == 'adminsearch') {
