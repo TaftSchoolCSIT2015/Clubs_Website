@@ -78,6 +78,9 @@
             </div>
         </div>
         <div class="content">
+            <?php
+                echo getAboutUsClubPageHTML($clubname, $conn);
+             ?>
         </div>
         <script src="js/common.js"></script>
         <script src="club.js"></script>

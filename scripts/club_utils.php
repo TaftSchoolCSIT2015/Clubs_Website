@@ -212,4 +212,23 @@ function getClubAdvisor($club, $conn) {
     $data = $result->fetch_assoc();
     return $data['name'];
 }
+
+function getAboutUsClubPageHTML($club, $conn) {
+    $query = "SELECT club.name as name, GROUP_CONCAT(leader.preferred_name, ' ', leader.last_name SEPARATOR ', ') as leaders, CONCAT(advisor.preferred_name, ' ', advisor.last_name) as advisor, club.mission_statement as mission
+                FROM taftclubs.club as club
+                INNER JOIN taftclubs.clubjoiners as lead
+                ON (lead.clubId = club.id AND lead.hasLeft = 0 AND lead.isLeader = 1)
+                INNER JOIN sgstudents.seniors_data as leader
+                ON (lead.userId = leader.id)
+                INNER JOIN sgstudents.seniors_data as advisor
+                ON (club.advisor = advisor.id)
+                WHERE club.name = '$club'";
+    $result = $conn->query($query);
+    $data = $result->fetch_assoc();
+    $html = "<h2>{$data['name']}</h2>";
+    $html .= "<p><strong>Our Leaders: </strong><em>{$data['leaders']}</em></p>";
+    $html .= "<p><strong>Faculty Advisor: </strong><em>{$data['advisor']}</em></p>";
+    $html .= "<p><strong>Our Mission: </strong><em>{$data['mission']}</em></p>";
+    return $html;
+}
 ?>

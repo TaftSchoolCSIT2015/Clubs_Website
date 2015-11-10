@@ -9,3 +9,13 @@
 .nav a {
     max-width: 30%;
 }
+
+p {
+    margin: 1.3em auto;
+    font-size: 1em;
+}
+
+h2 {
+    font-size: 3em;
+    margin: 0.3em;
+}
