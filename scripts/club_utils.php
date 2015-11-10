@@ -231,4 +231,10 @@ function getAboutUsClubPageHTML($club, $conn) {
     $html .= "<p><strong>Our Mission: </strong><em>{$data['mission']}</em></p>";
     return $html;
 }
+
+function isClubApproved($club, $conn) {
+    $result = $conn->query("SELECT club.approved FROM taftclubs.club WHERE club.name = '$club'");
+    $data = $result->fetch_assoc();
+    return ($data === 1) ? true : false;
+}
 ?>

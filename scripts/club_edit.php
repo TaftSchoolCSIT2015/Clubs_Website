@@ -10,6 +10,7 @@
     require 'SQLUtils.php';
     require 'category_utils.php';
     require 'club_utils.php';
+    require 'index_utils.php';
 
     $json = file_get_contents("php://input");
     $_POST = json_decode($json, true);
@@ -105,6 +106,45 @@
                                 SET isDeleted = 1
                                 WHERE id = {$updateId}");
             }
+        } else if($request_type == "editsubmission") {
+            //Figure out where we are in the cycle and add to club edits
+            if(!isClubApproved()) {
+
+            } 
+        } else if($request_type == "submit_registration") {
+            //So, because this isn't in the database we need to put it in!
+            $name = $_POST['title'];
+            $advisor = explode(" ", $_POST['faculty_advisor']);
+            $mission_statement = $_POST['mission_statement'];
+            $status = 2; //Awaiting Faculty Approval
+            $category = $_POST['category'];
+
+            $catId = categoryToId($category, $conn);
+
+            $query = "INSERT INTO taftclubs.club (name, advisor, mission_statement, sticky, status, approved, startDate, category, isJoinable, schoolYear)
+                        VALUES('$name', (SELECT id FROM sgstudents.seniors_data WHERE last_name = '{$advisor[1]}' AND (preferred_name = '{$advisor[0]}' OR first_name = '{$advisor[0]}')),
+            '$mission_statement', 0, {$status}, 0, NOW(), {$catId}, 1, {$SCHOOL_YEAR})";
+
+            $conn->query($query);
+
+            $clubid = $conn->insert_id;
+
+            insertLeaders($_POST['leaders'], $clubid, $conn);
+
+            foreach($_POST['events'] as $event) {
+                $eventStuff = explode(", ", $event);
+                insertNewEvent($eventStuff[0], $eventStuff[1], $eventStuff[2],
+                $eventStuff[3], $clubid, $conn);
+            }
+            //Now we need to notify the faculty member that they need to approve a club
+
+            //1. Get Faculty Email String!
+            $emailRes = $conn->query("SELECT username FROM sgstudents.seniors_data WHERE last_name = '{$advisor[1]}' AND (preferred_name = '{$advisor[0]}' OR first_name = '$advisor[0]')");
+            $facultyUsername = $emailRes->fetch_assoc();
+            $facultyEmail = $facultyUsername['username'] . '@taftschool.org';
+            $emailString = "Hello! You have been requested as a club advisor for the '$name'!\nWhose role is to: {$mission_statement}\n And led by student leaders: {$_POST['leaders']}";
+            $emailString .= "\nClick this link within 24 hours to accept this invitation: ";
+            sendMail(array($facultyEmail), "Club Advisor Request", $emailString);
         }
         $conn->close();
     }
