@@ -71,6 +71,7 @@
                     type: "GET",
                 }).done(function(html) {
                     $(".content").html(html);
+                    registerClubApplications();
                 });
             </script>
         </div>

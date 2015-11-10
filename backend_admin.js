@@ -12,3 +12,17 @@ $(document).ready(function() {
         window.location = "index.php?action=myclubs"; //Redirect to index
     });
 });
+
+var registerClubApplications = function() {
+    $("select").change(function() {
+        var value = $(this).val();
+        $.ajax({
+            url: "/scripts/clubs_searcher.php",
+            type: "GET",
+            data: "a=adminsearch&v=" + value,
+            dataType: "html",
+        }).done(function(html) {
+            $("#approvedClubsTable tbody").html(html);
+        });
+    });
+};

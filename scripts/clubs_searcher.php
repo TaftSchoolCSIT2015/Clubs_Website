@@ -84,6 +84,28 @@ if(isset($_GET['a'])) {
                 echo "SQL ERR: 0 Results";
             }
 
+        } else if($action == 'adminsearch') {
+            $value = sanatizeInput($_GET['v']);
+            $query = "SELECT club.name, CONCAT_WS(', ', GROUP_CONCAT(DISTINCT people.preferred_name, ' ', people.last_name SEPARATOR ', ')) as leaders, CONCAT(advisor.preferred_name, ' ', advisor.last_name) as advisor, cstat.name as status
+    	                           FROM taftclubs.club as club
+    	                           INNER JOIN taftclubs.clubjoiners as j
+    	                           ON club.id = j.clubId
+    	                           INNER JOIN sgstudents.seniors_data as people
+    	                           ON j.userId = people.id
+    	                           INNER JOIN taftclubs.clubstatus as cstat
+    	                           ON cstat.id = club.status
+                                   INNER JOIN sgstudents.seniors_data as advisor
+                                   ON club.advisor = advisor.id
+    	                           WHERE (cstat.name = '$value' AND j.isLeader = 1 AND j.hasLeft = 0)
+    	                           GROUP BY club.id";
+            $result = $conn->query($query);
+            if($result->num_rows > 0) {
+                while($data = $result->fetch_assoc()) {
+                    echo constructAdminSearchTablesRow($data['name'], $data['leaders'], $data['advisor'], $data['status']);
+                }
+            } else {
+                echo "<tr><td>Could Not Find Any Data for the Selected Category</td></tr>";
+            }
         } else {
             echo "FATAL ERROR: MALFORMED QUERY->VALUE NOT SET";
         }
@@ -110,5 +132,17 @@ function constructCatSearchWidgetString($clubname, $leader_name, $advisor_first,
     $leadersString = implode(" and ", $leaders);
     $class = ($isMember) ? "is_part_of_club" : "";
     return constructWidgetString($clubname, $leadersString, $advisor_first, $advisor_last, $mission, $class);
+}
+
+function constructAdminSearchTablesRow($clubname, $leaders, $advisor, $status) {
+    $row = "<tr>";
+    $row .= "<td><a href='club.php?n={$clubname}'>{$clubname}</a></td>";
+    $row .= "<td>{$leaders}</td>";
+    $row .= "<td>{$advisor}</td>";
+    $row .= "<td>{$status}</td>";
+    $row .= "<td><a>√</a> <a>X</a></td>";
+    $row .= "<td><a>Mail Leaders</a></td>";
+    $row .= "</tr>";
+    return $row;
 }
  ?>

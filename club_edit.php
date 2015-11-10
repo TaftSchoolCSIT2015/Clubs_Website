@@ -16,7 +16,7 @@ $conn = getSQLConnectionFromConfig();
 
 $isLeader = isHeadOfClub($username, $clubname, $conn);
 
-if(!$isLeader) {
+if(!$isLeader && !(isAdmin($conn) == 1)) {
     header("Location: index.php");
     $conn->close();
     exit();

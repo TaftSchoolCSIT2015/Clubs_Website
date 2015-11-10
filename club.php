@@ -50,12 +50,12 @@
                             $isPart = $isLeader = 0;
                             if(isset($_SESSION['user'])) {
                                 $isPart = isPartOfClub($_SESSION['user'], $clubname, $conn);
-                                $isLeader = isHeadOfClub($_SESSION['user'], $clubname, $conn);
+                                $isLeader = isHeadOfClub($_SESSION['user'], $clubname, $conn) | isAdmin($conn);
                             }
-                            if($isPart == 0) {
+                            if($isLeader == 1) {
+                                echo "Edit Club";
+                            } else if($isPart == 0) {
                                 echo "Join Club";
-                            } else if($isLeader == 0) {
-                                echo "Leave Club";
                             } else {
                                 echo "Edit Club";
                             }

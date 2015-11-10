@@ -28,7 +28,7 @@ function assembleNavMenu($conn) {
     }
 }
 
-function addAdminLink($conn) {
+function isAdmin($conn) {
     $backendAdmins = array();
 
     $result = $conn->query("SELECT username FROM taftclubs.clubadmins");
@@ -38,6 +38,12 @@ function addAdminLink($conn) {
         }
     }
     if(isset($_SESSION['user']) && (array_search($_SESSION['user'], $backendAdmins) !== FALSE)) {
+        return 1;
+    }
+    return 0;
+}
+function addAdminLink($conn) {
+    if(isAdmin($conn) == 1) {
         echo "<li class='backend_admin_link'>Admin Page</li>";
     }
 }

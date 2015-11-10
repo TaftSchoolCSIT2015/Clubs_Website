@@ -18,3 +18,8 @@
 #approvedClubsTable th {
     padding: 0.2em 3em;
 }
+
+table a {
+    color: blue;
+    text-decoration: underline;
+}
