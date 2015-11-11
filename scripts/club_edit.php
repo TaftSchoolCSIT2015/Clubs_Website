@@ -42,7 +42,7 @@
                 insertNewEvent($eventStuff[0], $eventStuff[1], $eventStuff[2],
                 $eventStuff[3], $clubid, $conn);
             }
-        } else if($request_type = "editdraft") {
+        } else if($request_type == "editdraft") {
             //If we are editing a draft, we can operate under the assumption
             //that we can make changes without logging a change in the "Edits" table
             //But we will check that the club_status is a draft first
@@ -110,7 +110,7 @@
             //Figure out where we are in the cycle and add to club edits
             if(!isClubApproved()) {
 
-            } 
+            }
         } else if($request_type == "submit_registration") {
             //So, because this isn't in the database we need to put it in!
             $name = $_POST['title'];
