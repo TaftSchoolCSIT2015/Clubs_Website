@@ -14,7 +14,7 @@ require 'scripts/club_utils.php';
 
 $conn = getSQLConnectionFromConfig();
 
-$isLeader = isHeadOfClub($username, $clubname, $conn);
+$isLeader = isHeadOfClub($username, $clubname, $conn) | isAdmin($conn);
 
 if(!$isLeader) {
     header("Location: index.php");
