@@ -54,7 +54,6 @@ $conn = getSQLConnectionFromConfig();
                     <?php
                         assembleNavMenu($conn);
                     ?>
-                    <a class="more_categories"><li>>></li></a>
                     <a class="search_symbol"><li>&#9906;</li></a> <!--&#9906; = Magnifying Glass Character -->
                     <a class="login_nav_bar"><li>
                         <?php
