@@ -34,7 +34,7 @@
             <th>Status
                 <select>
                     <?php
-                        $stati = $conn->query("SELECT name FROM taftclubs.clubstatus");
+                        $stati = $conn->query("SELECT name FROM taftclubs.clubstatus ORDER BY listOrder");
                         if($stati->num_rows > 0) {
                             while($data = $stati->fetch_assoc()) {
                                 $val = $data['name'];
@@ -60,7 +60,7 @@
 	                           ON cstat.id = club.status
                                INNER JOIN sgstudents.seniors_data as advisor
                                ON club.advisor = advisor.id
-	                           WHERE (cstat.name = 'Draft' AND j.isLeader = 1 AND j.hasLeft = 0)
+	                           WHERE (cstat.listOrder = 0 AND j.isLeader = 1 AND j.hasLeft = 0)
 	                           GROUP BY club.id";
         $result = $conn->query($clubsForOptions);
         if($result->num_rows > 0) {
