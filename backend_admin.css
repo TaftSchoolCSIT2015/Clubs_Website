@@ -6,16 +6,17 @@
     max-width: 25%;
 }
 
-#approvedClubsTable {
+table {
     background-color: white;
     margin: auto;
+    width: 100%;
 }
 
-#approvedClubsTable tr {
+table tr {
     height: 3em;
 }
 
-#approvedClubsTable th {
+table th {
     padding: 0.2em 3em;
 }
 

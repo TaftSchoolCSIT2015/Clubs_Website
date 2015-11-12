@@ -21,6 +21,15 @@ $(document).ready(function() {
             registerClubApplications();
         });
     });
+    $(".nav a").eq(2).click(function() { //Club Edits Nav
+        $.ajax({
+            url: "backend_admin_clubedits.php",
+            type: "GET",
+        }).done(function(html) {
+            $(".content").html(html);
+            registerClubEdits();
+        })
+    })
     $(".nav a").eq(3).click(function() { //List of Approved Clubs Nav
         window.open("backend_admin_approvedclubslist.php", '_blank');
     });
@@ -38,4 +47,8 @@ var registerClubApplications = function() {
             $("#approvedClubsTable tbody").html(html);
         });
     });
+};
+
+var registerClubEdits = function() {
+
 };
