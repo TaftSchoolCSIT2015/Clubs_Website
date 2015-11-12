@@ -11,6 +11,19 @@ $(document).ready(function() {
         $(".login_menu_hoverable").hide();
         window.location = "index.php?action=myclubs"; //Redirect to index
     });
+
+    $(".nav a").eq(1).click(function() { //Club Applications Nav
+        $.ajax({
+            url: "backend_admin_approveclubs.php",
+            type: "GET",
+        }).done(function(html) {
+            $(".content").html(html);
+            registerClubApplications();
+        });
+    });
+    $(".nav a").eq(3).click(function() { //List of Approved Clubs Nav
+        window.open("backend_admin_approvedclubslist.php", '_blank');
+    });
 });
 
 var registerClubApplications = function() {

@@ -101,7 +101,11 @@ if(isset($_GET['a'])) {
             $result = $conn->query($query);
             if($result->num_rows > 0) {
                 while($data = $result->fetch_assoc()) {
-                    echo constructAdminSearchTablesRow($data['name'], $data['leaders'], $data['advisor'], $data['status']);
+                    if($value === "Active") {
+                        echo constructAdminSearchTablesRow($data['name'], $data['leaders'], $data['advisor'], $data['status'], "<a>Delete Club?</a>");
+                    } else {
+                        echo constructAdminSearchTablesRow($data['name'], $data['leaders'], $data['advisor'], $data['status'], "<a>&#10004;</a> <a>&#10008;</a>");
+                    }
                 }
             } else {
                 echo "<tr><td>Could Not Find Any Data for the Selected Category</td></tr>";
@@ -134,13 +138,14 @@ function constructCatSearchWidgetString($clubname, $leader_name, $advisor_first,
     return constructWidgetString($clubname, $leadersString, $advisor_first, $advisor_last, $mission, $class);
 }
 
-function constructAdminSearchTablesRow($clubname, $leaders, $advisor, $status) {
+function constructAdminSearchTablesRow($clubname, $leaders, $advisor, $status, $approveTableData) {
     $row = "<tr>";
     $row .= "<td><a href='club.php?n={$clubname}'>{$clubname}</a></td>";
     $row .= "<td>{$leaders}</td>";
     $row .= "<td>{$advisor}</td>";
     $row .= "<td>{$status}</td>";
-    $row .= "<td><a>&#10004;</a> <a>&#10008;</a></td>";
+    //$row .= "<td><a>&#10004;</a> <a>&#10008;</a></td>";
+    $row .= "<td>" . $approveTableData . "</td>";
     $row .= "<td><a>&#128231;</a></td>";
     $row .= "</tr>";
     return $row;
