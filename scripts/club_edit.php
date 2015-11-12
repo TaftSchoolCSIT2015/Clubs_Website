@@ -50,7 +50,7 @@
             $result = $conn->query("SELECT EXISTS(
 	                                   SELECT *
                                        FROM taftclubs.club
-                                       WHERE club.id = {$update_index} AND club.status = 1
+                                       WHERE club.id = {$update_index} AND (club.status != 5)
                                    ) as exist");
             $doesExists = $result->fetch_assoc();
             if($doesExists['exist'] == 0) {

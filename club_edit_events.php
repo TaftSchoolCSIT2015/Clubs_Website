@@ -72,7 +72,7 @@ foreach($events as $event) {
          </form>
          </td>
          <td> <form class="event_form" >Time:
-           <input id="event_time" class="event_box" type="text">
+           <input id="event_time" class="event_box" type="time">
          </form>
          </td>
          <td> <form>

@@ -51,7 +51,7 @@ if(!$isLeader && !(isAdmin($conn) == 1)) {
     <body>
         <div class="header">
             <div class="top_bar">
-                <div class="title"><span>Club Edit</span></div>
+                <div class="title"><span><?php echo $clubname; ?> Edit</span></div>
             </div>
             <div class="nav">
                 <ul>
@@ -68,6 +68,7 @@ if(!$isLeader && !(isAdmin($conn) == 1)) {
                         <ul class="login_menu_hoverable">
                             <li>My Clubs</li>
                             <li>Make A New Club</li>
+                            <?php addAdminLink($conn); ?>
                             <li>Log Out</li>
                         </ul>
                     </a>

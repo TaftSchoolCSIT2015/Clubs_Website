@@ -85,11 +85,24 @@ $conn = getSQLConnectionFromConfig();
 
           <div id="club_type_line">
               <form><h3>Club Category:</h3>
-                <input type="radio" name="category" value="Academic" checked>Academic
-                <input type="radio" name="category" value="Athletic">Athletic
-                <input type="radio" name="category" value="Volunteer">Volunteer
-                <input type="radio" name="category" value="Fan">Fan
-                <input type="radio" name="category" value="Recreational">Recreational
+                <?php
+                    $catResult = $conn->query("SELECT data FROM taftclubs.clubcategories ORDER BY id");
+                    if($catResult->num_rows > 0) {
+                        $first = 0;
+                        while($cat = $catResult->fetch_assoc()) {
+                            if($first == 0) {
+                ?>
+                                <input type='radio' name='category' value='<?php echo $cat["data"]; ?>' checked><?php echo $cat['data']; ?>
+                <?php
+                            } else {
+                ?>
+                                <input type='radio' name='category' value='<?php echo $cat["data"]; ?>'><?php echo $cat['data']; ?>
+                <?php
+                            }
+                            $first += 1;
+                        }
+                    }
+                ?>
               </form>
           </div>
 

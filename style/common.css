@@ -41,6 +41,7 @@ a {
 .top_bar {
     background-color: rgba(5, 5, 5, 0.84);
     height: 50px;
+    overflow: hidden;
 }
 
 .nav {
