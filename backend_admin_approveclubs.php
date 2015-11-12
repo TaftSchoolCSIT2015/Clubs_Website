@@ -71,8 +71,8 @@
                     <td><?php echo $data['leaders']; ?></td>
                     <td><?php echo $data['advisor']; ?></td>
                     <td><?php echo $data['status']; ?></td>
-                    <td><a>√</a> <a>X</a></td>
-                    <td><a>Mail Leaders</a></td>
+                    <td><a>&#10004;</a> <a>&#10008;</a></td>
+                    <td><a>&#128231;</a></td>
                 </tr>
     <?php
             }

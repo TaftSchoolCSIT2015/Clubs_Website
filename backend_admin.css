@@ -23,3 +23,7 @@ table a {
     color: blue;
     text-decoration: underline;
 }
+
+table a {
+    cursor: pointer;
+}

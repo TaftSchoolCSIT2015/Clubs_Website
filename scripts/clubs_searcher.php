@@ -140,8 +140,8 @@ function constructAdminSearchTablesRow($clubname, $leaders, $advisor, $status) {
     $row .= "<td>{$leaders}</td>";
     $row .= "<td>{$advisor}</td>";
     $row .= "<td>{$status}</td>";
-    $row .= "<td><a>√</a> <a>X</a></td>";
-    $row .= "<td><a>Mail Leaders</a></td>";
+    $row .= "<td><a>&#10004;</a> <a>&#10008;</a></td>";
+    $row .= "<td><a>&#128231;</a></td>";
     $row .= "</tr>";
     return $row;
 }
