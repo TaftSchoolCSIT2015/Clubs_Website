@@ -128,6 +128,7 @@ function constructMyClubsWidgetString($clubname, $leader_name, $advisor_first, $
     $leadersString = implode(" and ", $leaders);
     $class = ($status == 5) ? "" : "not_approved_club";
     $class .= ($isLeader) ? " leader_of_club" : "";
+    $class = ltrim($class);
     return constructWidgetString($clubname, $leadersString, $advisor_first, $advisor_last, $mission, $class);
 }
 

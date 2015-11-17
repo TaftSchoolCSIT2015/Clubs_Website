@@ -30,7 +30,7 @@
 
             $query = "INSERT INTO taftclubs.club (name, advisor, mission_statement, sticky, status, approved, startDate, category, isJoinable, schoolYear)
                         VALUES('$name', (SELECT id FROM sgstudents.seniors_data WHERE last_name = '{$advisor[1]}' AND (preferred_name = '{$advisor[0]}' OR first_name = '{$advisor[0]}')),
-            '$mission_statement', 0, {$status}, 0, NOW(), {$catId}, 1, {$SCHOOL_YEAR})";
+            '$mission_statement', 0, 1, 0, NOW(), {$catId}, 1, {$SCHOOL_YEAR})";
             $conn->query($query);
 
             $clubid = $conn->insert_id;
@@ -108,9 +108,16 @@
             }
         } else if($request_type == "editsubmission") {
             //Figure out where we are in the cycle and add to club edits
-            if(!isClubApproved()) {
-
+            $update_index = $_POST['update_index'];
+            $result = $conn->query("SELECT EXISTS(
+                                       SELECT *
+                                       FROM taftclubs.club
+                                       WHERE club.id = {$update_index} AND (club.status = 5)
+                                   ) as exist");
+            if($result['exist'] == 0) { //We are not an Approved Club ergo we must go through this submission process
+                die("Invalid Submission, not Approved club");
             }
+
         } else if($request_type == "submit_registration") {
             //So, because this isn't in the database we need to put it in!
             $name = $_POST['title'];
@@ -139,12 +146,26 @@
             //Now we need to notify the faculty member that they need to approve a club
 
             //1. Get Faculty Email String!
-            $emailRes = $conn->query("SELECT username FROM sgstudents.seniors_data WHERE last_name = '{$advisor[1]}' AND (preferred_name = '{$advisor[0]}' OR first_name = '$advisor[0]')");
+            $emailRes = $conn->query("SELECT username, id FROM sgstudents.seniors_data WHERE last_name = '{$advisor[1]}' AND (preferred_name = '{$advisor[0]}' OR first_name = '$advisor[0]')");
             $facultyUsername = $emailRes->fetch_assoc();
+            $facultyId = $facultyUsername['id'];
             $facultyEmail = $facultyUsername['username'] . '@taftschool.org';
-            $emailString = "Hello! You have been requested as a club advisor for the '$name'!\nWhose role is to: {$mission_statement}\n And led by student leaders: {$_POST['leaders']}";
+            $emailString = "Hello! You have been requested as a club advisor for the '$name'!\nWhose role is to: {$mission_statement}";
+            $emailString = "\nAnd led by student leaders: {$_POST['leaders'][0]}";
             $emailString .= "\nClick this link within 24 hours to accept this invitation: ";
-            sendMail(array($facultyEmail), "Club Advisor Request", $emailString);
+            //2. Generate One-Way Hash with Salt
+            $salt = getRandomBytes(32);
+            $saltyString = $name . $salt . $advisor[0] . $salt . $mission_statement . $salt;
+            $md5HashedString = md5($saltyString) . substr(md5($salt . $facultyId), 0, 8); //24 bytes
+            $salt = $saltyString = "";
+            $md5HashedString = substr($md5HashedString, 0, 24); //10^28 total possibilities for hash, we should be safe in assuming no collisions
+            //3. Put Hash Into Database:
+            $conn->query("INSERT INTO taftclubs.faculty_approval_links (clubId, dateIssued, facultyId, hash)
+                            VALUES({$clubid}, NOW(), {$facultyId}, '$md5HashedString')");
+            error_log($conn->error);
+            //4. Append Hash URL onto Email String
+            $emailString .= "http://localhost/scripts/approve.php?hash=" . $md5HashedString;
+            sendMail(array($facultyEmail), "Club Advisor Request", $emailString, $conn);
         }
         $conn->close();
     }
@@ -203,5 +224,16 @@ function updateExistingEvent($eventId, $title, $location, $date, $time, $conn) {
                 SET description = '{$title}', location = '$location', date = '$dateConcat'
                 WHERE id = {$eventId}";
     $conn->query($query);
+}
+
+function getRandomBytes($numBytes = 16) {
+    $urand = fopen("/dev/urandom", "r");
+    stream_set_read_buffer($urand, $numBytes);
+    $bytes = fread($urand, $numBytes);
+    if($bytes === FALSE || strlen($bytes) != $numBytes) {
+        throw new RuntimeException("Read of /dev/urandom returned malformed bytes");
+    }
+    fclose($urand);
+    return $bytes;
 }
 ?>

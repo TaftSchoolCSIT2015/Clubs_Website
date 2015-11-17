@@ -42,13 +42,20 @@ function isAdmin($conn) {
     }
     return 0;
 }
+
 function addAdminLink($conn) {
     if(isAdmin($conn) == 1) {
         echo "<li class='backend_admin_link'>Admin Page</li>";
     }
 }
 
-function sendMail(array $recievers, $subject, $message) {
-    //TODO:: Implement Function
+//Recipiants is an array of email addresses
+//Subject is a string with the subject of the email
+//Message is the message of the email
+function sendMail(array $recipiants, $subject, $message, $conn) {
+    $stringOfRecip = implode(", ", $recipiants);
+    $query = "INSERT INTO taftclubs.clubmail (message, recipients, timestamp, subject)
+                VALUES('$message', '$stringOfRecip', NOW(), '$subject')";
+    $conn->query($query);
 }
 ?>
