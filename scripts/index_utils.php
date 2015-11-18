@@ -27,4 +27,35 @@ function assembleNavMenu($conn) {
         echo "SQL ERROR: 0 results";
     }
 }
+
+function isAdmin($conn) {
+    $backendAdmins = array();
+
+    $result = $conn->query("SELECT username FROM taftclubs.clubadmins");
+    if($result->num_rows > 0) {
+        while($data = $result->fetch_assoc()) {
+            $backendAdmins[] = $data['username'];
+        }
+    }
+    if(isset($_SESSION['user']) && (array_search($_SESSION['user'], $backendAdmins) !== FALSE)) {
+        return 1;
+    }
+    return 0;
+}
+
+function addAdminLink($conn) {
+    if(isAdmin($conn) == 1) {
+        echo "<li class='backend_admin_link'>Admin Page</li>";
+    }
+}
+
+//Recipiants is an array of email addresses
+//Subject is a string with the subject of the email
+//Message is the message of the email
+function sendMail(array $recipiants, $subject, $message, $conn) {
+    $stringOfRecip = implode(", ", $recipiants);
+    $query = "INSERT INTO taftclubs.clubmail (message, recipients, timestamp, subject)
+                VALUES('$message', '$stringOfRecip', NOW(), '$subject')";
+    $conn->query($query);
+}
 ?>

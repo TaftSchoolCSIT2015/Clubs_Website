@@ -54,17 +54,18 @@ $conn = getSQLConnectionFromConfig();
                     <?php
                         assembleNavMenu($conn);
                     ?>
-                    <a class="more_categories"><li>>></li></a>
                     <a class="search_symbol"><li>&#9906;</li></a> <!--&#9906; = Magnifying Glass Character -->
                     <a class="login_nav_bar"><li>
                         <?php
                             getInputToLoginMenu($conn);
-                            $conn->close();
                         ?>
                     </li>
                         <ul class="login_menu_hoverable">
                             <li>My Clubs</li>
                             <li>Make A New Club</li>
+                            <?php
+                                addAdminLink($conn);
+                            ?>
                             <li>Log Out</li>
                         </ul>
                     </a>
@@ -82,3 +83,4 @@ $conn = getSQLConnectionFromConfig();
         <script src="index.js"></script>
     </body>
 </html>
+<?php $conn->close(); ?>

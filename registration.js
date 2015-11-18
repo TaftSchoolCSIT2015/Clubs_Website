@@ -61,7 +61,7 @@ $(document).ready(function() {
         }).done(function(json) {
             if(json.answer === "1") {
                 $("#leaders_text_line ul").append("<li>"+ $("input[name='add_leader']").val() +
-                "<input class='X_button' type='button' Value='X' /></li>");
+                "<input class='X_button' type='button' value='X'></li>");
                 registerXButtons();
             } else {
                 $("input[name='add_leader']").addClass("failedVerify");
@@ -88,7 +88,7 @@ $(document).ready(function() {
         }
         if(!error) {
             $("#event_list").append("<li>" + title.val() + ", " + loc.val() +
-            ", " + date.val() + ", " + time.val() + "<input class='X_button' type='button' Value='X' /></li>");
+            ", " + date.val() + ", " + time.val() + "<input class='X_button' type='button' value='X'></li>");
             registerXButtons();
         }
     });
@@ -106,6 +106,7 @@ $(document).ready(function() {
             data: JSON.stringify(fields),
             processData: false,
         }).done(function(response) {
+                    alert(fields);
             window.location = "index.php";
         });
     });
@@ -115,7 +116,7 @@ $(document).ready(function() {
             alert("Must have more than 3 events to submit a club");
         } else {
             fields.club_status = 2; //2 = Awaiting faculty approval
-            fields.request_type = "savedraft";
+            fields.request_type = "submit_registration";
             $.ajax({
                 url: "/scripts/club_edit.php",
                 type: "POST",
@@ -126,6 +127,10 @@ $(document).ready(function() {
                 window.location = "index.php";
             });
         }
+    });
+    $(".login_menu_hoverable li:first").click(function() { //My Clubs Button
+        $(".login_menu_hoverable").hide();
+        window.location = "index.php?action=myclubs"; //Redirect to index
     });
     registerXButtons();
 });

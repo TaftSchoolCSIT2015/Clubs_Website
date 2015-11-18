@@ -12,7 +12,7 @@
 
     $action = "";
     $value = "";
-    $response = array("success" => 0);
+    $response = array("success" => 0, "sqlError" => "");
     if(isset($_GET['action'])) {
         $conn = getSQLConnectionFromConfig();
         $action = sanatizeInput($_GET['action']);
@@ -20,25 +20,23 @@
             $username = $sessionUser;
             $value = sanatizeInput($_GET['value']);
             $response['success'] = isPartOfClub($username, $value, $conn);
-            echo json_encode($response);
         } else if($action == "joinClub" && $session && isset($_GET['value'])) {
             $username = $sessionUser;
             $value = sanatizeInput($_GET['value']);
             joinClub($username, $value, $conn);
             $response['success'] = 1;
-            echo json_encode($response);
         } else if($action == "leaveClub" && $session && isset($_GET['value'])) {
             $username = $sessionUser;
             $value = sanatizeInput($_GET['value']);
             leaveClub($username, $value, $conn);
             $response['success'] = 1;
             echo json_encode($response);
-        } else if($action == "getAboutClub" && $isset($_GET['value'])) {
+        } else if($action == "doesClubNameExist" && isset($_GET['value'])) {
             $value = sanatizeInput($_GET['value']);
-            
+            $response['success'] = doesClubNameExist($value, $conn);
         }
+        $response['sqlError'] = $conn->error;
         $conn->close();
-    } else {
-        echo json_encode($response);
     }
+    echo json_encode($response);
  ?>

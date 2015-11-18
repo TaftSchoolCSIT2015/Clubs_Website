@@ -6,10 +6,12 @@
 
     $conn = getSQLConnectionFromConfig();
 
+    $clubId = 0;
     $clubname = "";
-    if(isset($_GET['n'])) {
-        $clubname = sanatizeInput($_GET['n']);
+    if(isset($_GET['clubId'])) {
+        $clubId = sanatizeInput($_GET['clubId']);
     }
+    $clubname = getClubName($clubId, $conn);
  ?>
  <!DOCTYPE html>
 <html>
@@ -21,10 +23,18 @@
         <link rel="stylesheet" type="text/css" href="club.css">
         <script src="js/jquery-2.1.4.min.js"></script>
         <script>
-            var clubName = "<?php echo $clubname ?>";
+            var clubName = "<?php echo $clubname; ?>";
+            var clubId = <?php echo $clubId; ?>;
         </script>
     </head>
     <body>
+        <div class="popOut">
+            Log In<br>
+                Username: <input type="text" name="user"><br>
+                Password: <input type="text" name="pass"><br>
+                <input name="loginButton" type="submit" value="Log In">
+                <div id="loginStatus"></div>
+        </div>
         <div class="header">
             <div class="title">
                 <span>
@@ -42,13 +52,13 @@
                         <li><?php
                             $isPart = $isLeader = 0;
                             if(isset($_SESSION['user'])) {
-                                $isPart = isPartOfClub($_SESSION['user'], $clubname, $conn);
-                                $isLeader = isHeadOfClub($_SESSION['user'], $clubname, $conn);
+                                $isPart = isPartOfClub($_SESSION['user'], $clubId, $conn);
+                                $isLeader = isHeadOfClub($_SESSION['user'], $clubId, $conn) | isAdmin($conn);
                             }
-                            if($isPart == 0) {
+                            if($isLeader == 1) {
+                                echo "Edit Club";
+                            } else if($isPart == 0) {
                                 echo "Join Club";
-                            } else if($isLeader == 0) {
-                                echo "Leave Club";
                             } else {
                                 echo "Edit Club";
                             }
@@ -63,6 +73,7 @@
                         <ul class="login_menu_hoverable">
                             <li>My Clubs</li>
                             <li>Make A New Club</li>
+                            <?php addAdminLink($conn); ?>
                             <li>Log Out</li>
                         </ul>
                     </a>
@@ -70,6 +81,9 @@
             </div>
         </div>
         <div class="content">
+            <?php
+                echo getAboutUsClubPageHTML($clubId, $conn);
+             ?>
         </div>
         <script src="js/common.js"></script>
         <script src="club.js"></script>

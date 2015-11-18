@@ -1,0 +1,30 @@
+.title {
+    background-color: rgba(5, 5, 5, 0.84);
+}
+
+.nav a {
+    max-width: 25%;
+}
+
+table {
+    background-color: white;
+    margin: auto;
+    width: 100%;
+}
+
+table tr {
+    height: 3em;
+}
+
+table th {
+    padding: 0.2em 3em;
+}
+
+table a {
+    color: blue;
+    text-decoration: underline;
+}
+
+table a {
+    cursor: pointer;
+}
