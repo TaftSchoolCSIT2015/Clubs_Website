@@ -15,20 +15,20 @@ $(document).ready(function() {
             $.ajax({
                 url: "/scripts/club_query.php",
                 type: "GET",
-                data: "action=joinClub&value=" + clubName,
+                data: "action=joinClub&value=" + clubId,
             }).done(function() {
-                window.location = "club.php?n=" + clubName;
+                window.location = "club.php?clubId=" + clubId;
             });
         } else if(value.trim() == "Leave Club"){ //Leave the Club
             $.ajax({
                 url: "/scripts/club_query.php",
                 type: "GET",
-                data: "action=leaveClub&value=" + clubName,
+                data: "action=leaveClub&value=" + clubId,
             }).done(function() {
-                    window.location = "club.php?n=" + clubName;
+                    window.location = "club.php?clubId=" + clubId;
             });
         } else { //Edit the Club
-            window.location = "club_edit.php?club=" + clubName;
+            window.location = "club_edit.php?clubId=" + clubId;
         }
     });
 });

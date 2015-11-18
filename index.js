@@ -8,13 +8,6 @@ var toggleLogo = function() {
     }
 };
 
-var makeWidgetsClickable = function() {
-    $(".club_widgets a").click(function() {
-        var clubName = $(this).children().first().children().first().html();
-        $(this).attr("href", "/club.php?n=" + clubName);
-    });
-}
-
 $(document).ready(function() {
     $(".search_bar").hide();
     var queryAction = (loadMyClubs) ? "userclub" : "catsearch";
@@ -24,7 +17,6 @@ $(document).ready(function() {
         data: 'a=' + queryAction + '&v=All',
     }).done(function(html) {
         $(".club_widgets ul").html(html);
-        makeWidgetsClickable();
     });
     $(".nav a").click(function() {
         if($(this).hasClass("search_symbol") || $(this).hasClass("login_nav_bar")) {return;}
@@ -39,7 +31,6 @@ $(document).ready(function() {
             data: x,
         }).done(function(html) {
             $(".club_widgets ul").html(html);
-            makeWidgetsClickable();
         });
     });
     $(".login_menu_hoverable li:first").click(function() { //My Clubs Button
@@ -50,7 +41,6 @@ $(document).ready(function() {
             data: 'a=userclub&v=All',
         }).done(function(html) {
             $(".club_widgets ul").html(html);
-            makeWidgetsClickable();
         });
     });
     $(".search_symbol").click(toggleLogo);

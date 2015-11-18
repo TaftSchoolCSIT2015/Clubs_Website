@@ -6,10 +6,12 @@
 
     $conn = getSQLConnectionFromConfig();
 
+    $clubId = 0;
     $clubname = "";
-    if(isset($_GET['n'])) {
-        $clubname = sanatizeInput($_GET['n']);
+    if(isset($_GET['clubId'])) {
+        $clubId = sanatizeInput($_GET['clubId']);
     }
+    $clubname = getClubName($clubId, $conn);
  ?>
  <!DOCTYPE html>
 <html>
@@ -21,7 +23,8 @@
         <link rel="stylesheet" type="text/css" href="club.css">
         <script src="js/jquery-2.1.4.min.js"></script>
         <script>
-            var clubName = "<?php echo $clubname ?>";
+            var clubName = "<?php echo $clubname; ?>";
+            var clubId = <?php echo $clubId; ?>;
         </script>
     </head>
     <body>
@@ -49,8 +52,8 @@
                         <li><?php
                             $isPart = $isLeader = 0;
                             if(isset($_SESSION['user'])) {
-                                $isPart = isPartOfClub($_SESSION['user'], $clubname, $conn);
-                                $isLeader = isHeadOfClub($_SESSION['user'], $clubname, $conn) | isAdmin($conn);
+                                $isPart = isPartOfClub($_SESSION['user'], $clubId, $conn);
+                                $isLeader = isHeadOfClub($_SESSION['user'], $clubId, $conn) | isAdmin($conn);
                             }
                             if($isLeader == 1) {
                                 echo "Edit Club";
@@ -79,7 +82,7 @@
         </div>
         <div class="content">
             <?php
-                echo getAboutUsClubPageHTML($clubname, $conn);
+                echo getAboutUsClubPageHTML($clubId, $conn);
              ?>
         </div>
         <script src="js/common.js"></script>

@@ -1,11 +1,11 @@
 <?php session_start(); ?>
 <?php
-if(!isset($_SESSION['user']) && !isset($_GET['club'])) { //Need to be authenticated to get to this page
+if(!isset($_SESSION['user']) && !isset($_GET['clubId'])) { //Need to be authenticated to get to this page
     header("Location: index.php");
     exit();
 }
 
-$clubname = $_GET['club'];
+$clubId = $_GET['clubId'];
 $username = $_SESSION['user'];
 
 require 'scripts/SQLUtils.php';
@@ -14,13 +14,14 @@ require 'scripts/club_utils.php';
 
 $conn = getSQLConnectionFromConfig();
 
-$isLeader = isHeadOfClub($username, $clubname, $conn) | isAdmin($conn);
+$isLeader = isHeadOfClub($username, $clubId, $conn) | isAdmin($conn);
 
 if(!$isLeader) {
     header("Location: index.php");
     $conn->close();
     exit();
 }
+$clubname = getClubName($clubId, $conn);
 ?>
 <div class="text_line">
     <form><b>Club Name:</b>
@@ -52,7 +53,7 @@ if(!$isLeader) {
 
         <ul>
             <?php
-                $leaders = explode(",", getLeadersForClub($clubname, $conn));
+                $leaders = explode(",", getLeadersForClub($clubId, $conn));
                 foreach($leaders as $leader) {
                     ?>
                     <li><?php echo $leader; ?><input class="X_button" type="button" value="X"></li>
@@ -64,16 +65,16 @@ if(!$isLeader) {
 </div>
 
 <div class="text_line">
-    <p><b>Faculty Advisor:</b> <?php echo getClubAdvisor($clubname, $conn); ?></p>
+    <p><b>Faculty Advisor:</b> <?php echo getClubAdvisor($clubId, $conn); ?></p>
 </div>
 
 <div id="club_type_line" class="text_line">
     <form><b>Club Category:</b>
-        <?php echo getCheckedClubCategoryHTML($clubname, $conn); ?>
+        <?php echo getCheckedClubCategoryHTML($clubId, $conn); ?>
     </form>
 </div>
 <div id="mission_text_line" class="text_line">
     <form><b>Mission Statement:</b>
-        <textarea id="mission_box"><?php echo getClubMissionStatement($clubname, $conn); ?></textarea>
+        <textarea id="mission_box"><?php echo getClubMissionStatement($clubId, $conn); ?></textarea>
     </form>
 </div>

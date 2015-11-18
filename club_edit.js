@@ -306,7 +306,7 @@ var pushChangesToDatabase = function(action) {
         contentType: "application/json",
         processData: false,
     }).done(function(json) {
-        window.location = "club_edit.php?club=" + clubName;
+        window.location = "club_edit.php?clubId=" + clubId;
     });
 };
 
@@ -324,7 +324,7 @@ $(document).ready(function() {
         $.ajax({
             url: "club_edit_aboutus.php",
             type: "GET",
-            data: "club=" + clubName,
+            data: "clubId=" + clubId,
         }).done(function(html) {
             $(".dynamic").html(html);
             PageStates.About_Us.doNewRenderCycle();
@@ -334,7 +334,7 @@ $(document).ready(function() {
         $.ajax({
             url: "club_edit_events.php",
             type: "GET",
-            data: "club=" + clubName,
+            data: "clubId=" + clubId,
         }).done(function(html) {
             $(".dynamic").html(html);
             PageStates.Events.doNewRenderCycle();
@@ -344,7 +344,7 @@ $(document).ready(function() {
         $.ajax({
             url: "club_edit_feed.php",
             type: "GET",
-            data: "club=" + clubName,
+            data: "clubId=" + clubId,
         }).done(function(html) {
             $(".dynamic").html(html);
         });
@@ -353,7 +353,7 @@ $(document).ready(function() {
         $.ajax({
             url: "club_edit_members.php",
             type: "GET",
-            data: "club=" + clubName,
+            data: "clubId=" + clubId,
         }).done(function(html) {
             $(".dynamic").html(html);
         });

@@ -151,7 +151,7 @@
             $facultyId = $facultyUsername['id'];
             $facultyEmail = $facultyUsername['username'] . '@taftschool.org';
             $emailString = "Hello! You have been requested as a club advisor for the '$name'!\nWhose role is to: {$mission_statement}";
-            $emailString = "\nAnd led by student leaders: {$_POST['leaders'][0]}";
+            $emailString .= "\nAnd led by student leaders: {$_POST['leaders'][0]}";
             $emailString .= "\nClick this link within 24 hours to accept this invitation: ";
             //2. Generate One-Way Hash with Salt
             $salt = getRandomBytes(32);
@@ -227,13 +227,18 @@ function updateExistingEvent($eventId, $title, $location, $date, $time, $conn) {
 }
 
 function getRandomBytes($numBytes = 16) {
-    $urand = fopen("/dev/urandom", "r");
-    stream_set_read_buffer($urand, $numBytes);
-    $bytes = fread($urand, $numBytes);
-    if($bytes === FALSE || strlen($bytes) != $numBytes) {
-        throw new RuntimeException("Read of /dev/urandom returned malformed bytes");
+    //Windows Based Systems
+    if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        return bin2hex(openssl_random_pseudo_bytes($numBytes));
+    } else { //Unix Based Systems
+        $urand = fopen("/dev/urandom", "r");
+        stream_set_read_buffer($urand, $numBytes);
+        $bytes = fread($urand, $numBytes);
+        if($bytes === FALSE || strlen($bytes) != $numBytes) {
+            throw new RuntimeException("Read of /dev/urandom returned malformed bytes");
+        }
+        fclose($urand);
+        return $bytes;
     }
-    fclose($urand);
-    return $bytes;
 }
 ?>

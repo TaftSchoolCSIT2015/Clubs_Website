@@ -1,11 +1,11 @@
 <?php session_start(); ?>
 <?php
-if(!isset($_SESSION['user']) && !isset($_GET['club'])) { //Need to be authenticated to get to this page
+if(!isset($_SESSION['user']) && !isset($_GET['clubId'])) { //Need to be authenticated to get to this page
     header("Location: index.php");
     exit();
 }
 
-$clubname = $_GET['club'];
+$clubId = $_GET['clubId'];
 $username = $_SESSION['user'];
 
 require 'scripts/SQLUtils.php';
@@ -14,13 +14,14 @@ require 'scripts/club_utils.php';
 
 $conn = getSQLConnectionFromConfig();
 
-$isLeader = isHeadOfClub($username, $clubname, $conn);
+$isLeader = isHeadOfClub($username, $clubId, $conn);
 
 if(!$isLeader && !(isAdmin($conn) == 1)) {
     header("Location: index.php");
     $conn->close();
     exit();
 }
+$clubname = getClubName($clubId, $conn);
 ?>
 <!DOCTYPE html>
  <html>
@@ -33,9 +34,10 @@ if(!$isLeader && !(isAdmin($conn) == 1)) {
       <script src="js/jquery-2.1.4.min.js"></script>
       <script type="text/javascript">
         var clubName = "<?php echo $clubname; ?>";
+        var clubId = <?php echo $clubId; ?>;
 
         var dirty = {
-            update_index: <?php echo intval(getClubDatabaseIndex($clubname, $conn)); ?>,
+            update_index: <?php echo $clubId; ?>,
             about_us: {
                 club_name: null,
                 club_leaders: [],
@@ -81,7 +83,7 @@ if(!$isLeader && !(isAdmin($conn) == 1)) {
                     $.ajax({
                         url: "club_edit_aboutus.php",
                         type: "GET",
-                        data: "club=" + "<?php echo $clubname; ?>",
+                        data: "clubId=" + "<?php echo $clubId; ?>",
                     }).done(function(html) {
                         $(".dynamic").html(html);
                         PageStates.About_Us.registerJavascript();
@@ -90,10 +92,15 @@ if(!$isLeader && !(isAdmin($conn) == 1)) {
             </div>
 
             <div class="footer">
+                <?php
+                    if(!isClubApproved($clubId, $conn)) {
+                 ?>
                 <div id="save_button">
                     Save As Draft
                 </div>
-
+                <?php
+                    }
+                 ?>
                 <div id="submit_button">
                     Submit
                 </div>

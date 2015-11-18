@@ -50,7 +50,7 @@
     <thead>
     <tbody>
     <?php
-        $clubsForOptions = "SELECT club.name, CONCAT_WS(', ', GROUP_CONCAT(DISTINCT people.preferred_name, ' ', people.last_name SEPARATOR ', ')) as leaders, CONCAT(advisor.preferred_name, ' ', advisor.last_name) as advisor, cstat.name as status
+        $clubsForOptions = "SELECT club.id, club.name, CONCAT_WS(', ', GROUP_CONCAT(DISTINCT people.preferred_name, ' ', people.last_name SEPARATOR ', ')) as leaders, CONCAT(advisor.preferred_name, ' ', advisor.last_name) as advisor, cstat.name as status
 	                           FROM taftclubs.club as club
 	                           INNER JOIN taftclubs.clubjoiners as j
 	                           ON club.id = j.clubId
@@ -67,11 +67,11 @@
             while($data = $result->fetch_assoc()) {
     ?>
                 <tr>
-                    <td><a href="club.php?n=<?php echo $data['name']; ?>"><?php echo $data['name']; ?></a></td>
+                    <td><a href="club.php?clubId=<?php echo $data['id']; ?>"><?php echo $data['name']; ?></a></td>
                     <td><?php echo $data['leaders']; ?></td>
                     <td><?php echo $data['advisor']; ?></td>
                     <td><?php echo $data['status']; ?></td>
-                    <td><a>&#10004;</a> <a>&#10008;</a></td>
+                    <td><a>Delete Club?</a></td>
                     <td><a>&#128231;</a></td>
                 </tr>
     <?php
