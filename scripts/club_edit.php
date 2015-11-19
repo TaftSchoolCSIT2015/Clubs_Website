@@ -114,8 +114,62 @@
                                        FROM taftclubs.club
                                        WHERE club.id = {$update_index} AND (club.status = 5)
                                    ) as exist");
-            if($result['exist'] == 0) { //We are not an Approved Club ergo we must go through this submission process
+            $doesExist = $result->fetch_assoc();
+            if($doesExist['exist'] == 0) { //We are not an Approved Club ergo we must go through this submission process
                 die("Invalid Submission, not Approved club");
+            }
+            if(isAdmin($conn)) { //If Admin then Automatic approval
+                //Personal Club Data
+                $about_us = $_POST['about_us'];
+                $queryBuilder = "UPDATE taftclubs.club as club SET ";
+                if($about_us['club_name'] != "") {
+                    $clubname = $about_us['club_name'];
+                    $queryBuilder .= "club.name = '$clubname', ";
+                }
+                if($about_us['club_category'] != "") {
+                    $club_category = $about_us['club_category'];
+                    $catInt = categoryToId($club_category, $conn);
+                    $queryBuilder .= "club.category = {$catInt}, ";
+                }
+                if($about_us['club_missionstatement'] != "") {
+                    $club_mission = $about_us['club_missionstatement'];
+                    $queryBuilder .= "club.mission_statement = '$club_mission', ";
+                }
+                //Make Nice!
+                if(substr($queryBuilder, -2) == ", ") {
+                    $queryBuilder = substr($queryBuilder, 0, -2);
+                }
+                $queryBuilder .= " WHERE club.id = {$update_index}";
+                $conn->query($queryBuilder);
+
+                //Leader Data
+                $leaders = $about_us['club_leaders'];
+                $deletedLeaders = $about_us['deleted_leaders'];
+                insertLeaders($leaders, $update_index, $conn);
+                //If we are a draft then dont delete leaders!
+                deleteLeaders($deletedLeaders, $update_index, $conn, true);
+
+                //Event Data
+                $events = $_POST['events'];
+                $delEvents = $_POST['deleted_events'];
+                foreach($events as $event) {
+                    $updateId = $event['updateId'];
+                    if($updateId < 0) { //New Event
+                        insertNewEvent($event['title'], $event['location'], $event['date'],
+                        $event['time'], $update_index, $conn);
+                    } else { //Existing Event
+                        updateExistingEvent($updateId, $event['title'], $event['location'],
+                        $event['date'], $event['time'], $conn);
+                    }
+                }
+                foreach($delEvents as $deletedEvent) {
+                    $updateId = $deletedEvent;
+                    $conn->query("UPDATE taftclubs.clubevents
+                                    SET isDeleted = 1
+                                    WHERE id = {$updateId}");
+                }
+            } else { //If not admin then must go through the Club Edits Table
+
             }
 
         } else if($request_type == "submit_registration") {
