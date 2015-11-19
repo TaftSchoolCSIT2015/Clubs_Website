@@ -1,14 +1,15 @@
 <?php
+
+    require 'SQLUtils.php';
+    require 'club_utils.php';
+    require 'index_utils.php';
+
     session_start();
     $session = isset($_SESSION['user']);
     $sessionUser = "";
     if($session) {
         $sessionUser = $_SESSION['user'];
     }
-    session_write_close();
-
-    require 'SQLUtils.php';
-    require 'club_utils.php';
 
     $action = "";
     $value = "";
@@ -34,6 +35,15 @@
         } else if($action == "doesClubNameExist" && isset($_GET['value'])) {
             $value = sanatizeInput($_GET['value']);
             $response['success'] = doesClubNameExist($value, $conn);
+        } else if(isAdmin($conn) && ($action == "adminApproveClub") && isset($_GET['value'])) {
+            $value = sanatizeInput($_GET['value']);
+            $conn->query("UPDATE taftclubs.club SET approved = 1, status = 5 WHERE id = {$value}");
+        } else if(isAdmin($conn) && ($action == "adminDeleteClub") && isset($_GET['value'])) {
+            $value = sanatizeInput($_GET['value']);
+            $conn->query("UPDATE taftclubs.club SET approved = 0, status = 3 WHERE id = {$value}");
+        } else if(isAdmin($conn) && ($action == "adminRejectClub") && isset($_GET['value'])) {
+            $value = sanatizeInput($_GET['value']);
+            $conn->query("UPDATE taftclubs.club SET approved = 0, status = 7 WHERE id = {$value}");
         }
         $response['sqlError'] = $conn->error;
         $conn->close();

@@ -101,11 +101,21 @@ if(isset($_GET['a'])) {
             $result = $conn->query($query);
             if($result->num_rows > 0) {
                 while($data = $result->fetch_assoc()) {
+                    $linkContents = "";
                     if($value === "Active") {
-                        echo constructAdminSearchTablesRow($data['name'], $data['id'], $data['leaders'], $data['advisor'], $data['status'], "<a>Delete Club?</a>");
+                        $linkContents = "<a data-index=\"{$data['id']}\">Delete Club?</a>";
+                    } else if($value === "Deleted") {
+                        $linkContents = "<a data-index=\"{$data['id']}\">Undelete Club?</a>";
+                    } else if($value === "Waiting for Admin Approval") {
+                        $linkContents = "<a data-index=\"{$data['id']}\">Approve Club?</a>";
+                    } else if($value === "Past") {
+                        $linkContents = "<a data-index=\"{$data['id']}\">Restore Club?</a>";
+                    } else if($value === "Pending Faculty Approval") {
+                        $linkContents = "<a data-index=\"{$data['id']}\">Reject Club?</a>";
                     } else {
-                        echo constructAdminSearchTablesRow($data['name'], $data['id'], $data['leaders'], $data['advisor'], $data['status'], "<a>&#10004;</a> <a>&#10008;</a>");
+                        $linkContents = "<a>&#10004;</a> <a>&#10008;</a>";
                     }
+                    echo constructAdminSearchTablesRow($data['name'], $data['id'], $data['leaders'], $data['advisor'], $data['status'], $linkContents);
                 }
             } else {
                 echo "<tr><td>Could Not Find Any Data for the Selected Category</td></tr>";
