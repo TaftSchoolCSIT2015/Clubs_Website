@@ -45,6 +45,7 @@
             </div>
             <div class="nav">
                 <ul>
+                    <a href="index.php"><li>Home</li></a>
                     <a><li class="active">About Us</li></a>
                     <a><li>Events</li></a>
                     <a><li>Club Feed</li></a>

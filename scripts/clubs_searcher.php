@@ -68,7 +68,7 @@ if(isset($_GET['a'])) {
                                         ON student.id = j.userId
                                         INNER JOIN taftclubs.clubcategories as category
                                         ON c.category = category.id
-                                        WHERE leader_inClub.hasLeft = 0 AND leader_inClub.isLeader = 1 AND j.hasLeft = 0 AND student.username = '$user'";
+                                        WHERE leader_inClub.hasLeft = 0 AND leader_inClub.isLeader = 1 AND j.hasLeft = 0 AND (c.status != 3 OR c.status != 6) AND student.username = '$user'";
             $result = "";
             if($value == 'All') {
                 $result = $conn->query($query . $endOfQuery);
