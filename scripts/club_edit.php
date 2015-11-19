@@ -169,7 +169,14 @@
                                     WHERE id = {$updateId}");
                 }
             } else { //If not admin then must go through the Club Edits Table
-
+                $about_us = $_POST['about_us'];
+                if($about_us['club_name'] != "") {
+                    $clubname = $about_us['club_name'];
+                    $query = "INSERT INTO taftclubs.clubedits (personId, clubId, typeOfEdit, oldField, newField, approved)
+                                VALUES((SELECT id FROM sgstudents.seniors_data WHERE username = '{$_SESSION['user']}'), {$update_index},
+                                        9, (SELECT name FROM taftclubs.club WHERE id = {$update_index}), '$clubname', 0)";
+                    $conn->query($query);
+                }
             }
 
         } else if($request_type == "submit_registration") {

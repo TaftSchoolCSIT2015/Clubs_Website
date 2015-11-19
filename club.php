@@ -61,7 +61,7 @@
                             } else if($isPart == 0) {
                                 echo "Join Club";
                             } else {
-                                echo "Edit Club";
+                                echo "Leave Club";
                             }
                          ?>
                         </li>
