@@ -12,7 +12,7 @@ $(document).ready(function() {
     $(".search_bar").hide();
     var queryAction = (loadMyClubs) ? "userclub" : "catsearch";
     $.ajax({
-        url: "/scripts/clubs_searcher.php",
+        url: "./scripts/clubs_searcher.php",
         type: "GET",
         data: 'a=' + queryAction + '&v=All',
     }).done(function(html) {
@@ -26,7 +26,7 @@ $(document).ready(function() {
         var value = $(this).children().first().html();
         var x = 'a=catsearch' + '&v=' + value; //a stands for action, v stands for value
         $.ajax({
-            url: "/scripts/clubs_searcher.php",
+            url: "./scripts/clubs_searcher.php",
             type: "GET",
             data: x,
         }).done(function(html) {
@@ -36,7 +36,7 @@ $(document).ready(function() {
     $(".login_menu_hoverable li:first").click(function() { //My Clubs Button
         $(".login_menu_hoverable").hide();
         $.ajax({
-            url: "/scripts/clubs_searcher.php",
+            url: "./scripts/clubs_searcher.php",
             type: "GET",
             data: 'a=userclub&v=All',
         }).done(function(html) {

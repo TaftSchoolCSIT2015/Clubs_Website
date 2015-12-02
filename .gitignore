@@ -1,3 +1,5 @@
 # Secret Config File Shhhh
+# Legacy Support
 config.ini
+# New updated real working location
 /scripts/config/config.ini
