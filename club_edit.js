@@ -108,7 +108,7 @@ var registerXButtons = function() {
 var registerEditAboutUsPage = function() {
     $("#club_name_in").change(function() {
         $.ajax({
-            url: "/scripts/club_query.php",
+            url: "./scripts/club_query.php",
             type: "GET",
             data: "action=doesClubNameExist&value=" + $(this).val(),
             dataType: "json",
@@ -144,7 +144,7 @@ var registerEditAboutUsPage = function() {
             value2 = splits[2];
         }
         $.ajax({
-            url: "/scripts/registration_verifier.php",
+            url: "./scripts/registration_verifier.php",
             type: "GET",
             data: "field=add_leader&value1=" + value1 + "&value2=" + value2,
             dataType: "json",
@@ -300,7 +300,7 @@ var pushChangesToDatabase = function(action) {
         dirty.request_type = "editsubmission";
     }
     $.ajax({
-        url: "scripts/club_edit.php",
+        url: "./scripts/club_edit.php",
         type: "POST",
         data: JSON.stringify(dirty),
         contentType: "application/json",
@@ -322,7 +322,7 @@ $(document).ready(function() {
     });
     $(".nav ul a:eq(1)").click(function() { //About Us Editing
         $.ajax({
-            url: "club_edit_aboutus.php",
+            url: "./club_edit_aboutus.php",
             type: "GET",
             data: "clubId=" + clubId,
         }).done(function(html) {
@@ -332,7 +332,7 @@ $(document).ready(function() {
     });
     $(".nav ul a:eq(2)").click(function() { //Club Edits Editing
         $.ajax({
-            url: "club_edit_events.php",
+            url: "./club_edit_events.php",
             type: "GET",
             data: "clubId=" + clubId,
         }).done(function(html) {
@@ -342,7 +342,7 @@ $(document).ready(function() {
     });
     $(".nav ul a:eq(3)").click(function() { //Club Feed Editing
         $.ajax({
-            url: "club_edit_feed.php",
+            url: "./club_edit_feed.php",
             type: "GET",
             data: "clubId=" + clubId,
         }).done(function(html) {
@@ -351,7 +351,7 @@ $(document).ready(function() {
     });
     $(".nav ul a:eq(4)").click(function() { //Club Member Editing
         $.ajax({
-            url: "club_edit_members.php",
+            url: "./club_edit_members.php",
             type: "GET",
             data: "clubId=" + clubId,
         }).done(function(html) {

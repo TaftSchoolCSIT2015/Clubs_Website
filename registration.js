@@ -54,7 +54,7 @@ $(document).ready(function() {
             value2 = splits[2];
         }
         $.ajax({
-            url: "/scripts/registration_verifier.php",
+            url: "./scripts/registration_verifier.php",
             type: "GET",
             data: "field=add_leader&value1=" + value1 + "&value2=" + value2,
             dataType: "json",
@@ -100,7 +100,7 @@ $(document).ready(function() {
         fields.club_status = 1; //1=Draft
         fields.request_type = "savedraft";
         $.ajax({
-            url: "/scripts/club_edit.php",
+            url: "./scripts/club_edit.php",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(fields),
@@ -118,7 +118,7 @@ $(document).ready(function() {
             fields.club_status = 2; //2 = Awaiting faculty approval
             fields.request_type = "submit_registration";
             $.ajax({
-                url: "/scripts/club_edit.php",
+                url: "./scripts/club_edit.php",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(fields),

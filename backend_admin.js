@@ -73,7 +73,7 @@ var registerClubApplications = function() {
     $("select").change(function() {
         var value = $(this).val();
         $.ajax({
-            url: "/scripts/clubs_searcher.php",
+            url: "scripts/clubs_searcher.php",
             type: "GET",
             data: "a=adminsearch&v=" + value,
             dataType: "html",

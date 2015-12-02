@@ -42,7 +42,7 @@ var registerNavBar = function(name) {
 
 var checkAuthentication = function(user, pass) {
     $.ajax({
-        url: "/scripts/authenticate.php",
+        url: "./scripts/authenticate.php",
         type: "POST",
         data: "user=" + user + "&pass=" + pass,
         dataType: "json",
@@ -85,7 +85,7 @@ $(document).ready(function() {
     });
     $(".login_menu_hoverable li:last").click(function() { //Log Out Button
         $.ajax({
-            url: "/scripts/logout.php",
+            url: "./scripts/logout.php",
             type: "POST",
         }).done(function(response) {
             session.authenticated = false;

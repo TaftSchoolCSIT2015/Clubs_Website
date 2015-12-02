@@ -13,7 +13,7 @@ $(document).ready(function() {
         var value = $(this).children("li").first().html();
         if(value.trim() === "Join Club") { //Join the club
             $.ajax({
-                url: "/scripts/club_query.php",
+                url: "./scripts/club_query.php",
                 type: "GET",
                 data: "action=joinClub&value=" + clubId,
             }).done(function() {
@@ -21,7 +21,7 @@ $(document).ready(function() {
             });
         } else if(value.trim() == "Leave Club"){ //Leave the Club
             $.ajax({
-                url: "/scripts/club_query.php",
+                url: "./scripts/club_query.php",
                 type: "GET",
                 data: "action=leaveClub&value=" + clubId,
             }).done(function() {
