@@ -161,6 +161,15 @@ var registerEditAboutUsPage = function() {
             }
         });
     });
+    $("div#file_upload").dropzone({
+                                url: "./scripts/image_uploader.php",
+                                maxFilesize: 5,
+                                paramName: "file",
+                                maxFiles: 1,
+                                acceptedFiles: "image/*",
+                                previewsContainer: null,
+                                method: "post",
+                            }).addClass("dropzone");
     registerXButtons();
 }
 

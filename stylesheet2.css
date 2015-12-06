@@ -51,7 +51,7 @@ a {
 #menu_bar {
     color: black;
     width: 7%;
-    height:55px;
+    height: 55px;
     float: right;
     border: solid 1px #D94D1E;
     border: solid 1px #C7227F;
@@ -77,7 +77,7 @@ a {
   border-top: none;
   margin-left: 20%;
   margin-right: 20%;
-  height: 73em;
+  height: 85em;
 }
 
 .text_line{

@@ -32,6 +32,8 @@ $clubname = getClubName($clubId, $conn);
       <link rel="stylesheet" type="text/css" href="club_edit.css">
       <link rel="stylesheet" type="text/css" href="stylesheet2.css">
       <script src="js/jquery-2.1.4.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="js/dropzone-4.2.0/dropzone.min.css">
+      <script src="js/dropzone-4.2.0/dropzone.min.js"></script>
       <script type="text/javascript">
         var clubName = "<?php echo $clubname; ?>";
         var clubId = <?php echo $clubId; ?>;

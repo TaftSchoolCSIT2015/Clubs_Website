@@ -78,3 +78,9 @@ $clubname = getClubName($clubId, $conn);
         <textarea id="mission_box"><?php echo getClubMissionStatement($clubId, $conn); ?></textarea>
     </form>
 </div>
+
+<div id="file_upload" class="text_line">
+    Drag Club Image Here!
+  <!--<form action="./scripts/image_uploader.php" class="dropzone" id="image_uploader">
+  </form>-->
+</div>
