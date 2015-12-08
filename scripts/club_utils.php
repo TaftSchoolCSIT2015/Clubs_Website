@@ -221,10 +221,19 @@ function getAboutUsClubPageHTML($club, $conn) {
                 WHERE club.id = {$club}";
     $result = $conn->query($query);
     $data = $result->fetch_assoc();
-    $html = "<h2>{$data['name']}</h2>";
-    $html .= "<p><strong>Our Leaders: </strong><em>{$data['leaders']}</em></p>";
-    $html .= "<p><strong>Faculty Advisor: </strong><em>{$data['advisor']}</em></p>";
-    $html .= "<p><strong>Our Mission: </strong><em>{$data['mission']}</em></p>";
+    $name = $data['name'];
+    $leaders = $data['leaders'];
+    $advisor = $data['advisor'];
+    $mission = $data['mission'];
+    $html = "<h2>{$name}</h2>";
+    $imageResult = $conn->query("SELECT data, contentType FROM taftclubs.clubimages WHERE clubId = {$club}");
+    $imageData = $imageResult->fetch_assoc();
+    $image = $imageData['data'];
+    $ext = $imageData['contentType'];
+    $html .= "<img src=\"data:$ext" . ";base64," . base64_encode($image) . "\"/>";
+    $html .= "<p><strong>Our Leaders: </strong><em>{$leaders}</em></p>";
+    $html .= "<p><strong>Faculty Advisor: </strong><em>{$advisor}</em></p>";
+    $html .= "<p><strong>Our Mission: </strong><em>{$mission}</em></p>";
     return $html;
 }
 

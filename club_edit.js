@@ -169,6 +169,8 @@ var registerEditAboutUsPage = function() {
                                 acceptedFiles: "image/*",
                                 previewsContainer: null,
                                 method: "post",
+                                dictDefaultMessage: "Drop your club image here to get started!",
+                                headers: {"ClubId":clubId},
                             }).addClass("dropzone");
     registerXButtons();
 }
