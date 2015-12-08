@@ -52,10 +52,15 @@ function addAdminLink($conn) {
 //Recipiants is an array of email addresses
 //Subject is a string with the subject of the email
 //Message is the message of the email
-function sendMail(array $recipiants, $subject, $message, $conn) {
+function sendMail(array $recipiants, $subject, $message, $headers, $conn) {
     $stringOfRecip = implode(", ", $recipiants);
     $query = "INSERT INTO taftclubs.clubmail (message, recipients, timestamp, subject)
                 VALUES('$message', '$stringOfRecip', NOW(), '$subject')";
     $conn->query($query);
+    //Send Mail Functionality
+    $message = wordwrap($message, 70, "\r\n");
+    foreach($recipiants as $recip) {
+        mail($recip, $subject, $message, $headers);
+    }
 }
 ?>
