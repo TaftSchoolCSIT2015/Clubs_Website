@@ -257,6 +257,10 @@ var registerEditEventsPage = function() {
         "<td>0%</td><td><input class='X_button' type='button' value='X'></td></tr>");
         dirty.events.push(event);
         registerEventXButton();
+        $("#event_title").val("");
+        $("#event_loc").val("");
+        $("#event_date").val("");
+        $("#event_time").val("");
     });
     registerEventXButton();
 };

@@ -90,6 +90,10 @@ $(document).ready(function() {
             $("#event_list").append("<li>" + title.val() + ", " + loc.val() +
             ", " + date.val() + ", " + time.val() + "<input class='X_button' type='button' value='X'></li>");
             registerXButtons();
+            $("#event_title").val("");
+            $("#event_loc").val("");
+            $("#event_date").val("");
+            $("#event_time").val("");
         }
     });
     $("input[name='add_leader']").change(function() {
