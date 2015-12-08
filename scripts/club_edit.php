@@ -219,8 +219,9 @@
             $facultyUsername = $emailRes->fetch_assoc();
             $facultyId = $facultyUsername['id'];
             $facultyEmail = $facultyUsername['username'] . '@taftschool.org';
-            $emailString = "Hello! You have been requested as a club advisor for the {$name}!\r\nWhose role is to: {$mission_statement}";
+            $emailString = "Hello!\r\n\tYou have been requested as a club advisor for the {$name}!\r\nWhose mission statement is: {$mission_statement}";
             $emailString .= "\r\nAnd led by student leaders: {$_POST['leaders'][0]}";
+            $emailString .= "\r\nLink to Live Club Page: http://" . $_SERVER['server_name'] . "/clubs/club.php?clubId=" . $clubid;
             $emailString .= "\r\nClick this link within 24 hours to accept this invitation: ";
             //2. Generate One-Way Hash with Salt
             $salt = getRandomBytes(32);
@@ -233,7 +234,7 @@
                             VALUES('$md5HashedString', {$clubid}, NOW())");
             error_log($conn->error);
             //4. Append Hash URL onto Email String
-            $emailString .= "http://localhost:8888/scripts/approve.php?hash=" . $md5HashedString;
+            $emailString .= "http://" . $_SERVER['server_name'] . "/clubs/scripts/approve.php?hash=" . $md5HashedString;
             sendMail(array($facultyEmail), "Club Advisor Request", $emailString, "From: TaftClubs <clubs@taftschool.org>", $conn);
             error_log($conn->error);
         }
