@@ -59,7 +59,7 @@ var checkAuthentication = function(user, pass) {
             registerNavBar();
             if(user === "skoshi") {
                 $(".login_menu_hoverable").children(":eq(1)").after("<li>Admin Page</li>").next().first().click(function() {
-                    window.location = "backend_admin.php";
+                    window.location = "./backend_admin.php";
                 });
             }
         }
@@ -81,7 +81,7 @@ $(document).ready(function() {
         }
     });
     $(".login_menu_hoverable").children("li:nth-child(2)").click(function() { //Make a new club button
-        window.location = "../registration.php";
+        window.location = "./registration.php";
     });
     $(".login_menu_hoverable li:last").click(function() { //Log Out Button
         $.ajax({
@@ -90,7 +90,7 @@ $(document).ready(function() {
         }).done(function(response) {
             session.authenticated = false;
             session.username = "";
-            window.location = "../index.php";
+            window.location = "./index.php";
         });
     });
     //Detect authentication

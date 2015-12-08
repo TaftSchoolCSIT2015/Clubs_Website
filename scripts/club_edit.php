@@ -177,6 +177,14 @@
                                         9, (SELECT name FROM taftclubs.club WHERE id = {$update_index}), '$clubname', 0)";
                     $conn->query($query);
                 }
+                if($about_us['club_missionstatement'] != "") {
+                    $mission_statement = $about_us['club_missionstatement'];
+                    $query = "INSERT INTO taftclubs.clubedits (personId, clubId, typeOfEdit, oldField, newField, approved)
+                                VALUES((SELECT id FROM sgstudents.seniors_data WHERE username = '{$_SESSION['user']}'), {$update_index},
+                                        1, (SELECT mission_statement FROM taftclubs.club WHERE id = {$update_index}), '$mission_statement', 0)";
+                    $conn->query($query);
+                }
+                log($conn->error);
             }
 
         } else if($request_type == "submit_registration") {

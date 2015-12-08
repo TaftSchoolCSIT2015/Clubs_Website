@@ -86,5 +86,10 @@ var registerClubApplications = function() {
 };
 
 var registerClubEdits = function() {
+    $("tbody tr").children("td").eq(5).children("a").eq(0).click(function() { //Approve Edit
 
+    });
+    $("tbody tr").children("td").eq(5).children("a").eq(0).click(function() { //Delete Edit
+
+    });
 };
