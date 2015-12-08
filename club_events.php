@@ -13,7 +13,17 @@
     $events = getClubEvents($clubId, $conn);
 ?>
 <h2>Events: </h2>
-<ul class="events">
+<table border="5" id="events">
+    <thead>
+        <tr>
+            <th><strong>What</strong></th>
+            <th><strong>Where</strong></th>
+            <th><strong>When</strong></th>
+            <th><strong>Time</strong></th>
+            <th><strong>RSVP %</strong></th>
+            <th><strong>RSVP</strong></th>
+        </tr>
+    </thead>
     <?php
         foreach($events as $event) {
             if($event['description'] == '') {break;}
@@ -24,20 +34,21 @@
             $eventLoc = $event['location'];
             $rsvpCount = $event['rsvpCount'];
             $memberCount = $event['memberCount'];
+            $eventId = $event['id'];
             $percentRSVP = bcdiv(intval($rsvpCount), intval($memberCount), 3) * 100;
      ?>
-            <li>
-                <div><?php echo $eventName; ?></div>
-                <div><?php echo $eventLoc; ?></div>
-                <div><?php echo $eventDate; ?></div>
-                <div><?php echo $eventTime; ?></div>
-                <div><?php echo $percentRSVP; ?></div>
-                <input type="button" class="rsvpBut" value="RSVP">
-            </li>
+            <tr data-index="<?php echo $eventId; ?>">
+                <td><?php echo $eventName; ?></td>
+                <td><?php echo $eventLoc; ?></td>
+                <td><?php echo $eventDate; ?></td>
+                <td><?php echo $eventTime; ?></td>
+                <td><?php echo $percentRSVP; ?></td>
+                <td><input data-index="<?php echo $eventId; ?>" type="button" class="rsvpBut" value="RSVP"></td>
+            </tr>
      <?php
         }
       ?>
-</ul>
+</table>
 <?
     $conn->close();
 ?>

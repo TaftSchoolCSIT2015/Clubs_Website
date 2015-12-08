@@ -19,3 +19,12 @@ h2 {
     font-size: 3em;
     margin: 0.3em;
 }
+
+
+table {
+    width: 100%;
+}
+
+table th {
+    padding: 0.2em 3em;
+}

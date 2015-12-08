@@ -3,7 +3,14 @@ var registerAboutUs = function() {
 };
 
 var registerClubEvents = function() {
-
+    $("input.rsvpBut").click(function() {
+        var index = $(this).data("index");
+        $.ajax({
+            url: "./scripts/event_handler.php",
+            type: "GET",
+            data: "action=rsvpEvent&eventId=" + index,
+        });
+    });
 };
 
 var registerClubFeed = function() {
