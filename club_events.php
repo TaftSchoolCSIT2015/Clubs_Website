@@ -49,6 +49,6 @@
         }
       ?>
 </table>
-<?
+<?php
     $conn->close();
 ?>

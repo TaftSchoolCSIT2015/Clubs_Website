@@ -112,3 +112,4 @@ $clubname = getClubName($clubId, $conn);
         <script type="text/javascript" src="club_edit.js"></script>
     </body>
 </html>
+<?php $conn->close(); ?>
