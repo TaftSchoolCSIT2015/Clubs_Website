@@ -81,4 +81,4 @@ foreach($events as $event) {
          </td>
        </tr>
    </table>
-<? $conn->close(); ?>
+   <?php $conn->close(); ?>

@@ -58,4 +58,4 @@ $posts = getClubFeedPosts($clubId, $conn);
         ?>
     </table>
 </div>
-<? $conn->close(); ?>
+<?php $conn->close(); ?>
