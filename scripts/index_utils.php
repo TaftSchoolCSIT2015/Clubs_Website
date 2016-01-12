@@ -58,9 +58,9 @@ function sendMail(array $recipiants, $subject, $message, $headers, $conn) {
                 VALUES('$message', '$stringOfRecip', NOW(), '$subject')";
     $conn->query($query);
     //Send Mail Functionality
-    $message = wordwrap($message, 70, "\r\n");
+    /*$message = wordwrap($message, 70, "\r\n");
     foreach($recipiants as $recip) {
         mail($recip, $subject, $message, $headers);
-    }
+    }*/
 }
 ?>

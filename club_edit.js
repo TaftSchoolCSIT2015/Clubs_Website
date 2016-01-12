@@ -123,7 +123,7 @@ var registerEditAboutUsPage = function() {
     $("#club_type_line form > input[type='radio']").change(function() {
         dirty.about_us.club_category = $("#club_type_line input:checked").val();
     });
-    $("#mission_box").change(function() {
+    $("textarea#mission_box").on('input', function() {
         dirty.about_us.club_missionstatement = $(this).val();
     });
     $("#add_button").click(function() {

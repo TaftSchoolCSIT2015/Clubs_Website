@@ -116,7 +116,7 @@
                                    ) as exist");
             $doesExist = $result->fetch_assoc();
             if($doesExist['exist'] == 0) { //We are not an Approved Club ergo we must go through this submission process
-                die("Invalid Submission, not Approved club");
+                die("Invalid Submission, Non-Approved club");
             }
             if(isAdmin($conn)) { //If Admin then Automatic approval
                 //Personal Club Data
@@ -184,7 +184,7 @@
                                         1, (SELECT mission_statement FROM taftclubs.club WHERE id = {$update_index}), '$mission_statement', 0)";
                     $conn->query($query);
                 }
-                log($conn->error);
+                error_log($conn->error);
             }
 
         } else if($request_type == "submit_registration") {
