@@ -39,7 +39,8 @@
     <thead>
     <tbody>
         <?php
-            $query = "SELECT club.name as name, CONCAT(editor.preferred_name, ' ', editor.last_name) as editor, lookupTable.data as typeOfEdit, edit.oldField as oldField, edit.newField as newField                        FROM taftclubs.clubedits as edit
+            $query = "SELECT club.name as name, CONCAT(editor.preferred_name, ' ', editor.last_name) as editor, lookupTable.data as typeOfEdit, edit.oldField as oldField, edit.newField as newField, edit.id
+                        FROM taftclubs.clubedits as edit
                         INNER JOIN taftclubs.club as club
                         ON edit.clubId = club.id
                         INNER JOIN sgstudents.seniors_data as editor
@@ -58,7 +59,7 @@
                         <td><?php echo $data['typeOfEdit']; ?></td>
                         <td><?php echo $data['oldField']; ?></td>
                         <td><?php echo $data['newField']; ?></td>
-                        <td><a>&#10004;</a> <a>&#10008;</a></td>
+                        <td data-index="<?php echo $data['id']; ?>"><a>&#10004;</a> <a>&#10008;</a></td>
                         <td><a>&#128231;</a></td>
                     </tr>
         <?php
