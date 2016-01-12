@@ -131,7 +131,7 @@ function getClubEvents($club, $conn) {
                 ON (rsvp.eventId = event.id AND rsvp.reply = 1)
                 LEFT OUTER JOIN taftclubs.clubjoiners as members
                 ON (members.clubId = club.id AND members.hasLeft = 0)
-                WHERE event.isDeleted = 0
+                WHERE event.isDeleted = 0 AND event.isApproved = 1
                 GROUP BY event.id";
     $result = $conn->query($query);
     $ret = array();

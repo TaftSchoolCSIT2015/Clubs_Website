@@ -40,7 +40,7 @@
             foreach($_POST['events'] as $event) {
                 $eventStuff = explode(", ", $event);
                 insertNewEvent($eventStuff[0], $eventStuff[1], $eventStuff[2],
-                $eventStuff[3], $clubid, $conn);
+                $eventStuff[3], $clubid, 1, $conn);
             }
         } else if($request_type == "editdraft") {
             //If we are editing a draft, we can operate under the assumption
@@ -94,7 +94,7 @@
                 $updateId = $event['updateId'];
                 if($updateId < 0) { //New Event
                     insertNewEvent($event['title'], $event['location'], $event['date'],
-                    $event['time'], $update_index, $conn);
+                    $event['time'], $update_index, 1, $conn);
                 } else { //Existing Event
                     updateExistingEvent($updateId, $event['title'], $event['location'],
                     $event['date'], $event['time'], $conn);
@@ -156,7 +156,7 @@
                     $updateId = $event['updateId'];
                     if($updateId < 0) { //New Event
                         insertNewEvent($event['title'], $event['location'], $event['date'],
-                        $event['time'], $update_index, $conn);
+                        $event['time'], $update_index, 1, $conn);
                     } else { //Existing Event
                         updateExistingEvent($updateId, $event['title'], $event['location'],
                         $event['date'], $event['time'], $conn);
@@ -170,6 +170,8 @@
                 }
             } else { //If not admin then must go through the Club Edits Table
                 $about_us = $_POST['about_us'];
+                $events = $_POST['events'];
+                $delEvents = $_POST['deleted_events'];
                 if($about_us['club_name'] != "") {
                     $clubname = $about_us['club_name'];
                     $query = "INSERT INTO taftclubs.clubedits (personId, clubId, typeOfEdit, oldField, newField, approved)
@@ -183,6 +185,45 @@
                                 VALUES((SELECT id FROM sgstudents.seniors_data WHERE username = '{$_SESSION['user']}'), {$update_index},
                                         1, (SELECT mission_statement FROM taftclubs.club WHERE id = {$update_index}), '$mission_statement', 0)";
                     $conn->query($query);
+                }
+                if($about_us['club_category'] != "") {
+                    $club_category = $about_us['club_category'];
+                    $oldCat = getClubCategory($update_index, $conn);
+                    $catInt = categoryToId($club_category, $conn);
+
+                    $query = "INSERT INTO taftclubs.clubedits (personId, clubId, typeOfEdit, oldField, newField, approved)
+                                VALUES((SELECT id FROM sgstudents.seniors_data WHERE username = '{$_SESSION['user']}'), {$update_index},
+                                        2, '$oldCat', '$club_category', 0)";
+                    $conn->query($query);
+                }
+                if(sizeof($events) > 0) {
+                    foreach($events as $event) {
+                        $updateId = $event['updateId'];
+                        if($updateId < 0) { //New Event
+                            insertNewEvent($event['title'], $event['location'], $event['date'],
+                            $event['time'], $update_index, 0, $conn); //New event, Not Approved
+                            $query = "INSERT INTO taftclubs.clubedits (personId, clubId, typeOfEdit, oldField, newField, approved, specialId)
+                                        VALUES((SELECT id FROM sgstudents.seniors_data WHERE username = '{$_SESSION['user']}'), {$update_index},
+                                                3, 'Nothing, New Field', 'Title: {$event['title']} Location: {$event['location']} Date: {$event['date']} Time: {$event['time']}', 0, {$conn->insert_id})";
+                            $conn->query($query);
+                        } else { //Modified Event
+                            $query = "INSERT INTO taftclubs.clubedits (personId, clubId, typeOfEdit, oldField, newField, approved, specialId)
+                                        VALUES((SELECT id FROM sgstudents.seniors_data WHERE username = '{$_SESSION['user']}'), {$update_index},
+                                                4, (SELECT CONCAT('Title: ', event.description, ' Location: ', event.location, ' DateTime: ', event.date) FROM taftclubs.clubevents as event WHERE event.id = {$updateId}),
+                                                'Title: {$event['title']} Location: {$event['location']} Date: {$event['date']} Time: {$event['time']}', 0, {$updateId})";
+                            $conn->query($query);
+                        }
+                    }
+                }
+                if(sizeof($delEvents) > 0) {
+                    foreach($delEvents as $deletedEvent) {
+                        $updateId = $deletedEvent;
+                        $query = "INSERT INTO taftclubs.clubedits (personId, clubId, typeOfEdit, oldField, newField, approved, specialId)
+                                    VALUES((SELECT id FROM sgstudents.seniors_data WHERE username = '{$_SESSION['user']}'), {$update_index},
+                                            5, (SELECT CONCAT('Title: ', event.description, ' Location: ', event.location, ' DateTime: ', event.date) FROM taftclubs.clubevents as event WHERE event.id = {$updateId}),
+                                            'Delete Event', 0, {$updateId})";
+                        $conn->query($query);
+                    }
                 }
                 error_log($conn->error);
             }
@@ -210,7 +251,7 @@
             foreach($_POST['events'] as $event) {
                 $eventStuff = explode(", ", $event);
                 insertNewEvent($eventStuff[0], $eventStuff[1], $eventStuff[2],
-                $eventStuff[3], $clubid, $conn);
+                $eventStuff[3], $clubid, 1, $conn);
             }
             //Now we need to notify the faculty member that they need to approve a club
 
@@ -281,11 +322,11 @@ function deleteLeaders($leaders, $clubid, $conn, $isDraft) {
     }
 }
 
-function insertNewEvent($title, $location, $date, $time, $clubid, $conn) {
+function insertNewEvent($title, $location, $date, $time, $clubid, $isApproved, $conn) {
     $username = $_SESSION['user'];
     $dateConcat = $date . " " . $time . ":00";
     $query = "INSERT INTO taftclubs.clubevents (clubId, posterId, isApproved, isDeleted, description, location, dateCreated, date)
-            VALUES({$clubid}, (SELECT id FROM sgstudents.seniors_data WHERE username = '$username'), 0, 0, '{$title}', '$location', NOW(), '$dateConcat')";
+            VALUES({$clubid}, (SELECT id FROM sgstudents.seniors_data WHERE username = '$username'), {$isApproved}, 0, '{$title}', '$location', NOW(), '$dateConcat')";
     $conn->query($query);
 }
 
