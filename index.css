@@ -37,8 +37,9 @@
 }
 
 .club_widgets {
-    width: 100%;
+    width: 55%;
     height: 100%;
+    float: left;
 }
 
 .club_widgets a {
@@ -113,4 +114,21 @@ a.is_part_of_club {
     -o-transform: rotate(45deg) translateY(-0.4em);
     transform: rotate(45deg) translateY(-0.4em);
     overflow: visible;
+}
+
+.event_cal {
+    position: relative;
+    display: block;
+    top: 0px;
+    width: 45%;
+    height: 100%;
+    float: right;
+    background-color: white;
+    clear: none;
+}
+
+.event_cal ul li {
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
 }

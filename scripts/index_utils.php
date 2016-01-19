@@ -24,7 +24,7 @@ function assembleNavMenu($conn) {
             echo '<a><li>' . $item['data'] . '</li></a>';
         }
     } else {
-        echo "SQL ERROR: 0 results";
+        echo "No Menu Items! Contact a System Administrator!";
     }
 }
 
