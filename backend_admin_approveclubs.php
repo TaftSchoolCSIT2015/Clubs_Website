@@ -71,7 +71,7 @@
                     <td><?php echo $data['leaders']; ?></td>
                     <td><?php echo $data['advisor']; ?></td>
                     <td><?php echo $data['status']; ?></td>
-                    <td data-index="<?php echo $data['id']; ?>"><a>Delete Club?</a></td>
+                    <td><a data-index="<?php echo $data['id']; ?>">Delete Club?</a></td>
                     <td><a>&#128231;</a></td>
                 </tr>
     <?php

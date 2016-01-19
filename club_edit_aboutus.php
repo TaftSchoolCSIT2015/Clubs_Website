@@ -28,9 +28,11 @@ $clubname = getClubName($clubId, $conn);
         <input id="club_name_in" type="text" value="<?php echo $clubname; ?>">
     </form>
 </div>
-
 <div id="leaders_text_line">
     <form><b>Club Leaders:</b>
+        <?php
+            if(isAdmin($conn)) {
+        ?>
         <input id="add_leader_text" list="students" name="add_leader" type="text">
         <datalist id="students">
             <?php
@@ -50,13 +52,13 @@ $clubname = getClubName($clubId, $conn);
             ?>
         </datalist>
         <input id="add_button" name="add_button" type="button" value="Add Leader">
-
+        <?php } ?>
         <ul>
             <?php
                 $leaders = explode(",", getLeadersForClub($clubId, $conn));
                 foreach($leaders as $leader) {
                     ?>
-                    <li><?php echo $leader; ?><input class="X_button" type="button" value="X"></li>
+                    <li><?php echo $leader; ?><?php if(isAdmin($conn)) {?><input class="X_button" type="button" value="X"><?php }?></li>
                     <?
                 }
             ?>
