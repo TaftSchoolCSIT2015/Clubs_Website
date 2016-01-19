@@ -54,7 +54,6 @@
             if($result->num_rows > 0) {
                 while($data = $result->fetch_assoc()) {
                     if($data['typeOfEdit'] == "Modified Club Category") {
-                        echo $data['oldField'] . $data['newField'];
                         $data['oldField'] = idToCategory($data['oldField'], $conn);
                         $data['newField'] = idToCategory($data['newField'], $conn);
                     }

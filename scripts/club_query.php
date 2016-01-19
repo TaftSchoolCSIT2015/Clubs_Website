@@ -44,6 +44,18 @@
         } else if(isAdmin($conn) && ($action == "adminRejectClub") && isset($_GET['value'])) {
             $value = sanatizeInput($_GET['value']);
             $conn->query("UPDATE taftclubs.club SET approved = 0, status = 7 WHERE id = {$value}");
+        } else if(isAdmin($conn) && ($action == "modifiedclubname") && isset($_GET['value'])) {
+            $value = sanatizeInput($_GET['value']);
+            $conn->query("UPDATE taftclubs.club SET name = (SELECT newField FROM taftclubs.clubedits WHERE id = {$value}) WHERE id = (SELECT clubId FROM taftclubs.clubedits WHERE id = {$value})");
+            $conn->query("UPDATE taftclubs.clubedits SET approved = 1 WHERE id = {$value}");
+        } else if(isAdmin($conn) && ($action == "modifiedmissionstatement") && isset($_GET['value'])) {
+            $value = sanatizeInput($_GET['value']);
+            $conn->query("UPDATE taftclubs.club SET mission_statement = (SELECT newField FROM taftclubs.clubedits WHERE id = {$value}) WHERE id = (SELECT clubId FROM taftclubs.clubedits WHERE id = {$value})");
+            $conn->query("UPDATE taftclubs.clubedits SET approved = 1 WHERE id = {$value}");
+        } else if(isAdmin($conn) && ($action == "modifiedclubcategory") && isset($_GET['value'])) {
+            $value = sanatizeInput($_GET['value']);
+            $conn->query("UPDATE taftclubs.club SET category = (SELECT newField FROM taftclubs.clubedits WHERE id = {$value}) WHERE id = (SELECT clubId FROM taftclubs.clubedits WHERE id = {$value})");
+            $conn->query("UPDATE taftclubs.clubedits SET approved = 1 WHERE id = {$value}");
         }
         $response['sqlError'] = $conn->error;
         $conn->close();
