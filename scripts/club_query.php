@@ -56,6 +56,28 @@
             $value = sanatizeInput($_GET['value']);
             $conn->query("UPDATE taftclubs.club SET category = (SELECT newField FROM taftclubs.clubedits WHERE id = {$value}) WHERE id = (SELECT clubId FROM taftclubs.clubedits WHERE id = {$value})");
             $conn->query("UPDATE taftclubs.clubedits SET approved = 1 WHERE id = {$value}");
+        } else if(isAdmin($conn) && ($action == "addedclubevent") && isset($_GET['value'])) {
+            $value = sanatizeInput($_GET['value']);
+            $conn->query("UPDATE taftclubs.clubevents SET isApproved = 1 WHERE id = (SELECT specialId FROM taftclubs.clubedits WHERE id = {$value})");
+            $conn->query("UPDATE taftclubs.clubedits SET approved = 1 WHERE id = {$value}");
+        } else if(isAdmin($conn) && ($action == "modifiedclubevent") && isset($_GET['value'])) {
+            $value = sanatizeInput($_GET['value']);
+            $result = $conn->query("SELECT newField FROM taftclubs.clubedits WHERE id = {$value}");
+            $data = $result->fetch_assoc();
+            error_log($data['newField']);
+            $values = explode("<span>", $data['newField']);
+            for($i = 1; $i < sizeof($values); $i++) {
+                $values[$i] = substr($values[$i], 0, stripos($values[$i], "</span>"));
+            }
+            $conn->query("UPDATE taftclubs.clubevents SET description = '{$values[1]}', location = '{$values[2]}', date = '{$values[3]} {$values[4]}' WHERE id = (SELECT specialId FROM taftclubs.clubedits WHERE id = {$value})");
+            $conn->query("UPDATE taftclubs.clubedits SET approved = 1 WHERE id = {$value}");
+        } else if(isAdmin($conn) && ($action == "deletedclubevent") && isset($_GET['value'])) {
+            $value = sanatizeInput($_GET['value']);
+            $conn->query("UPDATE taftclubs.clubevents SET isApproved = 0 WHERE id = (SELECT specialId FROM taftclubs.clubedits WHERE id = {$value})");
+            $conn->query("UPDATE taftclubs.clubedits SET approved = 1 WHERE id = {$value}");
+        } else if(isAdmin($conn) && ($action == "noapproveclubedit") && isset($_GET['value'])) {
+            $value = sanatizeInput($_GET['value']);
+            $conn->query("UPDATE taftclubs.clubedits SET approved = 2 WHERE id = {$value}");
         }
         $response['sqlError'] = $conn->error;
         $conn->close();

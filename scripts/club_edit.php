@@ -204,13 +204,13 @@
                             $event['time'], $update_index, 0, $conn); //New event, Not Approved
                             $query = "INSERT INTO taftclubs.clubedits (personId, clubId, typeOfEdit, oldField, newField, approved, specialId)
                                         VALUES((SELECT id FROM sgstudents.seniors_data WHERE username = '{$_SESSION['user']}'), {$update_index},
-                                                3, 'Nothing, New Field', 'Title: {$event['title']} Location: {$event['location']} Date: {$event['date']} Time: {$event['time']}', 0, {$conn->insert_id})";
+                                                3, 'Nothing, New Field', '<b>Title:</b> <span>{$event['title']}</span> <b>Location:</b> <span>{$event['location']}</span> <b>Date:</b> <span>{$event['date']}</span> <b>Time:</b> <span>{$event['time']}</span>', 0, {$conn->insert_id})";
                             $conn->query($query);
                         } else { //Modified Event
                             $query = "INSERT INTO taftclubs.clubedits (personId, clubId, typeOfEdit, oldField, newField, approved, specialId)
                                         VALUES((SELECT id FROM sgstudents.seniors_data WHERE username = '{$_SESSION['user']}'), {$update_index},
                                                 4, (SELECT CONCAT('Title: ', event.description, ' Location: ', event.location, ' DateTime: ', event.date) FROM taftclubs.clubevents as event WHERE event.id = {$updateId}),
-                                                'Title: {$event['title']} Location: {$event['location']} Date: {$event['date']} Time: {$event['time']}', 0, {$updateId})";
+                                                '<b>Title:</b> <span>{$event['title']}</span> <b>Location:</b> <span>{$event['location']}</span> <b>Date:</b> <span>{$event['date']}</span> <b>Time:</b> <span>{$event['time']}</span>', 0, {$updateId})";
                             $conn->query($query);
                         }
                     }

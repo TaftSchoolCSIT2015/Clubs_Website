@@ -86,20 +86,29 @@ var registerClubApplications = function() {
 };
 
 var registerClubEdits = function() {
-    $("tbody tr").children("td").eq(5).children("a").eq(0).click(function() { //Approve Edit
-        var action = $(this).parent().parent().children("td").eq(2).html().replace(/ /g, "").toLowerCase();
-        console.log(action);
-        alert(action);
-        var id = $(this).parent().data("index");
-        $.ajax({
-            type: "GET",
-            url: "scripts/club_query.php",
-            data: "action=" + action + "&value=" + id,
-        }).done(function() {
-            window.location = "backend_admin.php"
+    $("tbody tr").each(function() {
+        $(this).children("td").eq(5).children("a").eq(0).click(function() { //Approve Edit
+            var action = $(this).parent().parent().children("td").eq(2).html().replace(/ /g, "").toLowerCase();
+            var id = $(this).parent().data("index");
+            $.ajax({
+                type: "GET",
+                url: "scripts/club_query.php",
+                data: "action=" + action + "&value=" + id,
+            }).done(function() {
+                window.location = "backend_admin.php"
+            });
         });
     });
-    $("tbody tr").children("td").eq(5).children("a").eq(0).click(function() { //Delete Edit
-
+    $("tbody tr").each(function() {
+        $(this).children("td").eq(5).children("a").eq(1).click(function() { //Delete Edit
+            var id = $(this).parent().data("index");
+            $.ajax({
+                type: "GET",
+                url: "scripts/club_query.php",
+                data: "action=noapproveclubedit" + "&value=" + id,
+            }).done(function() {
+                window.location = "backend_admin.php";
+            });
+        });
     });
 };
