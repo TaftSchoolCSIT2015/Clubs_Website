@@ -99,6 +99,15 @@ function getClubCategory($club, $conn) {
     return $data['data'];
 }
 
+function getClubCatId($club, $conn) {
+    $query = "SELECT club.category as cat
+                FROM taftclubs.club
+                WHERE club.id = {$club}";
+    $result = $conn->query($query);
+    $data = $result->fetch_assoc();
+    return $data['cat'];
+}
+
 function getCheckedClubCategoryHTML($club, $conn) {
     $categories = getClubCategories($conn);
     $thisCat = getClubCategory($club, $conn);

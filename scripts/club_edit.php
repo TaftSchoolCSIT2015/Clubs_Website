@@ -188,12 +188,12 @@
                 }
                 if($about_us['club_category'] != "") {
                     $club_category = $about_us['club_category'];
-                    $oldCat = getClubCategory($update_index, $conn);
-                    $catInt = categoryToId($club_category, $conn);
+                    $oldCat = getClubCatId($update_index, $conn);
+                    $newCatId = categoryToId($club_category, $conn);
 
                     $query = "INSERT INTO taftclubs.clubedits (personId, clubId, typeOfEdit, oldField, newField, approved)
                                 VALUES((SELECT id FROM sgstudents.seniors_data WHERE username = '{$_SESSION['user']}'), {$update_index},
-                                        2, '$oldCat', '$club_category', 0)";
+                                        2, {$oldCat}, {$newCatId}, 0)";
                     $conn->query($query);
                 }
                 if(sizeof($events) > 0) {

@@ -2,6 +2,7 @@
     session_start();
     require 'scripts/SQLUtils.php';
     require 'scripts/index_utils.php';
+    require 'scripts/category_utils.php';
 
     $conn = getSQLConnectionFromConfig();
 
@@ -52,6 +53,11 @@
             $result = $conn->query($query);
             if($result->num_rows > 0) {
                 while($data = $result->fetch_assoc()) {
+                    if($data['typeOfEdit'] == "Modified Club Category") {
+                        echo $data['oldField'] . $data['newField'];
+                        $data['oldField'] = idToCategory($data['oldField'], $conn);
+                        $data['newField'] = idToCategory($data['newField'], $conn);
+                    }
         ?>
                     <tr>
                         <td><a href="club.php?n=<?php echo $data['name']; ?>"><?php echo $data['name']; ?></a></td>
