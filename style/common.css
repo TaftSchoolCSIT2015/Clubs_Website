@@ -9,6 +9,7 @@
 
 body {
     text-align: center;
+    background: rgb(97, 171, 218);
 }
 
 ul {
@@ -24,7 +25,6 @@ a {
 .content {
     position: absolute;
     top: 78px;
-    background: linear-gradient(to right, #00c6ff, #0072ff);
     width: 100%;
     height: 100%;
     padding-top: 0.5em;
@@ -36,10 +36,13 @@ a {
     height: 70px;
     z-index: 1;
     background: white;
+    border-bottom-color: rgb(64, 69, 74);
+    border-bottom-style: solid;
+    border-bottom-width: 0.6em;
 }
 
 .top_bar {
-    background-color: rgba(5, 5, 5, 0.84);
+    background-color: rgb(255, 255, 255);
     height: 50px;
     overflow: hidden;
 }
@@ -50,7 +53,7 @@ a {
     clear: none;
     max-height: 100%;
     height: 2.5em;
-    background-color: rgba(5, 5, 5, 0.84);
+    background-color: rgb(255, 255, 255);
 }
 
 .nav ul {
@@ -82,6 +85,7 @@ a {
     flex: 2 auto;
     -webkit-flex: 2 auto;
     cursor: pointer;
+    color: rgb(64, 69, 74);
 }
 
 .active {
@@ -94,6 +98,7 @@ a {
 
 .login_nav_bar {
     font-size: 1em;
+    color: rgb(255, 255, 255);
 }
 
 .nav_bar_active ul {
@@ -110,7 +115,7 @@ a {
 .nav_bar_active ul li {
     border: solid 1px white;
     padding: 0.4em 0em;
-    background-color: rgba(5, 5, 5, 0.84);
+    background-color: rgb(255, 255, 255);
 }
 
 .login_menu_hoverable li:hover {
@@ -134,5 +139,13 @@ a {
 }
 
 .title span {
-    color: white;
+    color: rgb(64, 69, 74);
+}
+
+.footer {
+    position: fixed;
+    bottom: -1em;
+    width: 100%;
+    height: 5em;
+    background-color: white;
 }

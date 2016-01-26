@@ -239,10 +239,14 @@ function getAboutUsClubPageHTML($club, $conn) {
     $imageData = $imageResult->fetch_assoc();
     $image = $imageData['data'];
     $ext = $imageData['contentType'];
-    $html .= "<img src=\"data:$ext" . ";base64," . base64_encode($image) . "\"/>";
+    $html .= "<div class='aboutClub'>";
+    if($imageData['data'] != "") {
+        $html .= "<img src=\"data:$ext" . ";base64," . base64_encode($image) . "\"/>";
+    }
     $html .= "<p><strong>Our Leaders: </strong><em>{$leaders}</em></p>";
     $html .= "<p><strong>Faculty Advisor: </strong><em>{$advisor}</em></p>";
     $html .= "<p><strong>Our Mission: </strong><em>{$mission}</em></p>";
+    $html .= "</div>";
     return $html;
 }
 

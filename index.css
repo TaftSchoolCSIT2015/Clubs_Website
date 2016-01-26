@@ -37,9 +37,12 @@
 }
 
 .club_widgets {
-    width: 55%;
+    margin-left: 2.5%;
+    width: 40%;
     height: 100%;
     float: left;
+    overflow-y: scroll;
+    overflow-x
 }
 
 .club_widgets a {
@@ -48,28 +51,16 @@
     width: 7em;
     height: 6em;
     padding: 0.5em;
-    color: black;
+    color: white;
     transition: box-shadow 0.2s;
     flex: 0 1 auto;
     -webkit-flex: 3 1 main-size;
     margin: 1%;
-    background: linear-gradient(to right, #FBD3E9, #BB377D);
-    -webkit-box-shadow: 0px 0px 0px 2px rgba(0, 0, 0, 0.6);
-    box-shadow: 0px 0px 0px 2px rgba(0, 0, 0, 0.6);
+    background: rgb(97, 171, 218);
+    -webkit-box-shadow: 0px 0px 0px 2px rgb(255, 255, 255);
+    box-shadow: 0px 0px 0px 2px rgb(255, 255, 255);
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-a.not_approved_club {
-    background: linear-gradient(to right, #20bb2b, #177c11);
-}
-
-a.leader_of_club {
-    background: linear-gradient(to right, #e0db4f, #eaf42c);
-}
-
-a.is_part_of_club {
-    background: linear-gradient(to right, #5bfad4, #e44613);
 }
 
 .club_widgets li {
@@ -93,18 +84,26 @@ a.is_part_of_club {
 }
 
 .club_widgets a:hover {
-    background: linear-gradient(to right, #606c88, #3f4c6b);
+    background: rgb(255, 255, 255);
     cursor: pointer;
-    -webkit-box-shadow: 0px 0px 0px 4px rgba(20, 20, 20, 0.8);
-    box-shadow: 0px 0px 0px 4px rgba(20, 20, 20, 0.8);
 }
 
 .club_widgets li h1 {
     font-size: 0.8em;
+    color: rgb(255, 255, 255);
 }
 
 .club_widgets li p {
     font-size: 0.5em;
+    color: rgb(255, 255, 255);
+}
+
+.club_widgets li h1.club_widgets_hovered {
+    color: rgb(97, 171, 218);
+}
+
+.club_widgets li p.club_widgets_hovered {
+    color: rgb(97, 171, 218);
 }
 
 .search_symbol li {
@@ -118,17 +117,40 @@ a.is_part_of_club {
 
 .event_cal {
     position: relative;
+    padding: 2em 2em;
     display: block;
-    top: 0px;
+    top: -0.5em;
     width: 45%;
     height: 100%;
     float: right;
-    background-color: white;
+    background-color: rgb(64, 69, 74);
     clear: none;
+    padding-right: 2.5%;
+    overflow-y: scroll;
 }
 
 .event_cal ul li {
     border-style: solid;
-    border-color: black;
+    border-color: rgb(64, 69, 74);
     border-width: 2px;
+    background-color: rgb(255, 255, 255);
+    margin-left: 0.75em;
+    color: rgb(64, 69, 74);
+}
+
+.event_cal ul {
+    background-color: rgba(64, 69, 74, 1);
+}
+
+.event_cal h1 {
+    color: rgb(255, 255, 255);
+}
+
+.calDate h2 {
+    text-align: left;
+    opacity: 0.6;
+}
+
+.calDate {
+    background-color: rgb(255, 255, 255);
 }

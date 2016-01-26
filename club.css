@@ -3,7 +3,10 @@
 }
 
 .content {
+    width: 40%;
     background: white;
+    float: left;
+    margin-left: 10%;
 }
 
 .nav a {
@@ -27,4 +30,21 @@ table {
 
 table th {
     padding: 0.2em 3em;
+}
+
+.event_cal {
+    position: relative;
+    display: block;
+    top: 100px;
+    width: 45%;
+    height: 100%;
+    float: right;
+    background-color: white;
+    clear: none;
+}
+
+.event_cal ul li {
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
 }

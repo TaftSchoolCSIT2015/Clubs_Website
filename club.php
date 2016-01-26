@@ -48,7 +48,6 @@
                     <a href="index.php"><li>Home</li></a>
                     <a><li class="active">About Us</li></a>
                     <a><li>Events</li></a>
-                    <a><li>Club Feed</li></a>
                     <a id="club_join_button">
                         <li><?php
                             $isPart = $isLeader = 0;
@@ -84,6 +83,18 @@
         <div class="content">
             <?php
                 echo getAboutUsClubPageHTML($clubId, $conn);
+             ?>
+        </div>
+        <div class="event_cal">
+            <?php
+                echo "<h2>Event Calander</h2>";
+                $query2 = "SELECT * FROM taftclubs.clubevents WHERE date > NOW() AND clubId = {$clubId} ORDER BY date";
+                $result2 = $conn->query($query2);
+                if($result2->num_rows > 0) {
+                    while($item = $result2->fetch_assoc()) {
+                        echo "<br><li><b>{$item['description']}</b> at <b>{$item['location']}</b> on <b>{$item['date']}</b></li>";
+                    }
+                }
              ?>
         </div>
         <script src="js/common.js"></script>

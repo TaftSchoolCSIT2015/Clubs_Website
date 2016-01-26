@@ -17,6 +17,11 @@ $(document).ready(function() {
         data: 'a=' + queryAction + '&v=All',
     }).done(function(html) {
         $(".club_widgets ul").html(html);
+        $(".club_widgets a").mouseenter(function() {
+            $(this).children("li").children("p, h1").addClass("club_widgets_hovered");
+        }).mouseleave(function() {
+            $(this).children("li").children("p, h1").removeClass("club_widgets_hovered");
+        });
     });
     $(".nav a").click(function() {
         if($(this).hasClass("search_symbol") || $(this).hasClass("login_nav_bar")) {return;}
