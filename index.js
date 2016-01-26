@@ -36,6 +36,11 @@ $(document).ready(function() {
             data: x,
         }).done(function(html) {
             $(".club_widgets ul").html(html);
+            $(".club_widgets a").mouseenter(function() {
+                $(this).children("li").children("p, h1").addClass("club_widgets_hovered");
+            }).mouseleave(function() {
+                $(this).children("li").children("p, h1").removeClass("club_widgets_hovered");
+            });
         });
     });
     $(".login_menu_hoverable li:first").click(function() { //My Clubs Button
@@ -46,6 +51,11 @@ $(document).ready(function() {
             data: 'a=userclub&v=All',
         }).done(function(html) {
             $(".club_widgets ul").html(html);
+            $(".club_widgets a").mouseenter(function() {
+                $(this).children("li").children("p, h1").addClass("club_widgets_hovered");
+            }).mouseleave(function() {
+                $(this).children("li").children("p, h1").removeClass("club_widgets_hovered");
+            });
         });
     });
     $(".search_symbol").click(toggleLogo);

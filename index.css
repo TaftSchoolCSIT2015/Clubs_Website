@@ -123,7 +123,7 @@
     width: 45%;
     height: 100%;
     float: right;
-    background-color: rgb(64, 69, 74);
+    background-color: rgb(48, 117, 164);
     clear: none;
     padding-right: 2.5%;
     overflow-y: scroll;
@@ -131,15 +131,15 @@
 
 .event_cal ul li {
     border-style: solid;
-    border-color: rgb(64, 69, 74);
-    border-width: 2px;
+    border-color: rgb(48, 117, 164);
+    border-width: 1px;
     background-color: rgb(255, 255, 255);
     margin-left: 0.75em;
     color: rgb(64, 69, 74);
 }
 
 .event_cal ul {
-    background-color: rgba(64, 69, 74, 1);
+    background-color: rgb(48, 117, 164);
 }
 
 .event_cal h1 {
@@ -148,9 +148,13 @@
 
 .calDate h2 {
     text-align: left;
-    opacity: 0.6;
+    color: rgb(64, 69, 74);
 }
 
 .calDate {
     background-color: rgb(255, 255, 255);
+}
+
+.calDate ul li span {
+    text-align: left;
 }
