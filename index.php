@@ -82,7 +82,7 @@ $conn = getSQLConnectionFromConfig();
                 <h1>Upcoming Events</h1><br>
                 <ul>
                     <?php
-                        $query = "SELECT * FROM taftclubs.clubevents WHERE date > NOW() ORDER BY date";
+                        $query = "SELECT * FROM taftclubs.clubevents INNER JOIN taftclubs.club ON clubevents.clubId = club.id WHERE date > NOW() ORDER BY date";
                         $result = $conn->query($query);
                         if($result->num_rows > 0) {
                             while($item = $result->fetch_assoc()) {
@@ -90,7 +90,7 @@ $conn = getSQLConnectionFromConfig();
                                 echo "<div class='calDate'><h2>" . $currentDate ."</h2><ul>";
                                 while(substr($item['date'], 0, 10) == $currentDate && ($item != NULL)) {
                                     $eventTime = date("g:i a", strtotime(substr($item['date'], 10)));
-                                    echo "<li><span>{$eventTime}</span> <b>{$item['description']}</b> at <b>{$item['location']}</b></li>";
+                                    echo "<li><span>{$eventTime}</span> <b>{$item['description']}</b> hosted by <b>{$item['name']}</b> at <b>{$item['location']}</b></li>";
                                     $item = $result->fetch_assoc();
                                 }
                                 echo "</ul></div><br>";

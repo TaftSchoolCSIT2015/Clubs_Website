@@ -2,7 +2,7 @@
 /*
 Method: GET
 Parameters:
-    [a] = Action, for control flow: values-> {catsearch=Category Search} | {userclub=Get a users clubs}
+    [a] = Action, for control flow: values-> {catsearch=Category Search} | {userclub=Get a users clubs} | {namesearch=Search from searchbar}
     [v] = input value: For "catsearch" is the category
 */
 session_start();
@@ -119,6 +119,41 @@ if(isset($_GET['a'])) {
                 }
             } else {
                 echo "<tr><td>Could Not Find Any Data for the Selected Category</td></tr>";
+            }
+        } else if($action == 'namesearch') {
+            if(isset($_GET['v'])) {
+                $username = "";
+                if(isset($_SESSION['user'])) {
+                    $username = sanatizeInput($_SESSION['user']);
+                }
+                $value = sanatizeInput($_GET['v']);
+                $query = "SELECT c.id as id, c.name as name, c.mission_statement as mission, CONCAT_WS(', ', GROUP_CONCAT(DISTINCT leader.preferred_name, ' ', leader.last_name SEPARATOR ', ')) as leader_name, advisor.preferred_name as advisor_first, advisor.last_name as advisor_last
+                          FROM taftclubs.club as c
+                          INNER JOIN sgstudents.seniors_data as advisor
+                          ON c.advisor = advisor.id
+                          INNER JOIN taftclubs.clubjoiners as j
+                          ON c.id = j.clubId
+                          INNER JOIN sgstudents.seniors_data as leader
+                          ON leader.id = j.userId
+                          INNER JOIN taftclubs.clubcategories as category
+                          ON c.category = category.id
+                          WHERE j.hasLeft = 0 AND j.isLeader = 1 AND c.approved = 1 AND c.status = 5";
+                $result = "";
+                if($value == 'All') {
+                    $result = $conn->query($query . $endOfQuery);
+                } else {
+                    $result = $conn->query($query . " AND c.name LIKE '%{$value}%'" . $endOfQuery);
+                }
+                if($result->num_rows > 0) {
+                    while($item = $result->fetch_assoc()) {
+                        echo constructCatSearchWidgetString($item['name'], $item['id'], $item['leader_name'],
+                        $item['advisor_first'], $item['advisor_last'], $item['mission'], isPartOfClub($username, $item['id'], $conn));
+                    }
+                } else {
+                    echo "Oops, There doesn't seem to be anything here yet! Try creating a club with this name!";
+                }
+            } else {
+                echo 'FATAL ERROR: MALFORMED QUERY->VALUE NOT SET';
             }
         } else {
             echo "FATAL ERROR: MALFORMED QUERY->VALUE NOT SET";

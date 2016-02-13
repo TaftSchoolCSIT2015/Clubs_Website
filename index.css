@@ -13,6 +13,7 @@
     height: 20px;
     font-size: 0.5em;
     margin: 1em 30%;
+    margin-bottom: 70px;
     background: white;
     opacity: 100%;
     border-radius: .5em;
@@ -42,7 +43,6 @@
     height: 100%;
     float: left;
     overflow-y: scroll;
-    overflow-x
 }
 
 .club_widgets a {
@@ -51,14 +51,14 @@
     width: 7em;
     height: 6em;
     padding: 0.5em;
-    color: white;
+    color: rgb(255, 250, 236);
     transition: box-shadow 0.2s;
     flex: 0 1 auto;
     -webkit-flex: 3 1 main-size;
     margin: 1%;
     background: rgb(97, 171, 218);
-    -webkit-box-shadow: 0px 0px 0px 2px rgb(255, 255, 255);
-    box-shadow: 0px 0px 0px 2px rgb(255, 255, 255);
+    -webkit-box-shadow: 0px 0px 0px 2px rgb(255, 250, 236);
+    box-shadow: 0px 0px 0px 2px rgb(255, 250, 236);
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -84,18 +84,18 @@
 }
 
 .club_widgets a:hover {
-    background: rgb(255, 255, 255);
+    background: rgb(255, 250, 236);
     cursor: pointer;
 }
 
 .club_widgets li h1 {
     font-size: 0.8em;
-    color: rgb(255, 255, 255);
+    color: rgb(255, 250, 236);
 }
 
 .club_widgets li p {
     font-size: 0.5em;
-    color: rgb(255, 255, 255);
+    color: rgb(255, 250, 236);
 }
 
 .club_widgets li h1.club_widgets_hovered {
@@ -130,12 +130,9 @@
 }
 
 .event_cal ul li {
-    border-style: solid;
-    border-color: rgb(48, 117, 164);
-    border-width: 1px;
-    background-color: rgb(255, 255, 255);
-    margin-left: 0.75em;
+    background-color: rgb(255, 250, 236);
     color: rgb(64, 69, 74);
+    padding-left: 1em;
 }
 
 .event_cal ul {
@@ -143,7 +140,8 @@
 }
 
 .event_cal h1 {
-    color: rgb(255, 255, 255);
+    color: rgb(255, 250, 236);
+    text-decoration: underline;
 }
 
 .calDate h2 {
@@ -152,7 +150,10 @@
 }
 
 .calDate {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(255, 250, 236);
+    border-radius: 4px;
+    text-align: left;
+    padding: 0.5em;
 }
 
 .calDate ul li span {
